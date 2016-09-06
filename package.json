@@ -1,0 +1,43 @@
+{
+  "devDependencies": {
+    "autoprefixer": "latest",
+    "babel": "latest",
+    "babel-loader": "latest",
+    "babel-preset-es2015": "latest",
+    "babel-preset-react": "latest",
+    "css-loader": "latest",
+    "eslint": "^3.4.0",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-loader": "latest",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.1",
+    "eslint-plugin-react": "^6.2.0",
+    "extract-text-webpack-plugin": "latest",
+    "file-loader": "latest",
+    "less": "latest",
+    "less-loader": "latest",
+    "postcss-loader": "latest",
+    "precss": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "resolve-url": "latest",
+    "style-loader": "latest",
+    "url-loader": "latest",
+    "webpack": "latest"
+  },
+  "name": "ace-fnd",
+  "description": "Tuzach.in Frontend",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://svmn@github.com/svmn/ace-fnd.git"
+  },
+  "author": "nyaa",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/svmn/ace-fnd/issues"
+  },
+  "homepage": "https://github.com/svmn/ace-fnd#readme"
+}
