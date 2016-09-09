@@ -10,8 +10,7 @@ var dir_build = path.resolve(__dirname, 'dist');
 
 module.exports = {
     entry: {
-      app : path.resolve(__dirname, 'src/index.js'),
-      vendor : []
+      app : path.resolve(__dirname, 'src/index.js')
     },
     output: {
         path: dir_build,
@@ -57,12 +56,12 @@ module.exports = {
                 test: /\.less$/
             }
         ],
-        preLoaders: [
-          {
-            test: /\.js($|\?)|\.jsx($|\?)/,
-            loaders: ['eslint'],
-            exclude : [/node_modules/]
-          }
-        ]
+        // preLoaders: [
+        //   {
+        //     test: /\.js($|\?)|\.jsx($|\?)/,
+        //     loaders: ['eslint'],
+        //     exclude : [/node_modules/]
+        //   }
+        // ]
     }
 }

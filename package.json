@@ -39,5 +39,13 @@
   "bugs": {
     "url": "https://github.com/svmn/ace-fnd/issues"
   },
-  "homepage": "https://github.com/svmn/ace-fnd#readme"
+  "homepage": "https://github.com/svmn/ace-fnd#readme",
+  "dependencies": {
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0"
+  }
 }
