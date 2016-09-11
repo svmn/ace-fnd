@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class Chat extends Component {
   render() {
     return (
-      <div>Chat</div>
+      <div className='middle'>Chat</div>
     );
   }
 }

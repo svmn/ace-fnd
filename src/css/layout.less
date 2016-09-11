@@ -1,0 +1,28 @@
+@sidebar-width: 300px;
+@top-height: 45px;
+@bottom-height: 60px;
+@border-grey: 1px solid #ccc;
+
+.container {
+  background: #f0f0f0 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAEVklEQVRIS13X203rQBSFYfs9r6EIoAdCEaGIQA+EHghFhCICPRCKCEVw9I30I+uMFNkz3rMva18zbzab1el0mq6urqbz+Tw9PDxM1vF4nH5+fsb7+/v7dDgcxvvNzc2g83QPPTrf1+v14GNtNpvxXK7tdjvOHx8fp3mappULNrvd7k8wgo+Pj8E84S5SIsb39/fT6+vrn2L27uC33+8HP0o5v7u7G+/4vr29TfNut1vRnuDf399x0d5FT4JY2M8+C515d+ZH0Pf393hi/vz8PAzB08/yDe18uVxWiGxoTyNwXS6XwYT2BDi/vb0d71BIAU9usVL6+vp6+vz8HDQs9e6MOxjkN2+329VSE4eEUQYKmHpiShmwJejl5WUoEZQQ4g575yHHSjyg029er9crGwJZQytEGMS4AAIdZhRwhzJQsXyDFCtZl/X49O5Jhjvz8XhcIbbBMOtcdo4ZphBwEeSsQecORTEjwH7pS5YvMwR/xqAZUe1SEIPZBwSELBFg+dfX11DGOTpPAijqHC9K5WfCLPwtSKGZz+fz8HH5iSAYKUG4fVZlGTq+JtQ3SkCoXHW3VX6jpxwD5sPhsKJdfhQILhMGXt+szvJxeY4GY5aLeqtYoVxoukewCEc/fOywXCs9MC6CfQMf3zrnhphXFAgIUt9KIQbhz4DQ8j7ymGYRVpV8dCG/pRifYRYCQUtY1leQnLEuPvYQxXNAnS9inr8T6juB4BS5We8cvAKuwPEtBAlyj0LFSdVtCGZxlhRYyz3fYOYS4VW6/J+/KeW9Op0BRTKk3Lef9/v9sBhkPiibT09Pw4fBLo/5u9RwTri9mFhWtRRzhwDKzvM8IGdABWf4eFmZMKJx3aqCUtVZBh+YKzoEYE5YLkqw82IoA0cB0ZVYVBGPeem0hKr0KB7KzZpE9b0mQiGrMhz8o0kwHzT12wo55gmiVENCHYY7MPQsZ4uRXMH6OlSldpRMTaLgQFTzprForSh4L69rm2iWqFRIMC6QKIQ/ZGqrjBglE2EMsqb0qGXWZSp5pWAtD7Pq9HI8qirWSivPf5Urzaq3+aXgaeoALbcIFhAW4X0v5xnC0pQpwKr5f/24bhNcYK1uE9ashK5CUnfyRCsN+bEqRgm0FZS6lv2AupZVADXqVAyyslTBvFmrglDR+H94QCuP8SoIx7BXWyzxaY4oPyHqcu2vHAc3KJsqnYOf8Koaq9EJTgpY/D2bqzEsH0uPigBFqmIitXkZvXjorLm7FLMvXqoD9eUxCJxOp9EWm5Fp26UivABpzkZvlVa1zUoqgbVOZ3U/yhI+BgF5XJCApPRooqwM1n8xbTxaQp/FpQth+LJWZVSkGgJHW2ygx6wei6EI5a8ikrahEQKEBX1/TZpW0VLePXFCsAYE2TFXaxL5szl4+a/hf01Ltwb+BIZaM3nzdgjizfoG+wF1U8RyauxPG6uK3qCicZWuxk8gN/QvI8jdaVxaDhz/AEPODH19QV5FAAAAAElFTkSuQmCC');
+  .clearfix();
+}
+.sidebar {
+  width: @sidebar-width;
+  float: left;
+  border-right: @border-grey;
+}
+.main {
+  margin-left: @sidebar-width;
+}
+.top {
+  height: @top-height;
+  border-bottom: @border-grey;
+}
+.middle {
+  height: calc(100vh ~'-' @top-height ~'-' @bottom-height ~'-' 2px);
+}
+.bottom {
+  height: @bottom-height;
+  border-top: @border-grey;
+}

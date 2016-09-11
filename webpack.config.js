@@ -31,14 +31,14 @@ module.exports = {
         chunkModules: false
     },
     plugins: [
-        new ExtractTextPlugin("[name].css", {  allChunks: true }),
+        new ExtractTextPlugin("style.css", {  allChunks: true }),
         new webpack.NoErrorsPlugin()
     ],
 
     module: {
         loaders: [
             {
-                loader: 'file?name=assets[name].[ext]',
+                loader: 'file?name=assets/[name].[ext]',
                 test: /\.png($|\?)|\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/
             },
             {

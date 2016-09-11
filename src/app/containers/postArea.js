@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class PostArea extends Component {
   render() {
     return (
-      <div>Post Area</div>
+      <div className='bottom'>Post Area</div>
     );
   }
 }

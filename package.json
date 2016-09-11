@@ -41,6 +41,8 @@
   },
   "homepage": "https://github.com/svmn/ace-fnd#readme",
   "dependencies": {
+    "font-awesome": "^4.6.3",
+    "normalize.css": "^4.2.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-redux": "^4.4.5",
