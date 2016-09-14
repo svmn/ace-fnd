@@ -6,7 +6,10 @@ import { connect } from 'react-redux';
 class Header extends Component {
   render() {
     return (
-      <div className='top'>Header</div>
+      <div className='top header'>
+        <div className='topic'>Tuzach development version 0.0.1</div>
+        <div className='online'>Онлайн: 12</div>
+      </div>
     );
   }
 }

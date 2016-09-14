@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Logo from '../components/logo';
 import Header from '../containers/header';
 import Playlist from '../containers/playlist';
@@ -11,18 +12,20 @@ import PostArea from '../containers/postArea';
 class App extends Component {
   render() {
     return (
-      <div className='container'>
-        <div className='sidebar'>
-          <Logo />
-          <Playlist />
-          <Player />
+      <MuiThemeProvider>
+        <div className='container'>
+          <div className='sidebar'>
+            <Logo />
+            <Playlist />
+            <Player />
+          </div>
+          <div className='main'>
+            <Header />
+            <Chat />
+            <PostArea />
+          </div>
         </div>
-        <div className='main'>
-          <Header />
-          <Chat />
-          <PostArea />
-        </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
