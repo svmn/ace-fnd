@@ -23,11 +23,15 @@
     "resolve-url": "latest",
     "style-loader": "latest",
     "url-loader": "latest",
-    "webpack": "latest"
+    "webpack": "latest",
+    "webpack-dev-server": "latest"
   },
   "name": "ace-fnd",
+  "version": "0.0.1",
   "description": "Tuzach.in Frontend",
   "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server --inline --hot --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
