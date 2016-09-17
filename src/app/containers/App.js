@@ -14,13 +14,15 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div className='container'>
-          <div className='sidebar'>
+          <div className='appbar'>
             <Logo />
+            <Header />
+          </div>
+          <div className='sidebar'>
             <Playlist />
             <Player />
           </div>
           <div className='main'>
-            <Header />
             <Chat />
             <PostArea />
           </div>
