@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import React from 'react';
 import IconMenu from 'material-ui/IconMenu';
@@ -10,11 +10,17 @@ import Toggle from 'material-ui/Toggle';
 
 
 const Menu = () => (
-  <div className='IconMenuWrapper'>
+  <div
+    style={{
+      float: 'right',
+      marginTop: '4px',
+      marginRight: '-16px'
+    }}
+  >
     <IconMenu
       iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     >
       <MenuItem primaryText='FAQ' />
       <MenuItem primaryText='О проекте' />
@@ -26,7 +32,11 @@ const Menu = () => (
       <Divider />
       <MenuItem
         children={
-          <Toggle label='Темная тема' className='ToggleWrapper' onTouchTap={e => e.stopPropagation()}/>
+          <Toggle
+            label='Темная тема'
+            className='ToggleWrapper'
+            onTouchTap={e => e.stopPropagation()}
+          />
         }
       />
     </IconMenu>

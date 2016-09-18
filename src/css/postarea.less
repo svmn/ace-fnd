@@ -1,0 +1,25 @@
+.postarea {
+  position: relative;
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: none;
+    border: none;
+    outline: 0;
+    padding: 9px 96px 9px @edge-padding;
+  }
+  .icon-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+}
