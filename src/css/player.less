@@ -1,0 +1,27 @@
+.player {
+  position: relative;
+  .controls {
+    margin-top: 8px;
+  }
+  .player-slider {
+    position: absolute;
+    top: -9px;
+    left: 0;
+    width: 100%;
+    > div {
+      margin: 0!important;
+      > div {
+        height: 1px !important;
+        > div:nth-of-type(3) {
+          opacity: 0;
+          transition: all linear .2s !important;
+        }
+      }
+    }
+    &:hover {
+      > div > div > div:nth-of-type(3) {
+        opacity: 1;
+      }
+    }
+  }
+}

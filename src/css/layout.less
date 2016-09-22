@@ -21,21 +21,25 @@ html, body, .application {
   display: flex;
 }
 
-.sidebar, .main {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
 .sidebar {
-  flex: 0 0 @sidebar-width;
-  .top, .middle, .bottom {
-    padding-left: @edge-padding;
-  }
-  .middle, .bottom {
-    border-right: @border-grey;
+  display: none;
+  @media (min-width: @min-width) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 0 0 @sidebar-width;
+    .top, .middle {
+      padding-left: @edge-padding;
+    }
+    .middle, .bottom {
+      border-right: @border-grey;
+    }
   }
 }
 .main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   flex: 1;
   .top, .middle {
     padding-right: @edge-padding;
