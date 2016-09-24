@@ -23,6 +23,7 @@ module.exports = {
         contentBase: dir_build,
         inline: true
     },
+    devtool: 'source-map',
     postcss: function () {
         return [require('autoprefixer')];
     },
