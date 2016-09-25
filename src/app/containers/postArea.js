@@ -76,14 +76,14 @@ class PostArea extends Component {
     };
 
     return (
-      <div className='postarea'>
+      <div className='postarea bottom'>
         <TextArea rows={2} />
         <div className='icon-container'>
           <IconButton><SendIcon /></IconButton>
           <IconButton>
             <AddPhotoIcon />
-            <FileInput />
           </IconButton>
+          <FileInput />
         </div>
         <Preview />
       </div>
