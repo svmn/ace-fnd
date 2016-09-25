@@ -1,0 +1,32 @@
+.chat {
+  .message {
+    @avatar-size: 40px;
+    .clearfix();
+    padding: 4px @edge-padding;
+    .avatar {
+      float: left;
+      height: @avatar-size;
+      width: @avatar-size;
+      border-radius: 50%;
+      line-height: @avatar-size;
+      text-align: center;
+      font-size: 18px;
+      color: @grey50;
+    }
+    .id {
+      color: #607D8B;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .right {
+      float: right;
+    }
+    .time {
+      color: @secondary-text;
+    }
+    .id, .text {
+      margin-left: @avatar-size + @edge-padding;
+      margin-right: 50px;
+    }
+  }
+}

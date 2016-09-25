@@ -5,7 +5,8 @@
     "strict": 0,
     "comma-dangle": ["error", "never"],
     "jsx-quotes": [2, "prefer-single"],
-    "react/prefer-stateless-function": 0
+    "react/prefer-stateless-function": 0,
+    "react/require-extension": "off"
   },
   "globals": {
     "document": false,

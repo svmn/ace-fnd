@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class Playlist extends Component {
   render() {
     return (
-      <div className='middle'>Playlist</div>
+      <div className='middle playlist'>Playlist</div>
     );
   }
 }

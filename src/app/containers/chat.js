@@ -1,15 +1,28 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Scrollbars } from 'react-custom-scrollbars';
+import Message from '../components/message';
 
 class Chat extends Component {
   render() {
+    const { messages } = this.props;
     return (
-      <div className='middle'>Chat</div>
+      <div className='middle chat'>
+        <Scrollbars autoHide >
+          {
+            messages.map(msg => <Message message={msg} key={msg.id} />)
+          }
+        </Scrollbars>
+      </div>
     );
   }
 }
+
+Chat.propTypes = {
+  messages: PropTypes.array.isRequired
+};
 
 const mapStatetoProps = (state) => {
   const { messages, replies, ignoreList } = state.chat;
