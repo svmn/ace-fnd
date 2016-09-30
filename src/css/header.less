@@ -1,16 +1,22 @@
 .header {
   .topic, .online {
+    position: absolute;
+    left: 0;
+    width: 100%;
     text-align: center;
-    margin-left: 64px;
   }
   .topic {
     font-weight: 500;
-    padding-top: 8px;
+    top: 12px;
   }
   .online {
     color: @hint-text;
+    top: 12px + 20px;
   }
 }
-.ToggleWrapper > div {
-  padding: 12px 0;
+.playlist-mode-switch, .chat-mode-switch {
+  z-index: 1;
+  @media @desktop {
+    display: none !important;
+  }
 }

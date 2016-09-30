@@ -4,11 +4,11 @@
 @divider: rgba(0,0,0,0.12);
 
 @sidebar-width: 300px;
-@top-height: 56px;
+@top-height: 64px;
 @bottom-height: 64px;
 @border-grey: 1px solid @divider;
 @edge-padding: 16px;
-@min-width: 768px;
+@desktop: ~"(min-width: 768px)";
 
 html, body, .application {
   height: 100%;
@@ -19,11 +19,21 @@ html, body, .application {
   color: @primary-text;
   height: 100%;
   display: flex;
+  &.playlist-mode {
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .main {
+      display: none;
+    }
+  }
 }
 
 .sidebar {
   display: none;
-  @media (min-width: @min-width) {
+  @media @desktop {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -38,20 +48,16 @@ html, body, .application {
 }
 
 .top {
-  flex: 0 0 @top-height;
-  background-color: @grey200;
-  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+  height: @top-height;
 }
 .middle {
   flex: 1;
   border-bottom: @border-grey;
+  display: flex;
+  flex-direction: column;
 }
 .bottom {
   min-height: @bottom-height;
-}
-
-.logo {
-  padding-left: @edge-padding;
 }
 .playlist {
   padding-left: @edge-padding;
@@ -60,8 +66,8 @@ html, body, .application {
 .player {
   border-right: @border-grey;
 }
-.header {
-  padding-right: @edge-padding;
+.scrollbar-container {
+  flex: 1; // fix height 100%
 }
 
 

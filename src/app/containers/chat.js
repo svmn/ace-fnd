@@ -10,7 +10,7 @@ class Chat extends Component {
     const { messages } = this.props;
     return (
       <div className='middle chat'>
-        <Scrollbars autoHide >
+        <Scrollbars autoHide className='scrollbar-container' >
           {
             messages.map(msg => <Message message={msg} key={msg.id} />)
           }
