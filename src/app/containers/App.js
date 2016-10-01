@@ -36,6 +36,12 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    if (navigator && navigator.splashscreen) {
+      navigator.splashscreen.hide();
+    }
+  }
+
   render() {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
