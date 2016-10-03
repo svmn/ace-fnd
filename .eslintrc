@@ -6,10 +6,12 @@
     "comma-dangle": ["error", "never"],
     "jsx-quotes": [2, "prefer-single"],
     "react/prefer-stateless-function": 0,
-    "react/require-extension": "off"
+    "react/require-extension": "off",
+    "max-len": ["error", 120]
   },
   "globals": {
     "document": false,
-    "fetch": false
+    "fetch": false,
+    "navigator": false
   }
 }
