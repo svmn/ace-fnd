@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { padTime } from '../utils';
+import forEach from 'lodash/forEach';
 import Avatar from './avatar';
 import {
   LINK_REGEXP,
@@ -30,12 +31,13 @@ class Message extends Component {
 
   attachReplyHandler() {
     const replyElements = this.ref.querySelectorAll('a[data-reply]');
-    replyElements.forEach(el => el.addEventListener('click', (e) => this.replyHandler(e)));
+    // replyElements is Nodelist
+    forEach(replyElements, el => el.addEventListener('click', (e) => this.replyHandler(e)));
   }
 
   detachReplyHandler() {
     const replyElements = this.ref.querySelectorAll('a[data-reply]');
-    replyElements.forEach(el => el.removeEventListener('click', (e) => this.replyHandler(e)));
+    forEach(replyElements, el => el.removeEventListener('click', (e) => this.replyHandler(e)));
   }
 
   replyHandler(e) {
@@ -68,6 +70,17 @@ class Message extends Component {
     this.messageText = this.messageText.replace(LINK_REGEXP, '<a href="$&" target="_blank">$&</a>');
   }
 
+  /**
+    Message processing flow:
+    attach picture
+    parse Youtube
+    parse webm
+    truncate
+    parse markup
+    parse replies
+    parse links
+    attach event handlers to replies
+  */
   render() {
     const { message } = this.props;
     const { picture } = message;
