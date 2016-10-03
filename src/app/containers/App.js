@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { grey200, darkBlack } from 'material-ui/styles/colors';
+import { grey200, darkBlack, blue500, blue700 } from 'material-ui/styles/colors';
 import classnames from 'classnames';
 import Logo from '../components/logo';
 import Header from '../containers/header';
@@ -14,6 +14,8 @@ import PostArea from '../containers/postArea';
 
 const muiTheme = getMuiTheme({
   palette: {
+    primary1Color: blue500,
+    primary2Color: blue700
   },
   appBar: {
     color: grey200,
@@ -30,17 +32,18 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    if (navigator && navigator.splashscreen) {
+      navigator.splashscreen.hide();
+    }
+  }
+
   togglePlaylistMode() {
     this.setState({
       playlistMode: !this.state.playlistMode
     });
   }
 
-  componentDidMount() {
-    if (navigator && navigator.splashscreen) {
-      navigator.splashscreen.hide();
-    }
-  }
 
   render() {
     return (

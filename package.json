@@ -46,6 +46,7 @@
   "homepage": "https://github.com/svmn/ace-fnd#readme",
   "dependencies": {
     "babel-polyfill": "^6.13.0",
+    "classnames": "^2.2.5",
     "font-awesome": "^4.6.3",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.16.1",

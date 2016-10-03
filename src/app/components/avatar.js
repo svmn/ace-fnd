@@ -9,7 +9,7 @@ class UserAvatar extends Component {
     const { userId } = this.props;
     const { icon, color } = getAvatar(userId);
     return (
-      <Avatar backgroundColor={color}>{icon}</Avatar>
+      <Avatar backgroundColor={color} color='rgba(255,255,255,0.8)'>{icon}</Avatar>
     );
   }
 }
