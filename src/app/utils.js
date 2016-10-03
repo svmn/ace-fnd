@@ -3,7 +3,7 @@
 import padStart from 'lodash/padStart';
 import range from 'lodash/range';
 
-export function pad(time) {
+export function padTime(time) {
   return padStart(time, 2, '0');
 }
 

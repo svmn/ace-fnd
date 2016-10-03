@@ -7,7 +7,7 @@
       float: left;
     }
     .id {
-      color: #607D8B;
+      color: @blue700;
       cursor: pointer;
       font-weight: 500;
     }
@@ -19,10 +19,40 @@
     }
     .text {
       overflow-wrap: break-word;
+      .strong {
+        font-weight: bold;
+      }
+      .emph {
+        font-style: italic;
+      }
+      .strike {
+        text-decoration: line-through;
+      }
+      .spoiler {
+        color: @grey800;
+        background-color: @grey800;
+        a {
+          color: @grey800;
+        }
+        &:hover {
+          color: white;
+          a {
+            color: white;
+          }
+        }
+      }
     }
-    .id, .text {
+    .id, .text, .attachment {
       margin-left: @avatar-size + @edge-padding;
-      margin-right: 50px;
+    }
+    .attachment {
+      padding: 4px 0;
+      img {
+        display: block;
+        border-radius: 4px;
+        cursor: pointer;
+        max-width: 100%;
+      }
     }
   }
 }
