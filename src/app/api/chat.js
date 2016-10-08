@@ -12,3 +12,17 @@ export function load(lastMessageId) {
       return response.json();
     });
 }
+
+export function post(message, file) {
+  const formdata = new FormData();
+  formdata.append('text', message);
+  if (file) {
+    formdata.append('filedata', file);
+  }
+
+  return fetch(`${CHAT_ENDPOINT}&act=post`, {
+    method: 'POST',
+    body: formdata
+  })
+    .then(response => response.text());
+}

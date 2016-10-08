@@ -1,8 +1,9 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
-import { padTime } from '../utils';
 import forEach from 'lodash/forEach';
+import classnames from 'classnames';
+import { padTime } from '../utils';
 import Avatar from './avatar';
 import {
   LINK_REGEXP,
@@ -30,28 +31,23 @@ class Message extends Component {
   }
 
   attachReplyHandler() {
-    const replyElements = this.ref.querySelectorAll('a[data-reply]');
+    const replyElements = this.messageTextRef.querySelectorAll('a[data-reply]');
     // replyElements is Nodelist
     forEach(replyElements, el => el.addEventListener('click', (e) => this.replyHandler(e)));
   }
 
   detachReplyHandler() {
-    const replyElements = this.ref.querySelectorAll('a[data-reply]');
+    const replyElements = this.messageTextRef.querySelectorAll('a[data-reply]');
     forEach(replyElements, el => el.removeEventListener('click', (e) => this.replyHandler(e)));
   }
 
   replyHandler(e) {
     e.preventDefault();
-    this.gotoMessage(e.target.dataset.reply);
+    this.props.gotoMessage(e.target.dataset.reply);
   }
 
   toggleExpand() {
     this.setState({ expanded: !this.state.expanded });
-  }
-
-  gotoMessage(id) {
-    console.log(id);
-    console.log(this);
   }
 
   parseMarkup() {
@@ -111,17 +107,19 @@ class Message extends Component {
     this.parseLinks();
 
     return (
-      <div className='message'>
-        <div className='avatar'>
+      <div className={classnames('message', { selected: this.props.selected })} ref={ref => (this.ref = ref)}>
+        <div className='avatar' onTouchTap={() => this.props.reply(message.id)}>
           <Avatar userId={message.user_id} />
         </div>
         <div className='right'>
           <div className='time'>{formattedTime}</div>
         </div>
-        <div className='id'>#{message.id}</div>
+        <div className='id'>
+          <span onTouchTap={() => this.props.reply(message.id)}>#{message.id}</span>
+        </div>
         <div
           className='text'
-          ref={ref => (this.ref = ref)}
+          ref={ref => (this.messageTextRef = ref)}
           dangerouslySetInnerHTML={{ __html: this.messageText }}
         />
         {attachment}
@@ -131,7 +129,10 @@ class Message extends Component {
 }
 
 Message.propTypes = {
-  message: PropTypes.object.isRequired
+  message: PropTypes.object.isRequired,
+  reply: PropTypes.func.isRequired,
+  gotoMessage: PropTypes.func.isRequired,
+  selected: PropTypes.bool
 };
 
 export default Message;

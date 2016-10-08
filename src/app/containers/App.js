@@ -11,6 +11,7 @@ import Playlist from '../containers/playlist';
 import Chat from '../containers/chat';
 import Player from '../containers/player';
 import PostArea from '../containers/postArea';
+import Snackbar from '../containers/snackbar';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -38,6 +39,10 @@ class App extends Component {
     }
   }
 
+  focusTextarea() {
+    this.postarea.getWrappedInstance().focus();
+  }
+
   togglePlaylistMode() {
     this.setState({
       playlistMode: !this.state.playlistMode
@@ -56,9 +61,10 @@ class App extends Component {
           </div>
           <div className='main'>
             <Header togglePlaylistMode={() => this.togglePlaylistMode()} />
-            <Chat />
-            <PostArea />
+            <Chat focusTextarea={this.focusTextarea.bind(this)} />
+            <PostArea ref={ref => (this.postarea = ref)} />
           </div>
+          <Snackbar />
         </div>
       </MuiThemeProvider>
     );

@@ -6,7 +6,7 @@
     .avatar {
       float: left;
     }
-    .id {
+    .id span {
       color: @blue700;
       cursor: pointer;
       font-weight: 500;
@@ -19,6 +19,7 @@
     }
     .text {
       overflow-wrap: break-word;
+      white-space: pre-line;
       .strong {
         font-weight: bold;
       }
@@ -29,9 +30,8 @@
         text-decoration: line-through;
       }
       .spoiler {
-        color: @grey800;
         background-color: @grey800;
-        a {
+        &, a {
           color: @grey800;
         }
         &:hover {
@@ -53,6 +53,12 @@
         cursor: pointer;
         max-width: 100%;
       }
+    }
+    &.selected {
+      &, .id span, .time, a {
+        color: white;
+      }
+      background-color: @blue500;
     }
   }
 }

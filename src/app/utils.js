@@ -26,3 +26,7 @@ export function getAvatar(userId) {
     icon: getAvatarIcon(userId)
   };
 }
+
+export function updateState(prevState, nextState) {
+  return Object.assign({}, prevState, nextState);
+}
