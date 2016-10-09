@@ -7,11 +7,14 @@ import {
   CHAT_STOP
 } from '../actionTypes';
 
+import { REPLY_REGEXP } from '../constants';
+
 const initialState = {
   messages: [],
   lastMessageId: 0,
   online: 0,
-  timer: null
+  timer: null,
+  replies: {}
 };
 
 export default function (state = initialState, action) {
@@ -22,13 +25,28 @@ export default function (state = initialState, action) {
     case CHAT_UPDATE:
       const { data: messages } = data;
       const lastMessage = messages[messages.length - 1];
+      const addedReplies = {};
+      messages.forEach(msg => {
+        const ids = msg.text.match(REPLY_REGEXP);
+        if (!ids) return;
+        ids.forEach(id => {
+          const replyId = id.replace('@', '');
+          // saving existing replies
+          if (!addedReplies[replyId]) {
+            addedReplies[replyId] = state.replies[replyId] ? [...state.replies[replyId]] : [];
+          }
+          addedReplies[replyId].push(msg.id);
+        });
+      });
+
       return Object.assign(
         {},
         state,
         {
           lastMessageId: lastMessage ? Number(lastMessage.id) : state.lastMessageId,
           online: data.user_cnt,
-          messages: unionBy(state.messages, messages, 'id')
+          messages: unionBy(state.messages, messages, 'id'),
+          replies: Object.assign({}, state.replies, addedReplies)
         }
       );
 

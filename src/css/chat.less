@@ -55,7 +55,7 @@
         color: #789922;
       }
     }
-    .id, .text, .attachment, .read-more {
+    .id, .text, .attachment, .read-more, .replies {
       margin-left: @avatar-size + @edge-padding;
     }
     .attachment {
@@ -69,6 +69,16 @@
     }
     .read-more {
       display: block;
+    }
+    .replies {
+      display: none;
+      @media @desktop {
+        display: block;
+        font-size: 10px;
+        a {
+          margin-left: 5px;
+        }
+      }
     }
     &.selected {
       &, .id span, .time, a {

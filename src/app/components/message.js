@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import forEach from 'lodash/forEach';
 import classnames from 'classnames';
+import isMobile from 'is-mobile';
 import { padTime } from '../utils';
 import Avatar from './avatar';
 import {
@@ -58,8 +59,7 @@ class Message extends Component {
     this.setState({ expanded: !this.state.expanded });
   }
 
-  toggleExpandText(e) {
-    e.preventDefault();
+  toggleExpandText() {
     this.setState({
       expandedText: !this.state.expandedText
     });
@@ -94,7 +94,7 @@ class Message extends Component {
     attach event handlers to replies
   */
   render() {
-    const { message } = this.props;
+    const { message, replies } = this.props;
     const { picture } = message;
     this.messageText = message.text;
     const time = new Date(message.time);
@@ -118,6 +118,29 @@ class Message extends Component {
       );
     }
 
+    const readMoreBlock = !this.state.showReadMore ? null : (
+      <a href='' className='read-more' onClick={e => e.preventDefault()} onTouchTap={this.toggleExpandText} >
+        {this.state.expandedText ? 'Скрыть' : 'Читать полностью'}
+      </a>
+    );
+
+    const repliesBlock = !replies ? null : (
+      <div className='replies'>
+        Ответы:{
+          replies.map((reply, i) =>
+            <a
+              href=''
+              key={i}
+              onClick={e => e.preventDefault()}
+              onTouchTap={() => this.props.gotoMessage(reply.replace('@', ''))}
+            >
+              >>{reply}
+            </a>
+          )
+        }
+      </div>
+    );
+
     this.parseMarkup();
     this.parseReplies();
     this.parseLinks();
@@ -139,16 +162,9 @@ class Message extends Component {
           }}
           dangerouslySetInnerHTML={{ __html: this.messageText }}
         />
-        {
-          this.state.showReadMore ?
-            <a href='' className='read-more' onClick={e => this.toggleExpandText(e)} >
-              {
-                this.state.expandedText ? 'Скрыть' : 'Читать полностью'
-              }
-            </a> :
-            null
-        }
+        {readMoreBlock}
         {attachment}
+        {repliesBlock}
       </div>
     );
   }
@@ -156,6 +172,7 @@ class Message extends Component {
 
 Message.propTypes = {
   message: PropTypes.object.isRequired,
+  replies: PropTypes.array,
   reply: PropTypes.func.isRequired,
   gotoMessage: PropTypes.func.isRequired,
   selected: PropTypes.bool

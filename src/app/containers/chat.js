@@ -65,7 +65,7 @@ class Chat extends Component {
   }
 
   render() {
-    const { messages } = this.props;
+    const { messages, replies } = this.props;
     return (
       <div className='middle chat'>
         <Scrollbars
@@ -81,6 +81,7 @@ class Chat extends Component {
                 selected={this.state.selectedMessageId === msg.id}
                 key={msg.id}
                 reply={(id) => this.reply(id)}
+                replies={replies[msg.id]}
                 gotoMessage={this.gotoMessage.bind(this)}
                 ref={ref => (this.messageRefs[msg.id] = ref)}
               />
@@ -94,6 +95,7 @@ class Chat extends Component {
 
 Chat.propTypes = {
   messages: PropTypes.array.isRequired,
+  replies: PropTypes.object.isRequired,
   postareaSetReply: PropTypes.func.isRequired,
   focusTextarea: PropTypes.func.isRequired
 };
