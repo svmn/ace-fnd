@@ -1,3 +1,4 @@
+/* global window */
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
@@ -15,10 +16,28 @@ class Chat extends Component {
       selectedMessageId: null
     };
     this.autoscroll = true;
+    this.inactive = false;
+    this.defaultTitle = document.title;
+    this.unreadPosts = 0;
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
+    window.addEventListener('blur', () => (this.inactive = true));
+    window.addEventListener('focus', () => {
+      this.inactive = false;
+      this.unreadPosts = 0;
+      document.title = this.defaultTitle;
+    });
+  }
+
+  componentDidUpdate(prevProps) {
     setTimeout(() => this.scrollDown(), 0);
+    if (this.inactive) {
+      if (this.props.messages.length > prevProps.messages.length) {
+        this.unreadPosts += 1;
+        document.title = `[${this.unreadPosts}] ${this.defaultTitle}`;
+      }
+    }
   }
 
   onScroll() {
