@@ -9,11 +9,31 @@ import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import Paper from 'material-ui/Paper';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import CircularProgress from 'material-ui/CircularProgress';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import isMobile from 'is-mobile';
 import * as actions from '../actions/postarea';
 
 class PostArea extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSettings: false,
+      mode: localStorage.postingMode || 'natural'
+    };
+  }
+
   focus() {
     this.textarea.focus();
+  }
+
+  showSettings() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.setState({ showSettings: true }), 500);
+  }
+
+  hideSettings() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.setState({ showSettings: false }), 500);
   }
 
   render() {
@@ -52,6 +72,7 @@ class PostArea extends Component {
               backgroundImage: `url('${preview}')`,
               textAlign: 'center'
             }}
+
           >
             <IconButton
               style={{
@@ -73,27 +94,96 @@ class PostArea extends Component {
       return null;
     };
 
+    const Settings = () => {
+      if (this.state.showSettings && !isMobile()) {
+        return (
+          <Paper
+            style={{
+              height: '125px',
+              width: '300px',
+              position: 'absolute',
+              top: '-133px',
+              right: '12px',
+              padding: '16px'
+            }}
+            zDepth={2}
+            onMouseEnter={() => this.showSettings()}
+            onMouseLeave={() => this.hideSettings()}
+          >
+            <RadioButtonGroup
+              name='mode'
+              valueSelected={this.state.mode}
+              onChange={(e, value) => {
+                this.setState({ mode: value });
+                localStorage.postingMode = value;
+              }}
+            >
+              <RadioButton
+                value='natural'
+                label={
+                  <div>
+                    <div><b>Ctrl + Enter</b> - Отправка сообщения</div>
+                    <div><b>Enter</b> - Перенос строки</div>
+                  </div>
+                }
+              />
+              <RadioButton
+                value='inverse'
+                label={
+                  <div>
+                    <div><b>Enter</b> - Отправка сообщения</div>
+                    <div><b>Shift + Enter</b> - Перенос строки</div>
+                  </div>
+                }
+              />
+            </RadioButtonGroup>
+          </Paper>
+        );
+      }
+      return null;
+    };
+
     return (
       <div className='postarea bottom'>
         <TextArea
           rows={2}
+          maxRows={8}
+          placeholder='Сообщение'
+          maxLength={2048}
           value={message}
           onChange={(e) => this.props.postareaSetMessage(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-              this.props.postareaSend();
+            if (e.key === 'Enter') {
+              if (this.state.mode === 'natural') {
+                if (e.ctrlKey || e.metaKey) {
+                  this.props.postareaSend();
+                }
+              }
+              if (this.state.mode === 'inverse') {
+                if (!e.shiftKey) {
+                  e.preventDefault();
+                  this.props.postareaSend();
+                }
+              }
             }
           }}
           ref={ref => (this.textarea = ref)}
         />
         <div className='icon-container'>
-          <IconButton onTouchTap={this.props.postareaSend} ><SendIcon /></IconButton>
+          <IconButton
+            onTouchTap={this.props.postareaSend}
+            onMouseEnter={() => this.showSettings()}
+            onMouseLeave={() => this.hideSettings()}
+          >
+            <SendIcon />
+          </IconButton>
           <IconButton>
             <AddPhotoIcon />
           </IconButton>
           <FileInput />
         </div>
         <Preview />
+        <Settings />
       </div>
     );
   }

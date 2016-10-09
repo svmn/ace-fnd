@@ -49,6 +49,7 @@
     "babel-polyfill": "^6.13.0",
     "classnames": "^2.2.5",
     "font-awesome": "^4.6.3",
+    "is-mobile": "^0.2.2",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.16.1",
     "material-ui": "^0.16.0",
