@@ -11,7 +11,8 @@ import {
   MARKUP_STRONG_REGEXP,
   MARKUP_EMPH_REGEXP,
   MARKUP_STRIKE_REGEXP,
-  MARKUP_SPOILER_REGEXP
+  MARKUP_SPOILER_REGEXP,
+  MARKUP_QUOTE_REGEXP
 } from '../constants';
 
 class Message extends Component {
@@ -66,6 +67,7 @@ class Message extends Component {
 
   parseMarkup() {
     this.messageText = this.messageText
+      .replace(MARKUP_QUOTE_REGEXP, '<span class="quote">$1</span>')
       .replace(MARKUP_STRONG_REGEXP, '<span class="strong">$1</span>')
       .replace(MARKUP_EMPH_REGEXP, '<span class="emph">$1</span>')
       .replace(MARKUP_STRIKE_REGEXP, '<span class="strike">$1</span>')
