@@ -1,8 +1,18 @@
 .chat {
   .message {
     @avatar-size: 40px;
+
     .clearfix();
+
     padding: 4px @edge-padding;
+    border-bottom: 1px solid @grey300;
+    &:nth-child(even) {
+      background-color: @grey200;
+    }
+    &:last-of-type {
+      border-bottom: 0;
+    }
+
     .avatar {
       float: left;
     }
@@ -11,15 +21,15 @@
       cursor: pointer;
       font-weight: 500;
     }
-    .right {
-      float: right;
-    }
     .time {
+      float: right;
       color: @secondary-text;
     }
     .text {
       overflow-wrap: break-word;
       white-space: pre-line;
+      max-height: 80px;
+      overflow: hidden;
       .strong {
         font-weight: bold;
       }
@@ -42,7 +52,7 @@
         }
       }
     }
-    .id, .text, .attachment {
+    .id, .text, .attachment, .read-more {
       margin-left: @avatar-size + @edge-padding;
     }
     .attachment {
@@ -53,6 +63,9 @@
         cursor: pointer;
         max-width: 100%;
       }
+    }
+    .read-more {
+      display: block;
     }
     &.selected {
       &, .id span, .time, a {

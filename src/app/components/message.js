@@ -18,12 +18,19 @@ class Message extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false
+      expanded: false,
+      expandedText: false,
+      showReadMore: false
     };
   }
 
   componentDidMount() {
     this.attachReplyHandler();
+    if (this.messageTextRef.scrollHeight > this.messageTextRef.clientHeight) {
+      this.setState({
+        showReadMore: true
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -48,6 +55,13 @@ class Message extends Component {
 
   toggleExpand() {
     this.setState({ expanded: !this.state.expanded });
+  }
+
+  toggleExpandText(e) {
+    e.preventDefault();
+    this.setState({
+      expandedText: !this.state.expandedText
+    });
   }
 
   parseMarkup() {
@@ -111,17 +125,27 @@ class Message extends Component {
         <div className='avatar' onTouchTap={() => this.props.reply(message.id)}>
           <Avatar userId={message.user_id} />
         </div>
-        <div className='right'>
-          <div className='time'>{formattedTime}</div>
-        </div>
+        <div className='time'>{formattedTime}</div>
         <div className='id'>
           <span onTouchTap={() => this.props.reply(message.id)}>#{message.id}</span>
         </div>
         <div
           className='text'
           ref={ref => (this.messageTextRef = ref)}
+          style={{
+            maxHeight: this.state.expandedText ? 'none' : null
+          }}
           dangerouslySetInnerHTML={{ __html: this.messageText }}
         />
+        {
+          this.state.showReadMore ?
+            <a href='' className='read-more' onClick={e => this.toggleExpandText(e)} >
+              {
+                this.state.expandedText ? 'Скрыть' : 'Читать полностью'
+              }
+            </a> :
+            null
+        }
         {attachment}
       </div>
     );

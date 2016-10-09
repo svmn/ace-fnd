@@ -17,10 +17,8 @@ class Chat extends Component {
     this.autoscroll = true;
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.messages.length > prevProps.messages.length) {
-      this.scrollDown();
-    }
+  componentDidUpdate() {
+    setTimeout(() => this.scrollDown(), 0);
   }
 
   onScroll() {
