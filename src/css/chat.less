@@ -1,90 +1,91 @@
-.chat {
-  .message {
-    @avatar-size: 40px;
+.message {
+  @avatar-size: 40px;
 
-    .clearfix();
+  .clearfix();
 
-    padding: 4px @edge-padding;
-    border-bottom: 1px solid @grey300;
-    &:nth-child(even) {
-      background-color: @grey200;
-    }
-    &:last-of-type {
-      border-bottom: 0;
-    }
+  padding: 4px @edge-padding;
+  .preview & {
+    padding: @edge-padding;
+  }
+  border-bottom: 1px solid @grey300;
+  &:nth-child(even) {
+    background-color: @grey200;
+  }
+  &:last-of-type {
+    border-bottom: 0;
+  }
 
-    .avatar {
-      float: left;
+  .avatar {
+    float: left;
+  }
+  .id span {
+    color: @blue700;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .time {
+    float: right;
+    color: @secondary-text;
+  }
+  .text {
+    overflow-wrap: break-word;
+    white-space: pre-line;
+    max-height: 80px;
+    overflow: hidden;
+    .strong {
+      font-weight: bold;
     }
-    .id span {
-      color: @blue700;
-      cursor: pointer;
-      font-weight: 500;
+    .emph {
+      font-style: italic;
     }
-    .time {
-      float: right;
-      color: @secondary-text;
+    .strike {
+      text-decoration: line-through;
     }
-    .text {
-      overflow-wrap: break-word;
-      white-space: pre-line;
-      max-height: 80px;
-      overflow: hidden;
-      .strong {
-        font-weight: bold;
+    .spoiler {
+      background-color: @grey800;
+      &, a {
+        color: @grey800;
       }
-      .emph {
-        font-style: italic;
-      }
-      .strike {
-        text-decoration: line-through;
-      }
-      .spoiler {
-        background-color: @grey800;
-        &, a {
-          color: @grey800;
-        }
-        &:hover {
-          color: white;
-          a {
-            color: white;
-          }
-        }
-      }
-      .quote {
-        color: #789922;
-      }
-    }
-    .id, .text, .attachment, .read-more, .replies {
-      margin-left: @avatar-size + @edge-padding;
-    }
-    .attachment {
-      padding: 4px 0;
-      img {
-        display: block;
-        border-radius: 4px;
-        cursor: pointer;
-        max-width: 100%;
-      }
-    }
-    .read-more {
-      display: block;
-    }
-    .replies {
-      display: none;
-      @media @desktop {
-        display: block;
-        font-size: 10px;
-        a {
-          margin-left: 5px;
-        }
-      }
-    }
-    &.selected {
-      &, .id span, .time, a {
+      &:hover {
         color: white;
+        a {
+          color: white;
+        }
       }
-      background-color: @blue500;
     }
+    .quote {
+      color: #789922;
+    }
+  }
+  .id, .text, .attachment, .read-more, .replies {
+    margin-left: @avatar-size + @edge-padding;
+  }
+  .attachment {
+    padding: 4px 0;
+    img {
+      display: block;
+      border-radius: 4px;
+      cursor: pointer;
+      max-width: 100%;
+    }
+  }
+  .read-more {
+    display: block;
+  }
+  .replies {
+    display: none;
+    @media @desktop {
+      display: block;
+      font-size: 10px;
+      a {
+        margin-left: 5px;
+      }
+    }
+  }
+  &.selected {
+    &, .id span, .time, a {
+      color: white;
+    }
+    background-color: @blue500;
   }
 }

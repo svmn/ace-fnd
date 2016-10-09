@@ -10,6 +10,7 @@
     "max-len": ["error", 120]
   },
   "globals": {
+    "window": false,
     "document": false,
     "fetch": false,
     "navigator": false

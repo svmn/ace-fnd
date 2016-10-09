@@ -12,6 +12,7 @@ import Chat from '../containers/chat';
 import Player from '../containers/player';
 import PostArea from '../containers/postArea';
 import Snackbar from '../containers/snackbar';
+import PreviewMessage from '../containers/previewMessage';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -63,6 +64,7 @@ class App extends Component {
             <Header togglePlaylistMode={() => this.togglePlaylistMode()} />
             <Chat focusTextarea={this.focusTextarea.bind(this)} />
             <PostArea ref={ref => (this.postarea = ref)} />
+            <PreviewMessage />
           </div>
           <Snackbar />
         </div>

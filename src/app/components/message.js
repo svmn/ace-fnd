@@ -43,11 +43,19 @@ class Message extends Component {
     const replyElements = this.messageTextRef.querySelectorAll('a[data-reply]');
     // replyElements is Nodelist
     forEach(replyElements, el => el.addEventListener('click', (e) => this.replyHandler(e)));
+    forEach(replyElements, el => el.addEventListener('mouseenter',
+      (e) => this.props.showPreview(e.target.dataset.reply)));
+    forEach(replyElements, el => el.addEventListener('mouseleave', () => this.props.hidePreview()));
+    forEach(replyElements, el => el.addEventListener('mousemove', (e) => this.props.movePreview(e)));
   }
 
   detachReplyHandler() {
     const replyElements = this.messageTextRef.querySelectorAll('a[data-reply]');
     forEach(replyElements, el => el.removeEventListener('click', (e) => this.replyHandler(e)));
+    forEach(replyElements, el => el.addEventListener('mouseenter',
+      (e) => this.props.showPreview(e.target.dataset.reply)));
+    forEach(replyElements, el => el.addEventListener('mouseleave', () => this.props.hidePreview()));
+    forEach(replyElements, el => el.addEventListener('mousemove', (e) => this.props.movePreview(e)));
   }
 
   replyHandler(e) {
@@ -132,7 +140,10 @@ class Message extends Component {
               href=''
               key={i}
               onClick={e => e.preventDefault()}
-              onTouchTap={() => this.props.gotoMessage(reply.replace('@', ''))}
+              onTouchTap={() => this.props.gotoMessage(reply)}
+              onMouseEnter={() => this.props.showPreview(reply)}
+              onMouseMove={e => this.props.movePreview(e)}
+              onMouseLeave={() => this.props.hidePreview()}
             >
               >>{reply}
             </a>
@@ -173,8 +184,11 @@ class Message extends Component {
 Message.propTypes = {
   message: PropTypes.object.isRequired,
   replies: PropTypes.array,
-  reply: PropTypes.func.isRequired,
-  gotoMessage: PropTypes.func.isRequired,
+  reply: PropTypes.func,
+  gotoMessage: PropTypes.func,
+  showPreview: PropTypes.func,
+  movePreview: PropTypes.func,
+  hidePreview: PropTypes.func,
   selected: PropTypes.bool
 };
 

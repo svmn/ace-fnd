@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { postareaSetReply } from '../actions/postarea';
+import { showPreview, movePreview, hidePreview } from '../actions/chat';
 import Message from '../components/message';
 
 class Chat extends Component {
@@ -84,6 +85,9 @@ class Chat extends Component {
                 replies={replies[msg.id]}
                 gotoMessage={this.gotoMessage.bind(this)}
                 ref={ref => (this.messageRefs[msg.id] = ref)}
+                showPreview={this.props.showPreview}
+                movePreview={this.props.movePreview}
+                hidePreview={this.props.hidePreview}
               />
             )
           }
@@ -97,7 +101,10 @@ Chat.propTypes = {
   messages: PropTypes.array.isRequired,
   replies: PropTypes.object.isRequired,
   postareaSetReply: PropTypes.func.isRequired,
-  focusTextarea: PropTypes.func.isRequired
+  focusTextarea: PropTypes.func.isRequired,
+  showPreview: PropTypes.func.isRequired,
+  movePreview: PropTypes.func.isRequired,
+  hidePreview: PropTypes.func.isRequired
 };
 
 const mapStatetoProps = (state) => {
@@ -106,6 +113,11 @@ const mapStatetoProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ postareaSetReply }, dispatch);
+  bindActionCreators({
+    postareaSetReply,
+    showPreview,
+    movePreview,
+    hidePreview
+  }, dispatch);
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Chat);
