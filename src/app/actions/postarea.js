@@ -14,6 +14,8 @@ import { chatUpdate } from './chat';
 
 import { post } from '../api/chat';
 
+import { fixMimeType } from '../utils';
+
 export function postareaSetMessage(message) {
   return {
     type: POSTAREA_SET_MESSAGE,
@@ -43,7 +45,7 @@ export function postareaSetFile(file) {
     reader.onload = (e) => {
       dispatch({
         type: POSTAREA_SET_PREVIEW,
-        data: e.target.result
+        data: fixMimeType(file.name, e.target.result)
       });
     };
   };

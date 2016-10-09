@@ -30,3 +30,12 @@ export function getAvatar(userId) {
 export function updateState(prevState, nextState) {
   return Object.assign({}, prevState, nextState);
 }
+
+export function fixMimeType(filename, data) {
+  if (!data.match(/data:image\/.+?;base64/)) {
+    let ext = filename.split('.').pop();
+    if (ext === 'jpg') ext = 'jpeg';
+    return data.replace('data:base64', `data:image/${ext};base64`);
+  }
+  return data;
+}

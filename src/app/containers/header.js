@@ -14,9 +14,16 @@ class Header extends Component {
       <AppBar
         title={null}
         iconElementLeft={
-          <IconButton className='playlist-mode-switch' onTouchTap={this.props.togglePlaylistMode}><PlaylistIcon /></IconButton>
+          <IconButton className='playlist-mode-switch' onTouchTap={this.props.togglePlaylistMode}>
+            <PlaylistIcon />
+          </IconButton>
         }
         iconElementRight={<Menu />}
+        iconStyleRight={{
+          // android < 4.4 fix
+          position: 'absolute',
+          right: '16px'
+        }}
         className='header'
       >
         <div className='topic'>Tuzach development version 0.0.1</div>

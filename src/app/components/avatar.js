@@ -9,7 +9,17 @@ class UserAvatar extends Component {
     const { userId } = this.props;
     const { icon, color } = getAvatar(userId);
     return (
-      <Avatar backgroundColor={color} color='rgba(255,255,255,0.8)' style={{ cursor: 'pointer' }}>{icon}</Avatar>
+      <Avatar
+        backgroundColor={color}
+        color='rgba(255,255,255,0.8)'
+        style={{
+          cursor: 'pointer',
+          // android < 4.4 fixes
+          lineHeight: '40px',
+          textAlign: 'center',
+          display: 'block'
+        }}
+      >{icon}</Avatar>
     );
   }
 }
