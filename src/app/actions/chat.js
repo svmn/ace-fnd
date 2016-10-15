@@ -6,25 +6,36 @@ import {
   CHAT_STOP,
   SHOW_PREVIEW,
   MOVE_PREVIEW,
-  HIDE_PREVIEW
+  HIDE_PREVIEW,
+  SET_ONLINE_COUNTER
 } from '../actionTypes';
 
 import { load } from '../api/chat';
 
-export const chatUpdate = () => {
+export function chatUpdate() {
   return (dispatch, getState) => {
     const lastMessageId = getState().chat.lastMessageId;
     return load(lastMessageId)
       .then(data => {
+        const { data: messages } = data;
         dispatch({
-          type: CHAT_UPDATE,
-          data
+          type: SET_ONLINE_COUNTER,
+          data: {
+            online: data.user_cnt,
+            speed: data.speed
+          }
         });
+        if (messages && messages.length) {
+          dispatch({
+            type: CHAT_UPDATE,
+            data: messages
+          });
+        }
       });
   };
-};
+}
 
-export const chatStart = () => {
+export function chatStart() {
   return (dispatch) => {
     dispatch(chatUpdate());
     const timer = setInterval(() => {
@@ -35,15 +46,15 @@ export const chatStart = () => {
       data: timer
     });
   };
-};
+}
 
-export const chatStop = () => {
+export function chatStop() {
   return (dispatch, getState) => {
     const timer = getState().chat.timer;
     clearInterval(timer);
     dispatch({ type: CHAT_STOP });
   };
-};
+}
 
 export function showPreview(id) {
   return (dispatch, getState) => {
@@ -56,7 +67,6 @@ export function showPreview(id) {
 }
 
 export function movePreview(event) {
-  console.log(event);
   return {
     type: MOVE_PREVIEW,
     data: event

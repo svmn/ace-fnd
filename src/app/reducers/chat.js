@@ -12,7 +12,6 @@ import { REPLY_REGEXP } from '../constants';
 const initialState = {
   messages: [],
   lastMessageId: 0,
-  online: 0,
   timer: null,
   replies: {}
 };
@@ -23,7 +22,7 @@ export default function (state = initialState, action) {
   switch (type) {
 
     case CHAT_UPDATE:
-      const { data: messages } = data;
+      const messages = data;
       const lastMessage = messages[messages.length - 1];
       const addedReplies = {};
       messages.forEach(msg => {
@@ -44,7 +43,6 @@ export default function (state = initialState, action) {
         state,
         {
           lastMessageId: lastMessage ? Number(lastMessage.id) : state.lastMessageId,
-          online: data.user_cnt,
           messages: unionBy(state.messages, messages, 'id'),
           replies: Object.assign({}, state.replies, addedReplies)
         }
