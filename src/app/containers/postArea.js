@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TextArea from 'react-textarea-autosize';
 import IconButton from 'material-ui/IconButton';
@@ -9,21 +10,50 @@ import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import Paper from 'material-ui/Paper';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import CircularProgress from 'material-ui/CircularProgress';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import { fullWhite, minBlack } from 'material-ui/styles/colors';
 import isMobile from 'is-mobile';
-import * as actions from '../actions/postarea';
+import { chatSend } from '../actions/chat';
+import { fixMimeType } from '../utils';
 
 class PostArea extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showSettings: false,
-      mode: localStorage.postingMode || 'inverse'
+      mode: localStorage.postingMode || 'inverse',
+      preview: null
+    };
+    this.file = null;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.processing === false && this.props.processing === true) {
+      this.unsetFile();
+    }
+  }
+
+  setMessage(message) {
+    this.setState({ message });
+  }
+
+  setFile(file) {
+    console.log(file);
+    this.file = file;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      if (isMobile()) {
+        this.setState({ preview: fixMimeType(file, e.target.result) });
+      } else {
+        this.setState({ preview: e.target.result });
+      }
     };
   }
 
-  focus() {
-    this.textarea.focus();
+  unsetFile() {
+    this.file = null;
+    this.setState({ preview: null });
   }
 
   showSettings() {
@@ -36,12 +66,36 @@ class PostArea extends Component {
     this.timer = setTimeout(() => this.setState({ showSettings: false }), 500);
   }
 
+  send() {
+    this.props.chatSend(this.state.message, this.file);
+    this.setState({ message: '' });
+  }
+
+  insertReply(replyId) {
+    if (!this.state.message) {
+      this.setState({ message: `@${replyId} ` });
+    } else {
+      this.setState({ message: `${this.state.message} @${replyId} ` });
+    }
+    this.textarea.focus();
+  }
+
   render() {
-    const { message, preview, processing } = this.props;
-    const FileInput = () => (
+    const { processing } = this.props;
+    const fileInput = (
       <input
+        id='fileInput'
         type='file'
-        onChange={(e) => this.props.postareaSetFile(e.target.files[0])}
+        onChange={(e) => this.setFile(e.target.files[0])}
+        style={{
+          position: 'absolute',
+          top: '8px',
+          right: '0',
+          width: this.context.muiTheme.spacing.iconSize * 2,
+          height: this.context.muiTheme.spacing.iconSize * 2,
+          opacity: 0,
+          cursor: 'pointer'
+        }}
       />
     );
     const progress = processing ? (
@@ -58,41 +112,36 @@ class PostArea extends Component {
       />
     ) : null;
 
-    const Preview = () => {
-      if (preview) {
-        return (
-          <Paper
-            style={{
-              height: '100px',
-              width: '100px',
-              position: 'absolute',
-              top: '-108px',
-              right: '12px',
-              backgroundSize: 'cover',
-              backgroundImage: `url('${preview}')`,
-              textAlign: 'center'
-            }}
+    const preview = !this.state.preview ? null : (
+      <Paper
+        style={{
+          height: '100px',
+          width: '100px',
+          position: 'absolute',
+          top: '-108px',
+          right: '12px',
+          backgroundSize: 'cover',
+          backgroundImage: `url('${this.state.preview}')`,
+          textAlign: 'center'
+        }}
 
-          >
-            <IconButton
-              style={{
-                marginTop: '26px',
-                backgroundColor: 'rgba(0,0,0,0.4)',
-                borderRadius: '50%'
-              }}
-              iconStyle={{
-                color: '#FFF'
-              }}
-              onTouchTap={() => this.props.postareaResetFile()}
-            >
-              <CloseIcon />
-            </IconButton>
-            {progress}
-          </Paper>
-        );
-      }
-      return null;
-    };
+      >
+        <IconButton
+          style={{
+            marginTop: '26px',
+            backgroundColor: minBlack,
+            borderRadius: '50%'
+          }}
+          iconStyle={{
+            color: fullWhite
+          }}
+          onTouchTap={this.unsetFile.bind(this)}
+        >
+          <CloseIcon />
+        </IconButton>
+        {progress}
+      </Paper>
+    );
 
     const Settings = () => (
       <Paper
@@ -142,7 +191,7 @@ class PostArea extends Component {
     const IconContainer = () => (
       <div className='icon-container'>
         <IconButton
-          onTouchTap={() => this.props.postareaSend()}
+          onTouchTap={() => this.send()}
           onMouseEnter={isMobile() ? null : this.showSettings.bind(this)}
           onMouseLeave={isMobile() ? null : this.hideSettings.bind(this)}
         >
@@ -151,7 +200,6 @@ class PostArea extends Component {
         <IconButton>
           <AddPhotoIcon />
         </IconButton>
-        <FileInput />
       </div>
     );
 
@@ -162,19 +210,19 @@ class PostArea extends Component {
           maxRows={8}
           placeholder='Сообщение'
           maxLength={2048}
-          value={message}
-          onChange={(e) => this.props.postareaSetMessage(e.target.value)}
+          value={this.state.message}
+          onChange={e => this.setMessage(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               if (this.state.mode === 'natural') {
                 if (e.ctrlKey || e.metaKey) {
-                  this.props.postareaSend();
+                  this.send();
                 }
               }
               if (this.state.mode === 'inverse') {
                 if (!e.shiftKey) {
                   e.preventDefault();
-                  this.props.postareaSend();
+                  this.send();
                 }
               }
             }
@@ -182,7 +230,8 @@ class PostArea extends Component {
           ref={ref => (this.textarea = ref)}
         />
         <IconContainer />
-        <Preview />
+        {fileInput}
+        {preview}
         {
           this.state.showSettings ? <Settings /> : null
         }
@@ -195,11 +244,12 @@ PostArea.propTypes = {
   message: PropTypes.string,
   preview: PropTypes.string,
   processing: PropTypes.bool,
-  postareaSetMessage: PropTypes.func.isRequired,
-  postareaSetFile: PropTypes.func.isRequired,
-  postareaResetFile: PropTypes.func.isRequired,
-  postareaSend: PropTypes.func.isRequired
+  chatSend: PropTypes.func.isRequired
+};
+PostArea.contextTypes = {
+  muiTheme: PropTypes.object.isRequired
 };
 
 const mapStatetoProps = (state) => state.postarea;
-export default connect(mapStatetoProps, actions, null, { withRef: true })(PostArea);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ chatSend }, dispatch);
+export default connect(mapStatetoProps, mapDispatchToProps, null, { withRef: true })(PostArea);

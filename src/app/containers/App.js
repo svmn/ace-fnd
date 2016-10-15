@@ -50,8 +50,10 @@ class App extends Component {
     setBackground(this.state.theme);
   }
 
-  focusTextarea() {
-    this.postarea.getWrappedInstance().focus();
+  setTheme(theme) {
+    this.setState({ theme });
+    setBackground(theme);
+    localStorage.theme = theme;
   }
 
   togglePlaylistMode() {
@@ -60,10 +62,8 @@ class App extends Component {
     });
   }
 
-  setTheme(theme) {
-    this.setState({ theme });
-    setBackground(theme);
-    localStorage.theme = theme;
+  insertReply(replyId) {
+    this.postarea.getWrappedInstance().insertReply(replyId);
   }
 
   render() {
@@ -77,7 +77,7 @@ class App extends Component {
           </div>
           <div className='main'>
             <Header togglePlaylistMode={() => this.togglePlaylistMode()} setTheme={this.setTheme.bind(this)} theme={this.state.theme} />
-            <Chat focusTextarea={this.focusTextarea.bind(this)} />
+            <Chat insertReply={this.insertReply.bind(this)} />
             <PostArea ref={ref => (this.postarea = ref)} theme={this.state.theme} />
             <PreviewMessage />
           </div>

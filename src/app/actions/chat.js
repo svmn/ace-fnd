@@ -7,10 +7,12 @@ import {
   SHOW_PREVIEW,
   MOVE_PREVIEW,
   HIDE_PREVIEW,
-  SET_ONLINE_COUNTER
+  SET_ONLINE_COUNTER,
+  POSTAREA_SET_PROCESSING,
+  SNACKBAR_OPEN
 } from '../actionTypes';
 
-import { load } from '../api/chat';
+import { load, post } from '../api/chat';
 
 export function chatUpdate() {
   return (dispatch, getState) => {
@@ -76,5 +78,39 @@ export function movePreview(event) {
 export function hidePreview() {
   return {
     type: HIDE_PREVIEW
-  }
+  };
+}
+
+export function chatSend(message, file) {
+  return (dispatch) => {
+    if (!message && !file) return;
+
+    dispatch({ type: POSTAREA_SET_PROCESSING, data: true });
+
+    post(message, file)
+      .then(response => {
+        if (response) {
+          let alert;
+          try {
+            const json = JSON.parse(response);
+            alert = json.msg;
+          } catch (e) {
+            alert = response;
+          }
+          dispatch({
+            type: SNACKBAR_OPEN,
+            data: alert
+          });
+        }
+        dispatch({ type: POSTAREA_SET_PROCESSING, data: false });
+        chatUpdate();
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: SNACKBAR_OPEN,
+          data: 'Проблемы с соединением'
+        });
+      });
+  };
 }

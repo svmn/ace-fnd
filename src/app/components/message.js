@@ -130,12 +130,12 @@ class Message extends Component {
 
     return (
       <div className={classnames('message', { selected: this.props.selected })} ref={ref => (this.ref = ref)}>
-        <div className='avatar' onTouchTap={() => this.props.reply(message.id)}>
+        <div className='avatar' onTouchTap={() => this.props.insertReply(message.id)}>
           <Avatar userId={message.user_id} />
         </div>
         <div className='time'>{formattedTime}</div>
         <div className='id'>
-          <span onTouchTap={() => this.props.reply(message.id)}>#{message.id}</span>
+          <span onTouchTap={() => this.props.insertReply(message.id)}>#{message.id}</span>
         </div>
         <div
           className='text'
@@ -160,7 +160,7 @@ class Message extends Component {
 Message.propTypes = {
   message: PropTypes.object.isRequired,
   replies: PropTypes.array,
-  reply: PropTypes.func,
+  insertReply: PropTypes.func,
   gotoMessage: PropTypes.func,
   showPreview: PropTypes.func,
   movePreview: PropTypes.func,

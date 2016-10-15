@@ -47,11 +47,6 @@ class Chat extends Component {
     this.autoscroll = (diff < 100);
   }
 
-  reply(id) {
-    this.props.postareaSetReply(id);
-    this.props.focusTextarea();
-  }
-
   gotoMessage(id) {
     const element = this.messageRefs[id].ref;
     this.scrollbars.scrollTop(element.offsetTop - 100);
@@ -81,7 +76,7 @@ class Chat extends Component {
                 message={msg}
                 selected={this.state.selectedMessageId === msg.id}
                 key={msg.id}
-                reply={(id) => this.reply(id)}
+                insertReply={this.props.insertReply}
                 replies={replies[msg.id]}
                 gotoMessage={this.gotoMessage.bind(this)}
                 ref={ref => (this.messageRefs[msg.id] = ref)}
@@ -100,24 +95,22 @@ class Chat extends Component {
 Chat.propTypes = {
   messages: PropTypes.array.isRequired,
   replies: PropTypes.object.isRequired,
-  postareaSetReply: PropTypes.func.isRequired,
-  focusTextarea: PropTypes.func.isRequired,
+  insertReply: PropTypes.func.isRequired,
   showPreview: PropTypes.func.isRequired,
   movePreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired
 };
 
-const mapStatetoProps = (state) => {
+const mapStateToProps = (state) => {
   const { messages, replies, ignoreList } = state.chat;
   return { messages, replies, ignoreList };
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    postareaSetReply,
     showPreview,
     movePreview,
     hidePreview
   }, dispatch);
 
-export default connect(mapStatetoProps, mapDispatchToProps)(Chat);
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);
