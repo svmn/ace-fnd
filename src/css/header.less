@@ -8,9 +8,13 @@
   .topic {
     font-weight: 500;
     top: 12px;
+    color: white;
+    .dark & {
+      color: @darkWhite;
+    }
   }
   .online {
-    color: @hint-text;
+    color: @lightWhite;
     top: 12px + 20px;
   }
 }

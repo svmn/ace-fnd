@@ -5,11 +5,17 @@
 
   padding: 4px @edge-padding;
   .preview & {
-    padding: @edge-padding;
+    padding: 8px @edge-padding;
   }
-  border-bottom: 1px solid @grey300;
+  border-bottom: 1px solid @grey200;
+  .dark & {
+    border-color: transparent;
+  }
   &:nth-child(even) {
-    background-color: @grey200;
+    background-color: @grey50;
+    .dark & {
+      background-color: #2b2b2b;
+    }
   }
   &:last-of-type {
     border-bottom: 0;
@@ -19,13 +25,19 @@
     float: left;
   }
   .id span {
-    color: @blue700;
+    color: @blueGrey500;
     cursor: pointer;
     font-weight: 500;
+    .dark & {
+      color: @deepOrange500;
+    }
   }
   .time {
     float: right;
-    color: @secondary-text;
+    color: @lightBlack;
+    .dark & {
+      color: @lightWhite;
+    }
   }
   .text {
     overflow-wrap: break-word;
@@ -76,7 +88,7 @@
     display: none;
     @media @desktop {
       display: block;
-      font-size: 10px;
+      font-size: 11px;
       a {
         margin-left: 5px;
       }
@@ -86,6 +98,9 @@
     &, .id span, .time, a {
       color: white;
     }
-    background-color: @blue500;
+    background-color: @blueGrey500;
+    .dark & {
+      background-color: @grey600;
+    }
   }
 }

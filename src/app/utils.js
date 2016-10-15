@@ -39,3 +39,7 @@ export function fixMimeType(filename, data) {
   }
   return data;
 }
+
+export function setBackground(theme) {
+  document.body.style.backgroundImage = `url(assets/background-${theme}.png)`;
+}

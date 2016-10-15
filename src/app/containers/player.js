@@ -45,31 +45,34 @@ class Player extends Component {
       color: this.context.muiTheme.palette.primary1Color
     };
 
+    const Controls = () => (
+      <div className='controls'>
+        {
+          this.state.play ?
+            <IconButton onTouchTap={() => this.pause()} ><PauseIcon /></IconButton> :
+            <IconButton onTouchTap={() => this.play()} ><PlayIcon /></IconButton>
+        }
+        <IconButton><RewindIcon /></IconButton>
+        <IconButton><ForwardIcon /></IconButton>
+        <IconButton><VolumeIcon /></IconButton>
+        <IconButton
+          onTouchTap={() => this.toggleRepeat()}
+          iconStyle={this.state.repeat ? activeStyle : null}
+        >
+          <RepeatIcon />
+        </IconButton>
+        <IconButton
+          onTouchTap={() => this.toggleShuffle()}
+          iconStyle={this.state.shuffle ? activeStyle : null}
+        >
+          <ShuffleIcon />
+        </IconButton>
+      </div>
+    );
+
     return (
       <div className='bottom player'>
-        <Slider className='player-slider' value={0.5} />
-        <div className='controls'>
-          {
-            this.state.play ?
-              <IconButton onTouchTap={() => this.pause()} ><PauseIcon /></IconButton> :
-              <IconButton onTouchTap={() => this.play()} ><PlayIcon /></IconButton>
-          }
-          <IconButton><RewindIcon /></IconButton>
-          <IconButton><ForwardIcon /></IconButton>
-          <IconButton><VolumeIcon /></IconButton>
-          <IconButton
-            onTouchTap={() => this.toggleRepeat()}
-            iconStyle={this.state.repeat ? activeStyle : null}
-          >
-            <RepeatIcon />
-          </IconButton>
-          <IconButton
-            onTouchTap={() => this.toggleShuffle()}
-            iconStyle={this.state.shuffle ? activeStyle : null}
-          >
-            <ShuffleIcon />
-          </IconButton>
-        </div>
+        <Controls />
       </div>
     );
   }

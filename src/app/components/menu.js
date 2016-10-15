@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton/IconButton';
@@ -9,14 +9,16 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ClearIcon from 'material-ui/svg-icons/communication/clear-all';
 import Divider from 'material-ui/Divider';
 import Toggle from 'material-ui/Toggle';
+import { fullWhite } from 'material-ui/styles/colors';
 
 
-const Menu = () => (
+const Menu = (props) => (
   <IconMenu
     iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     style={{ zIndex: 1 }}
+    iconStyle={{ color: fullWhite }}
   >
     <MenuItem leftIcon={<FontIcon className='fa fa-question-circle' />} primaryText='FAQ' />
     <MenuItem leftIcon={<FontIcon className='fa fa-info-circle' />} primaryText='О проекте' />
@@ -50,7 +52,10 @@ const Menu = () => (
       leftIcon={<FontIcon className='fa fa-moon-o' />}
       primaryText='Ночная тема'
       rightToggle={
-        <Toggle />
+        <Toggle
+          toggled={props.theme === 'dark'}
+          onToggle={(e, v) => props.setTheme(v ? 'dark' : 'light')}
+        />
       }
     />
     <MenuItem
@@ -59,5 +64,10 @@ const Menu = () => (
     />
   </IconMenu>
 );
+
+Menu.propTypes = {
+  theme: PropTypes.string.isRequired,
+  setTheme: PropTypes.func.isRequired
+};
 
 export default Menu;

@@ -18,7 +18,7 @@ class PostArea extends Component {
     super(props);
     this.state = {
       showSettings: false,
-      mode: localStorage.postingMode || 'natural'
+      mode: localStorage.postingMode || 'inverse'
     };
   }
 
@@ -94,54 +94,66 @@ class PostArea extends Component {
       return null;
     };
 
-    const Settings = () => {
-      if (this.state.showSettings && !isMobile()) {
-        return (
-          <Paper
-            style={{
-              height: '125px',
-              width: '300px',
-              position: 'absolute',
-              top: '-133px',
-              right: '12px',
-              padding: '16px'
-            }}
-            zDepth={2}
-            onMouseEnter={() => this.showSettings()}
-            onMouseLeave={() => this.hideSettings()}
-          >
-            <RadioButtonGroup
-              name='mode'
-              valueSelected={this.state.mode}
-              onChange={(e, value) => {
-                this.setState({ mode: value });
-                localStorage.postingMode = value;
-              }}
-            >
-              <RadioButton
-                value='natural'
-                label={
-                  <div>
-                    <div><b>Ctrl + Enter</b> - Отправка сообщения</div>
-                    <div><b>Enter</b> - Перенос строки</div>
-                  </div>
-                }
-              />
-              <RadioButton
-                value='inverse'
-                label={
-                  <div>
-                    <div><b>Enter</b> - Отправка сообщения</div>
-                    <div><b>Shift + Enter</b> - Перенос строки</div>
-                  </div>
-                }
-              />
-            </RadioButtonGroup>
-          </Paper>
-        );
-      }
-      return null;
-    };
+    const Settings = () => (
+      <Paper
+        style={{
+          height: '125px',
+          width: '310px',
+          position: 'absolute',
+          top: '-133px',
+          right: '12px',
+          padding: '16px'
+        }}
+        zDepth={2}
+        onMouseEnter={this.showSettings.bind(this)}
+        onMouseLeave={this.hideSettings.bind(this)}
+      >
+        <RadioButtonGroup
+          name='mode'
+          valueSelected={this.state.mode}
+          onChange={(e, value) => {
+            this.setState({ mode: value });
+            localStorage.postingMode = value;
+          }}
+        >
+          <RadioButton
+            value='natural'
+            label={
+              <div>
+                <div><b>Ctrl + Enter</b> - Отправка сообщения</div>
+                <div><b>Enter</b> - Перенос строки</div>
+              </div>
+            }
+          />
+          <RadioButton
+            value='inverse'
+            label={
+              <div>
+                <div><b>Enter</b> - Отправка сообщения</div>
+                <div><b>Shift + Enter</b> - Перенос строки</div>
+              </div>
+            }
+          />
+        </RadioButtonGroup>
+      </Paper>
+    );
+
+    // Wrap icons in func to update on theme switching
+    const IconContainer = () => (
+      <div className='icon-container'>
+        <IconButton
+          onTouchTap={() => this.props.postareaSend()}
+          onMouseEnter={isMobile() ? null : this.showSettings.bind(this)}
+          onMouseLeave={isMobile() ? null : this.hideSettings.bind(this)}
+        >
+          <SendIcon />
+        </IconButton>
+        <IconButton>
+          <AddPhotoIcon />
+        </IconButton>
+        <FileInput />
+      </div>
+    );
 
     return (
       <div className='postarea bottom'>
@@ -169,21 +181,11 @@ class PostArea extends Component {
           }}
           ref={ref => (this.textarea = ref)}
         />
-        <div className='icon-container'>
-          <IconButton
-            onTouchTap={this.props.postareaSend}
-            onMouseEnter={() => this.showSettings()}
-            onMouseLeave={() => this.hideSettings()}
-          >
-            <SendIcon />
-          </IconButton>
-          <IconButton>
-            <AddPhotoIcon />
-          </IconButton>
-          <FileInput />
-        </div>
+        <IconContainer />
         <Preview />
-        <Settings />
+        {
+          this.state.showSettings ? <Settings /> : null
+        }
       </div>
     );
   }

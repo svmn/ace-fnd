@@ -18,7 +18,7 @@ class Header extends Component {
             <PlaylistIcon />
           </IconButton>
         }
-        iconElementRight={<Menu />}
+        iconElementRight={<Menu setTheme={this.props.setTheme} theme={this.props.theme} />}
         iconStyleRight={{
           // android < 4.4 fix
           position: 'absolute',
@@ -35,7 +35,9 @@ class Header extends Component {
 
 Header.propTypes = {
   online: PropTypes.any,
-  togglePlaylistMode: PropTypes.func.isRequired
+  togglePlaylistMode: PropTypes.func.isRequired,
+  theme: PropTypes.string.isRequired,
+  setTheme: PropTypes.func.isRequired
 };
 
 const mapStatetoProps = (state) => {

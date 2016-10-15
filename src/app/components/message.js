@@ -3,7 +3,6 @@
 import React, { Component, PropTypes } from 'react';
 import forEach from 'lodash/forEach';
 import classnames from 'classnames';
-import isMobile from 'is-mobile';
 import { padTime } from '../utils';
 import Avatar from './avatar';
 import {
@@ -127,7 +126,7 @@ class Message extends Component {
     }
 
     const readMoreBlock = !this.state.showReadMore ? null : (
-      <a href='' className='read-more' onClick={e => e.preventDefault()} onTouchTap={this.toggleExpandText} >
+      <a href='' className='read-more' onClick={e => e.preventDefault()} onTouchTap={this.toggleExpandText.bind(this)} >
         {this.state.expandedText ? 'Скрыть' : 'Читать полностью'}
       </a>
     );

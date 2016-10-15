@@ -1,6 +1,10 @@
 .postarea {
   position: relative;
   background-color: white;
+  .dark &, .dark & textarea {
+    background-color: @grey900;
+    color: @fullWhite;
+  }
   textarea {
     width: 100%;
     box-sizing: border-box;
