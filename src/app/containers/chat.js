@@ -5,7 +5,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { postareaSetReply } from '../actions/postarea';
 import { showPreview, movePreview, hidePreview } from '../actions/chat';
 import Message from '../components/message';
 
