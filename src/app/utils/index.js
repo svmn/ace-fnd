@@ -9,6 +9,7 @@ export function padTime(time) {
 }
 
 export function getAvatarIcon(userId) {
+  return userId.substr(0, 2).toUpperCase();
   const charCodes = range(19968, 21007 + 1);
   const num = parseInt(userId.slice(-4), 16) % charCodes.length;
   const char = String.fromCharCode(charCodes[num]);

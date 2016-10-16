@@ -62,8 +62,8 @@ class App extends Component {
     });
   }
 
-  insertReply(replyId) {
-    this.postarea.getWrappedInstance().insertReply(replyId);
+  insertReply(reply) {
+    this.postarea.getWrappedInstance().insertReply(reply);
   }
 
   render() {

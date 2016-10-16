@@ -3,6 +3,10 @@
 import React, { Component, PropTypes } from 'react';
 import forEach from 'lodash/forEach';
 import classnames from 'classnames';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import FontIcon from 'material-ui/FontIcon';
 import {
   padTime,
   getExtWebmUrl
@@ -18,7 +22,9 @@ class Message extends Component {
     this.state = {
       expandedText: false,
       showReadMore: false,
-      youtubeTitle: null
+      youtubeTitle: null,
+      showPopover: false,
+      popoverAnchorEl: null
     };
     this.isYoutube = false;
   }
@@ -70,19 +76,23 @@ class Message extends Component {
     this.props.gotoMessage(e.target.dataset.reply);
   }
 
-  toggleExpandImage() {
-    this.setState({ expandedImage: !this.state.expandedImage });
-  }
-
   toggleExpandText() {
     this.setState({
       expandedText: !this.state.expandedText
     });
   }
 
-  toggleExpandYoutube() {
+  showPopover(e) {
     this.setState({
-      expandedYoutube: !this.state.expandedYoutube
+      showPopover: true,
+      popoverAnchorEl: e.currentTarget
+    });
+  }
+
+  hidePopover() {
+    this.setState({
+      showPopover: false,
+      popoverAnchorEl: null
     });
   }
 
@@ -123,6 +133,56 @@ class Message extends Component {
       </div>
     );
 
+    const popover = (
+      <Popover
+        open={this.state.showPopover}
+        anchorEl={this.state.popoverAnchorEl}
+        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        canAutoPostion
+        onRequestClose={this.hidePopover.bind(this)}
+      >
+        <Menu
+          onItemTouchTap={e=> {
+            e.preventDefault();
+            this.hidePopover();
+          }}
+        >
+          <MenuItem
+            primaryText='Ответить'
+            leftIcon={<FontIcon className='fa fa-at' />}
+            onTouchTap={() => this.props.insertReply(`@${message.id}`)}
+          />
+          <MenuItem
+            primaryText='Игнор'
+            leftIcon={<FontIcon className='fa fa-minus-circle' />}
+          />
+          <MenuItem
+            primaryText='Личное cообщение'
+            leftIcon={<FontIcon className='fa fa-envelope' />}
+            onTouchTap={() => this.props.insertReply(`#!${message.id}`)}
+          />
+          {/*
+          <MenuItem
+            primaryText='Delete'
+            leftIcon={<FontIcon className='fa fa-trash' />}
+          />
+          <MenuItem
+            primaryText='Force delete' leftIcon={<FontIcon className='fa fa-eraser' />}
+          />
+          <MenuItem
+            primaryText='Ban'
+            leftIcon={<FontIcon className='fa fa-ban' />}
+          />
+          <MenuItem
+            primaryText='IP'
+            leftIcon={<FontIcon className='fa fa-search' />}
+          />
+          */}
+        </Menu>
+      </Popover>
+    );
+
     text = parser.parseMarkup(text);
     text = parser.parseReplies(text);
     text = parser.parseLinks(text);
@@ -132,12 +192,13 @@ class Message extends Component {
 
     return (
       <div className={classnames('message', { selected: this.props.selected })} ref={ref => (this.ref = ref)}>
-        <div className='avatar' onTouchTap={() => this.props.insertReply(message.id)}>
+        <div className='avatar' onTouchTap={this.showPopover.bind(this)}>
           <Avatar userId={message.user_id} />
+          {popover}
         </div>
         <div className='time'>{formattedTime}</div>
         <div className='id'>
-          <span onTouchTap={() => this.props.insertReply(message.id)}>#{message.id}</span>
+          <span onTouchTap={() => this.props.insertReply(`@${message.id}`)}>#{message.id}</span>
         </div>
         <div
           className='text'

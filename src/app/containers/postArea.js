@@ -72,13 +72,14 @@ class PostArea extends Component {
     this.setState({ message: '' });
   }
 
-  insertReply(replyId) {
+  insertReply(reply) {
     if (!this.state.message) {
-      this.setState({ message: `@${replyId} ` });
+      this.setState({ message: `${reply} ` });
     } else {
-      this.setState({ message: `${this.state.message} @${replyId} ` });
+      this.setState({ message: `${this.state.message} ${reply} ` });
     }
-    this.textarea.focus();
+    // setTimeout to ignore click on popover
+    setTimeout(() => this.textarea.focus(), 0);
   }
 
   render() {
