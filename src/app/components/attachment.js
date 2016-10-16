@@ -1,6 +1,8 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
+import CircularProgress from 'material-ui/CircularProgress';
+import { fullWhite, lightBlack } from 'material-ui/styles/colors';
 import isMobile from 'is-mobile';
 import {
   getYoutubeThumbnail
@@ -14,13 +16,23 @@ class Attachment extends Component {
     super(props);
     this.state = {
       expandedImage: false,
+      loading: false,
       expandedYoutube: false,
       expandedWebm: false
     };
   }
 
   toggleExpandImage() {
-    this.setState({ expandedImage: !this.state.expandedImage });
+    this.setState({
+      expandedImage: !this.state.expandedImage,
+      loading: !this.state.expandedImage
+    });
+  }
+
+  hideSpinner() {
+    this.setState({
+      loading: false
+    });
   }
 
   toggleExpandText() {
@@ -47,17 +59,42 @@ class Attachment extends Component {
 
 
     if (picture) {
+      const progress = !this.state.loading ? null : (
+        <CircularProgress
+          size={50}
+          thickness={3}
+          color={fullWhite}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%,-50%)',
+            pointerEvents: 'none',
+            backgroundColor: lightBlack,
+            borderRadius: '50%'
+          }}
+        />
+      );
       return (
         <div className='attachment'>
-          <img
-            src={`https://tuzach.in/${this.state.expandedImage ? picture.imgurl : picture.thumburl}`}
-            alt={message.id}
+          <div
             style={{
-              height: this.state.expandedImage ? null : `${picture.thumbh}px`,
-              width: this.state.expandedImage ? null : `${picture.thumbw}px`
+              position: 'relative',
+              display: 'inline-block'
             }}
-            onTouchTap={() => this.toggleExpandImage()}
-          />
+          >
+            <img
+              src={`https://tuzach.in/${this.state.expandedImage ? picture.imgurl : picture.thumburl}`}
+              alt={message.id}
+              style={{
+                height: this.state.expandedImage ? null : `${picture.thumbh}px`,
+                width: this.state.expandedImage ? null : `${picture.thumbw}px`
+              }}
+              onTouchTap={this.toggleExpandImage.bind(this)}
+              onLoad={this.hideSpinner.bind(this)}
+            />
+            {progress}
+          </div>
         </div>
       );
     }
