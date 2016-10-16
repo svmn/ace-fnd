@@ -4,7 +4,8 @@ import React, { Component, PropTypes } from 'react';
 import forEach from 'lodash/forEach';
 import classnames from 'classnames';
 import {
-  padTime
+  padTime,
+  getExtWebmUrl
 } from '../utils';
 import * as parser from '../utils/messageParser';
 import * as ytUtils from '../utils/youtube';
@@ -94,6 +95,7 @@ class Message extends Component {
     this.isYoutube = ytUtils.isYoutube(text) && !picture;
     this.youtubeVideoId = ytUtils.getYoutubeId(text);
     const youtubeTimestamp = ytUtils.getYoutubeTimestamp(text);
+    const extWebmUrl = getExtWebmUrl(text);
 
     const readMoreBlock = !this.state.showReadMore ? null : (
       <a href='' className='read-more' onClick={e => e.preventDefault()} onTouchTap={this.toggleExpandText.bind(this)} >
@@ -150,6 +152,7 @@ class Message extends Component {
           message={message}
           youtubeVideoId={this.youtubeVideoId}
           youtubeTimestamp={youtubeTimestamp}
+          extWebmUrl={extWebmUrl}
         />
         {repliesBlock}
       </div>

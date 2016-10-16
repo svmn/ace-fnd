@@ -22,6 +22,7 @@ class PostArea extends Component {
     this.state = {
       showSettings: false,
       mode: localStorage.postingMode || 'inverse',
+      message: '',
       preview: null
     };
     this.file = null;

@@ -2,6 +2,7 @@
 
 import padStart from 'lodash/padStart';
 import range from 'lodash/range';
+import { EXT_WEBM_REGEXP } from '../constants';
 
 export function padTime(time) {
   return padStart(time, 2, '0');
@@ -42,4 +43,13 @@ export function fixMimeType(filename, data) {
 
 export function setBackground(theme) {
   document.body.style.backgroundImage = `url(assets/background-${theme}.png)`;
+}
+
+export function getExtWebmUrl(text) {
+  const match = text.match(EXT_WEBM_REGEXP);
+  return match && match[0];
+}
+
+export function getExtWebmThumbnail(url) {
+  return url.replace('src', 'thumb').replace('.webm', 's.jpg');
 }

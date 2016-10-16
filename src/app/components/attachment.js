@@ -5,13 +5,17 @@ import isMobile from 'is-mobile';
 import {
   getYoutubeThumbnail
 } from '../utils/youtube';
+import {
+  getExtWebmThumbnail
+} from '../utils';
 
 class Attachment extends Component {
   constructor(props) {
     super(props);
     this.state = {
       expandedImage: false,
-      expandedYoutube: false
+      expandedYoutube: false,
+      expandedWebm: false
     };
   }
 
@@ -31,9 +35,16 @@ class Attachment extends Component {
     });
   }
 
+  toggleExpandWebm() {
+    this.setState({
+      expandedWebm: !this.state.expandedWebm
+    });
+  }
+
   render() {
-    const { message, youtubeVideoId, youtubeTimestamp } = this.props;
+    const { message, youtubeVideoId, youtubeTimestamp, extWebmUrl } = this.props;
     const { picture } = message;
+
 
     if (picture) {
       return (
@@ -113,6 +124,46 @@ class Attachment extends Component {
       );
     }
 
+    if (!picture && !youtubeVideoId && extWebmUrl && !this.state.expandedWebm) {
+      const thumbnailUrl = getExtWebmThumbnail(extWebmUrl);
+      return (
+        <div className='attachment'>
+          <img
+            alt='webm'
+            src={thumbnailUrl}
+            style={{
+              height: '95px'
+            }}
+            onTouchTap={this.toggleExpandWebm.bind(this)}
+          />
+        </div>
+      );
+    }
+
+    if (this.state.expandedWebm) {
+      return (
+        <div className='attachment'>
+          <video
+            controls
+            autoPlay
+            style={{
+              display: 'block',
+              maxWidth: '560px'
+            }}
+          >
+            <source src={extWebmUrl} type='video/webm' />
+          </video>
+          <a
+            href=''
+            onClick={e => e.preventDefault()}
+            onTouchTap={this.toggleExpandWebm.bind(this)}
+          >
+            Закрыть
+          </a>
+        </div>
+      );
+    }
+
     return null;
   }
 }
@@ -120,7 +171,8 @@ class Attachment extends Component {
 Attachment.propTypes = {
   message: PropTypes.object.isRequired,
   youtubeVideoId: PropTypes.string,
-  youtubeTimestamp: PropTypes.string
+  youtubeTimestamp: PropTypes.string,
+  extWebmUrl: PropTypes.string
 };
 
 export default Attachment;
