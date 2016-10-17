@@ -30,8 +30,6 @@ class Message extends Component {
   }
 
   componentDidMount() {
-    this.attachReplyHandler();
-
     if (this.messageTextRef.scrollHeight > this.messageTextRef.clientHeight) {
       this.setState({
         showReadMore: true
@@ -42,38 +40,6 @@ class Message extends Component {
       ytUtils.getYoutubeTitle(this.youtubeVideoId)
         .then(title => this.setState({ youtubeTitle: title }));
     }
-  }
-
-  componentDidUpdate() {
-    this.attachReplyHandler();
-  }
-
-  componentWillUnmount() {
-    this.detachReplyHandler();
-  }
-
-  attachReplyHandler() {
-    const replyElements = this.messageTextRef.querySelectorAll('a[data-reply]');
-    // replyElements is Nodelist
-    forEach(replyElements, el => el.addEventListener('click', (e) => this.replyHandler(e)));
-    forEach(replyElements, el => el.addEventListener('mouseenter',
-      (e) => this.props.showPreview(e.target.dataset.reply)));
-    forEach(replyElements, el => el.addEventListener('mouseleave', () => this.props.hidePreview()));
-    forEach(replyElements, el => el.addEventListener('mousemove', (e) => this.props.movePreview(e)));
-  }
-
-  detachReplyHandler() {
-    const replyElements = this.messageTextRef.querySelectorAll('a[data-reply]');
-    forEach(replyElements, el => el.removeEventListener('click', (e) => this.replyHandler(e)));
-    forEach(replyElements, el => el.addEventListener('mouseenter',
-      (e) => this.props.showPreview(e.target.dataset.reply)));
-    forEach(replyElements, el => el.addEventListener('mouseleave', () => this.props.hidePreview()));
-    forEach(replyElements, el => el.addEventListener('mousemove', (e) => this.props.movePreview(e)));
-  }
-
-  replyHandler(e) {
-    e.preventDefault();
-    this.props.gotoMessage(e.target.dataset.reply);
   }
 
   toggleExpandText() {
@@ -97,7 +63,7 @@ class Message extends Component {
   }
 
   render() {
-    const { message, replies } = this.props;
+    const { message, replies, selected, personal } = this.props;
     let { text } = message;
     const { picture } = message;
     const time = new Date(message.time);
@@ -144,7 +110,6 @@ class Message extends Component {
       >
         <Menu
           onItemTouchTap={e=> {
-            e.preventDefault();
             this.hidePopover();
           }}
         >
@@ -160,7 +125,7 @@ class Message extends Component {
           <MenuItem
             primaryText='Личное cообщение'
             leftIcon={<FontIcon className='fa fa-envelope' />}
-            onTouchTap={() => this.props.insertReply(`#!${message.id}`)}
+            onTouchTap={() => this.props.insertReply(`!#${message.id}`)}
           />
           {/*
           <MenuItem
@@ -184,21 +149,34 @@ class Message extends Component {
     );
 
     text = parser.parseMarkup(text);
-    text = parser.parseReplies(text);
-    text = parser.parseLinks(text);
+    text = parser.parseReplies(
+      text,
+      this.props.gotoMessage,
+      this.props.showPreview,
+      this.props.movePreview,
+      this.props.hidePreview
+    );
     if (this.state.youtubeTitle) {
       text = parser.replaceYoutubeLink(text, this.state.youtubeTitle);
     }
+    text = parser.parseLinks(text);
 
     return (
-      <div className={classnames('message', { selected: this.props.selected })} ref={ref => (this.ref = ref)}>
-        <div className='avatar' onTouchTap={this.showPopover.bind(this)}>
+      <div className={classnames('message', { selected, personal })} ref={ref => (this.ref = ref)}>
+        <div
+          className='avatar'
+          onTouchTap={e => {
+            e.preventDefault();
+            this.showPopover(e);
+          }}
+        >
           <Avatar userId={message.user_id} />
           {popover}
         </div>
         <div className='time'>{formattedTime}</div>
-        <div className='id'>
-          <span onTouchTap={() => this.props.insertReply(`@${message.id}`)}>#{message.id}</span>
+        <div className='id-wrapper'>
+          <span className='id' onTouchTap={() => this.props.insertReply((personal ? '!#' : '@') + message.id)}>#{message.id}</span>
+          {personal ? <span className='personal-flag'> [Личное сообщение]</span> : null}
         </div>
         <div
           className='text'
@@ -206,8 +184,9 @@ class Message extends Component {
           style={{
             maxHeight: this.state.expandedText ? 'none' : null
           }}
-          dangerouslySetInnerHTML={{ __html: text }}
-        />
+        >
+          {text}
+        </div>
         {readMoreBlock}
         <Attachment
           message={message}
@@ -229,7 +208,8 @@ Message.propTypes = {
   showPreview: PropTypes.func,
   movePreview: PropTypes.func,
   hidePreview: PropTypes.func,
-  selected: PropTypes.bool
+  selected: PropTypes.bool,
+  personal: PropTypes.bool
 };
 
 export default Message;

@@ -73,8 +73,8 @@ class PostArea extends Component {
   }
 
   insertReply(reply) {
-    if (!this.state.message) {
-      this.setState({ message: `${reply} ` });
+    if (!this.state.message || this.state.message.slice(-1) === '\n') {
+      this.setState({ message: `${this.state.message}${reply} ` });
     } else {
       this.setState({ message: `${this.state.message} ${reply} ` });
     }

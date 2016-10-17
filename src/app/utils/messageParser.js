@@ -1,5 +1,7 @@
 'use strict';
 
+import React from 'react';
+import replacer from 'react-string-replace';
 import {
   LINK_REGEXP,
   REPLY_REGEXP,
@@ -8,30 +10,63 @@ import {
   MARKUP_STRIKE_REGEXP,
   MARKUP_SPOILER_REGEXP,
   MARKUP_QUOTE_REGEXP,
-  YOUTUBE_REGEXP
+  YOUTUBE_REPLACE_REGEXP,
+  PRIVATE_REGEXP
 } from '../constants';
 
 export function parseMarkup(text) {
-  return text
-    .replace(MARKUP_QUOTE_REGEXP, '<span class="quote">$1</span>')
-    .replace(MARKUP_STRONG_REGEXP, '<span class="strong">$1</span>')
-    .replace(MARKUP_EMPH_REGEXP, '<span class="emph">$1</span>')
-    .replace(MARKUP_STRIKE_REGEXP, '<span class="strike">$1</span>')
-    .replace(MARKUP_SPOILER_REGEXP, '<span class="spoiler">$1</span>');
+  let replaced = replacer(text, MARKUP_QUOTE_REGEXP, (match, i) => (
+    <span className='quote' key={`q${i}`}>{match}</span>
+  ));
+  replaced = replacer(replaced, MARKUP_STRONG_REGEXP, (match, i) => (
+    <span className='strong' key={`s${i}`}>{match}</span>
+  ));
+  replaced = replacer(replaced, MARKUP_EMPH_REGEXP, (match, i) => (
+    <span className='emph' key={`e${i}`}>{match}</span>
+  ));
+  replaced = replacer(replaced, MARKUP_SPOILER_REGEXP, (match, i) => (
+    <span className='spoiler' key={`sp${i}`}>{match}</span>
+  ));
+  replaced = replacer(replaced, MARKUP_STRIKE_REGEXP, (match, i) => (
+    <span className='strike' key={`ss${i}`}>{match}</span>
+  ));
+  return replaced;
 }
 
-export function parseReplies(text) {
-  return text.replace(REPLY_REGEXP, '<a href="" data-reply="$1">$&</a>');
+export function parseReplies(text, onTouchTap, onMouseEnter, onMouseMove, onMouseLeave) {
+  const replaced = replacer(text, REPLY_REGEXP, (match, i) => (
+    <a
+      href=''
+      key={`r${i}`}
+      onClick={e => e.preventDefault()}
+      onTouchTap={() => onTouchTap(match)}
+      onMouseEnter={() => onMouseEnter(match)}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+    >
+      @{match}
+    </a>
+  ));
+  return replacer(replaced, PRIVATE_REGEXP, (match, i) => (
+    <a
+      href=''
+      key={`p${i}`}
+      onClick={e => e.preventDefault()}
+      onTouchTap={() => onTouchTap(match)}
+    >
+      !#{match}
+    </a>
+  ));
 }
 
 export function parseLinks(text) {
-  return text.replace(LINK_REGEXP, '<a href="$&" target="_blank">$&</a>');
+  return replacer(text, LINK_REGEXP, (match, i) => (
+    <a href={match} target='_blank' key={`l${i}`}>{match}</a>
+  ));
 }
 
 export function replaceYoutubeLink(text, title) {
-  let i = 0;
-  return text.replace(new RegExp(YOUTUBE_REGEXP, 'g'), (match) => {
-    i += 1;
-    return (i === 2) ? title : match;
-  });
+  return replacer(text, YOUTUBE_REPLACE_REGEXP, (match, i) => (
+    <a href={match} target='_blank' key={`y${i}`}>{title}</a>
+  ));
 }

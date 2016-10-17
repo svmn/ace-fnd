@@ -24,12 +24,18 @@
   .avatar {
     float: left;
   }
-  .id span {
+  .id {
     color: @blueGrey500;
     cursor: pointer;
     font-weight: 500;
     .dark & {
       color: @deepOrange500;
+    }
+  }
+  .personal-flag {
+    color: @lightBlack;
+    .dark & {
+      color: @lightWhite;
     }
   }
   .time {
@@ -69,7 +75,7 @@
       color: #789922;
     }
   }
-  .id, .text, .attachment, .read-more, .replies {
+  .id-wrapper, .text, .attachment, .read-more, .replies {
     margin-left: @avatar-size + @edge-padding;
   }
   .attachment {
@@ -94,13 +100,22 @@
       }
     }
   }
-  &.selected {
-    &, .id span, .time, a {
+  &.selected:not(.personal) {
+    &, .id, .time, a {
       color: white;
     }
     background-color: @blueGrey500;
     .dark & {
-      background-color: @grey600;
+      background-color: rgba(255,87,34,0.5); // deepOrange500
+    }
+  }
+  &.personal {
+    background-color: @red100;
+    .dark & {
+      background-color: rgba(183, 28, 28, 0.5); //red900
+      .id, a {
+        color: white;
+      }
     }
   }
 }

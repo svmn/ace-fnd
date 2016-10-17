@@ -74,6 +74,7 @@ class Chat extends Component {
               <Message
                 message={msg}
                 selected={this.state.selectedMessageId === msg.id}
+                personal={msg.type === 'pvt'}
                 key={msg.id}
                 insertReply={this.props.insertReply}
                 replies={replies[msg.id]}
