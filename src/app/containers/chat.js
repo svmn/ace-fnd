@@ -48,10 +48,17 @@ class Chat extends Component {
 
   gotoMessage(id) {
     const element = this.messageRefs[id].ref;
-    this.scrollbars.scrollTop(element.offsetTop - 100);
+
+    const docViewTop = this.scrollbars.getScrollTop();
+    const docViewBottom = docViewTop + this.scrollbars.getClientHeight();
+    const elemTop = element.offsetTop;
+    const elemBottom = elemTop + element.offsetHeight;
+    const visible = ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+    if (!visible) {
+      this.scrollbars.scrollTop(elemTop - 100);
+    }
     this.setState({ selectedMessageId: id });
   }
-
 
   scrollDown() {
     if (this.autoscroll) {

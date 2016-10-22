@@ -1,7 +1,6 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
-import forEach from 'lodash/forEach';
 import classnames from 'classnames';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
@@ -46,6 +45,15 @@ class Message extends Component {
     this.setState({
       expandedText: !this.state.expandedText
     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { props } = this;
+    return (
+      this.state !== nextState ||
+      props.selected !== nextProps.selected ||
+      props.replies !== nextProps.replies
+    );
   }
 
   showPopover(e) {

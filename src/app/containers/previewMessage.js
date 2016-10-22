@@ -46,7 +46,7 @@ class PreviewMessage extends Component {
           top: this.state.positionY,
           left: this.state.positionX,
           minWidth: '300px',
-          maxWidth: '600px'
+          maxWidth: '500px'
         }}
       >
         <Paper
