@@ -52,7 +52,7 @@ class Message extends Component {
     return (
       this.state !== nextState ||
       props.selected !== nextProps.selected ||
-      props.replies !== nextProps.replies
+      (props.replies && props.replies.length) !== (nextProps.replies && nextProps.replies.length)
     );
   }
 
@@ -73,7 +73,7 @@ class Message extends Component {
   render() {
     const { message, replies, selected, personal } = this.props;
     let { text } = message;
-    const { picture } = message;
+    const { id, user_id: userId, picture } = message;
     const time = new Date(message.time);
     const formattedTime = `${padTime(time.getHours())}:${padTime(time.getMinutes())}:${padTime(time.getSeconds())}`;
     this.isYoutube = ytUtils.isYoutube(text) && !picture;
@@ -117,23 +117,22 @@ class Message extends Component {
         onRequestClose={this.hidePopover.bind(this)}
       >
         <Menu
-          onItemTouchTap={e=> {
-            this.hidePopover();
-          }}
+          onItemTouchTap={this.hidePopover.bind(this)}
         >
           <MenuItem
             primaryText='Ответить'
             leftIcon={<FontIcon className='fa fa-at' />}
-            onTouchTap={() => this.props.insertReply(`@${message.id}`)}
+            onTouchTap={() => this.props.insertReply(`@${id}`)}
           />
           <MenuItem
             primaryText='Игнор'
             leftIcon={<FontIcon className='fa fa-minus-circle' />}
+            onTouchTap={() => this.props.ignoreAdd(id)}
           />
           <MenuItem
             primaryText='Личное cообщение'
             leftIcon={<FontIcon className='fa fa-envelope' />}
-            onTouchTap={() => this.props.insertReply(`!#${message.id}`)}
+            onTouchTap={() => this.props.insertReply(`!#${id}`)}
           />
           {/*
           <MenuItem
@@ -178,12 +177,17 @@ class Message extends Component {
             this.showPopover(e);
           }}
         >
-          <Avatar userId={message.user_id} />
+          <Avatar userId={userId} />
           {popover}
         </div>
         <div className='time'>{formattedTime}</div>
         <div className='id-wrapper'>
-          <span className='id' onTouchTap={() => this.props.insertReply((personal ? '!#' : '@') + message.id)}>#{message.id}</span>
+          <span
+            className='id'
+            onTouchTap={() => this.props.insertReply((personal ? '!#' : '@') + id)}
+          >
+            #{id}
+          </span>
           {personal ? <span className='personal-flag'> [Личное сообщение]</span> : null}
         </div>
         <div
@@ -216,6 +220,7 @@ Message.propTypes = {
   showPreview: PropTypes.func,
   movePreview: PropTypes.func,
   hidePreview: PropTypes.func,
+  ignoreAdd: PropTypes.func,
   selected: PropTypes.bool,
   personal: PropTypes.bool
 };

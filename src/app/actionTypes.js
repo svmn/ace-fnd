@@ -11,3 +11,6 @@ export const SHOW_PREVIEW = 'SHOW_PREVIEW';
 export const MOVE_PREVIEW = 'MOVE_PREVIEW';
 export const HIDE_PREVIEW = 'HIDE_PREVIEW';
 export const SET_ONLINE_COUNTER = 'SET_ONLINE_COUNTER';
+export const IGNORE_ADD = 'IGNORE_ADD';
+export const IGNORE_CLEAR = 'IGNORE_CLEAR';
+export const IGNORE_LOAD = 'IGNORE_LOAD';

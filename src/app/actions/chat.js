@@ -9,7 +9,10 @@ import {
   HIDE_PREVIEW,
   SET_ONLINE_COUNTER,
   POSTAREA_SET_PROCESSING,
-  SNACKBAR_OPEN
+  SNACKBAR_OPEN,
+  IGNORE_ADD,
+  IGNORE_CLEAR,
+  IGNORE_LOAD
 } from '../actionTypes';
 
 import { load, post } from '../api/chat';
@@ -113,4 +116,33 @@ export function chatSend(message, file) {
         });
       });
   };
+}
+
+export function ignoreAdd(messageId) {
+  return (dispatch, getState) => {
+    const targetUserId = getState().chat.messages.find(msg => msg.id === messageId).user_id;
+    dispatch({ type: IGNORE_ADD, data: targetUserId });
+    const { ignoreList } = getState().chat;
+    localStorage.setItem('ignoreList', JSON.stringify(ignoreList));
+    dispatch({
+      type: SNACKBAR_OPEN,
+      data: `Автор поста #${messageId} добавлен в игнор`
+    });
+  };
+}
+
+export function ignoreClear() {
+  localStorage.removeItem('ignoreList');
+  return (dispatch) => {
+    dispatch({ type: IGNORE_CLEAR });
+    dispatch({
+      type: SNACKBAR_OPEN,
+      data: 'Игнор-лист очищен'
+    });
+  };
+}
+
+export function ignoreLoad() {
+  const ignoreList = JSON.parse(localStorage.getItem('ignoreList'));
+  return { type: IGNORE_LOAD, data: ignoreList };
 }

@@ -61,13 +61,15 @@ const Menu = (props) => (
     <MenuItem
       leftIcon={<ClearIcon />}
       primaryText='Очистить игнор-лист'
+      onTouchTap={props.ignoreClear}
     />
   </IconMenu>
 );
 
 Menu.propTypes = {
   theme: PropTypes.string.isRequired,
-  setTheme: PropTypes.func.isRequired
+  setTheme: PropTypes.func.isRequired,
+  ignoreClear: PropTypes.func.isRequired
 };
 
 export default Menu;

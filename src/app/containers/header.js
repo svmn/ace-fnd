@@ -2,10 +2,12 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import AppBar from 'material-ui/AppBar';
-import Menu from '../components/menu';
 import IconButton from 'material-ui/IconButton';
 import PlaylistIcon from 'material-ui/svg-icons/av/queue-music';
+import Menu from '../components/menu';
+import { ignoreClear } from '../actions/chat';
 
 class Header extends Component {
   render() {
@@ -18,7 +20,9 @@ class Header extends Component {
             <PlaylistIcon />
           </IconButton>
         }
-        iconElementRight={<Menu setTheme={this.props.setTheme} theme={this.props.theme} />}
+        iconElementRight={
+          <Menu setTheme={this.props.setTheme} theme={this.props.theme} ignoreClear={this.props.ignoreClear} />
+        }
         iconStyleRight={{
           // android < 4.4 fix
           position: 'absolute',
@@ -41,13 +45,16 @@ Header.propTypes = {
   speed: PropTypes.any,
   togglePlaylistMode: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
-  setTheme: PropTypes.func.isRequired
+  setTheme: PropTypes.func.isRequired,
+  ignoreClear: PropTypes.func.isRequired
 };
 
-const mapStatetoProps = (state) => {
+const mapStateToProps = (state) => {
   const { topic, onlineCounter } = state;
   const { online, speed } = onlineCounter;
   return { topic, online, speed };
 };
 
-export default connect(mapStatetoProps)(Header);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ ignoreClear }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

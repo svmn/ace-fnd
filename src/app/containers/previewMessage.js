@@ -37,7 +37,11 @@ class PreviewMessage extends Component {
 
   render() {
     const { message } = this.props;
-    return !message || isMobile() ? null : (
+    const nullMessage = (
+      <div style={{ padding: '8px' }}>Такого поста нет :3</div>
+    );
+    if (isMobile()) return null;
+    return (
       <div
         className='preview'
         ref={ref => (this.ref = ref)}
@@ -45,7 +49,6 @@ class PreviewMessage extends Component {
           position: 'fixed',
           top: this.state.positionY,
           left: this.state.positionX,
-          minWidth: '300px',
           maxWidth: '500px'
         }}
       >
@@ -55,7 +58,7 @@ class PreviewMessage extends Component {
             transition: 'none'
           }}
         >
-          <Message message={message} />
+          {message ? <Message message={message} /> : nullMessage}
         </Paper>
       </div>
     );

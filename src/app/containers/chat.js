@@ -5,7 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { showPreview, movePreview, hidePreview } from '../actions/chat';
+import { showPreview, movePreview, hidePreview, ignoreAdd } from '../actions/chat';
 import Message from '../components/message';
 
 class Chat extends Component {
@@ -90,6 +90,7 @@ class Chat extends Component {
                 showPreview={this.props.showPreview}
                 movePreview={this.props.movePreview}
                 hidePreview={this.props.hidePreview}
+                ignoreAdd={this.props.ignoreAdd}
               />
             )
           }
@@ -105,19 +106,21 @@ Chat.propTypes = {
   insertReply: PropTypes.func.isRequired,
   showPreview: PropTypes.func.isRequired,
   movePreview: PropTypes.func.isRequired,
-  hidePreview: PropTypes.func.isRequired
+  hidePreview: PropTypes.func.isRequired,
+  ignoreAdd: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
-  const { messages, replies, ignoreList } = state.chat;
-  return { messages, replies, ignoreList };
+  const { messages, replies } = state.chat;
+  return { messages, replies };
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showPreview,
     movePreview,
-    hidePreview
+    hidePreview,
+    ignoreAdd
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
