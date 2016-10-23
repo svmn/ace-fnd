@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
   switch (type) {
 
     case CHAT_UPDATE: {
-      const lastMessage = data.slice(-1);
+      const lastMessage = data.slice(-1).pop();
       const messages = data.filter(msg => !state.ignoreList.includes(msg.user_id));
 
       const replies = {};

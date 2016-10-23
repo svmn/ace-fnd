@@ -88,8 +88,6 @@ export function chatSend(message, file) {
   return (dispatch) => {
     if (!message && !file) return;
 
-    dispatch({ type: POSTAREA_SET_PROCESSING, data: true });
-
     post(message, file)
       .then(response => {
         if (response) {
@@ -115,6 +113,8 @@ export function chatSend(message, file) {
           data: 'Проблемы с соединением'
         });
       });
+
+    dispatch({ type: POSTAREA_SET_PROCESSING, data: true });
   };
 }
 

@@ -84,7 +84,7 @@ class Attachment extends Component {
             }}
           >
             <img
-              src={`https://tuzach.in/${this.state.expandedImage ? picture.imgurl : picture.thumburl}`}
+              src={`https://tuzach.in${this.state.expandedImage ? picture.imgurl : picture.thumburl}`}
               alt={message.id}
               style={{
                 height: this.state.expandedImage ? null : `${picture.thumbh}px`,

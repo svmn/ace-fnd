@@ -40,7 +40,7 @@ class PreviewMessage extends Component {
     const nullMessage = (
       <div style={{ padding: '8px' }}>Такого поста нет :3</div>
     );
-    if (isMobile()) return null;
+    if (isMobile() || message === null) return null;
     return (
       <div
         className='preview'
@@ -58,7 +58,7 @@ class PreviewMessage extends Component {
             transition: 'none'
           }}
         >
-          {message ? <Message message={message} /> : nullMessage}
+          {message === undefined ? nullMessage : <Message message={message} />}
         </Paper>
       </div>
     );
