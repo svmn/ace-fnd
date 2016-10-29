@@ -15,7 +15,7 @@ import {
   IGNORE_LOAD
 } from '../actionTypes';
 
-import { load, post } from '../api/chat';
+import { load, post, control } from '../api/chat';
 
 export function chatUpdate() {
   return (dispatch, getState) => {
@@ -23,6 +23,12 @@ export function chatUpdate() {
     return load(lastMessageId)
       .then(data => {
         const { data: messages } = data;
+        if (messages && messages.length) {
+          dispatch({
+            type: CHAT_UPDATE,
+            data: messages
+          });
+        }
         dispatch({
           type: SET_ONLINE_COUNTER,
           data: {
@@ -30,12 +36,6 @@ export function chatUpdate() {
             speed: data.speed
           }
         });
-        if (messages && messages.length) {
-          dispatch({
-            type: CHAT_UPDATE,
-            data: messages
-          });
-        }
       });
   };
 }
@@ -88,6 +88,10 @@ export function chatSend(message, file) {
   return (dispatch) => {
     if (!message && !file) return;
 
+    if (file) {
+      dispatch({ type: POSTAREA_SET_PROCESSING, data: true });
+    }
+
     post(message, file)
       .then(response => {
         if (response) {
@@ -103,8 +107,10 @@ export function chatSend(message, file) {
             data: alert
           });
         }
-        dispatch({ type: POSTAREA_SET_PROCESSING, data: false });
-        chatUpdate();
+        dispatch(chatUpdate());
+        if (file) {
+          dispatch({ type: POSTAREA_SET_PROCESSING, data: false });
+        }
       })
       .catch(err => {
         console.log(err);
@@ -113,8 +119,6 @@ export function chatSend(message, file) {
           data: 'Проблемы с соединением'
         });
       });
-
-    dispatch({ type: POSTAREA_SET_PROCESSING, data: true });
   };
 }
 
@@ -145,4 +149,17 @@ export function ignoreClear() {
 export function ignoreLoad() {
   const ignoreList = JSON.parse(localStorage.getItem('ignoreList'));
   return { type: IGNORE_LOAD, data: ignoreList };
+}
+
+export function chatControl(method, messageId) {
+  return (dispatch) => {
+    control(method, messageId)
+      .then(response => {
+        dispatch({
+          type: SNACKBAR_OPEN,
+          data: response
+        });
+      })
+      .catch(err => console.log(err));
+  };
 }

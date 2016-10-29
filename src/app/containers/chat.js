@@ -5,7 +5,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { showPreview, movePreview, hidePreview, ignoreAdd } from '../actions/chat';
+import {
+  showPreview,
+  movePreview,
+  hidePreview,
+  ignoreAdd,
+  chatControl
+} from '../actions/chat';
 import Message from '../components/message';
 
 class Chat extends Component {
@@ -91,6 +97,7 @@ class Chat extends Component {
                 movePreview={this.props.movePreview}
                 hidePreview={this.props.hidePreview}
                 ignoreAdd={this.props.ignoreAdd}
+                chatControl={this.props.chatControl}
               />
             )
           }
@@ -107,7 +114,8 @@ Chat.propTypes = {
   showPreview: PropTypes.func.isRequired,
   movePreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired,
-  ignoreAdd: PropTypes.func.isRequired
+  ignoreAdd: PropTypes.func.isRequired,
+  chatControl: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -120,7 +128,8 @@ const mapDispatchToProps = (dispatch) =>
     showPreview,
     movePreview,
     hidePreview,
-    ignoreAdd
+    ignoreAdd,
+    chatControl
   }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

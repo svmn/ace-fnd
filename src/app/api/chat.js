@@ -4,7 +4,9 @@ import 'isomorphic-fetch';
 import { CHAT_ENDPOINT } from '../config.js';
 
 export function load(lastMessageId) {
-  return fetch(`${CHAT_ENDPOINT}&last=${lastMessageId}`)
+  return fetch(`${CHAT_ENDPOINT}&last=${lastMessageId}`, {
+    credentials: 'same-origin'
+  })
     .then(response => {
       if (response.status >= 400) {
         throw new Error('Bad response from server');
@@ -22,7 +24,16 @@ export function post(message, file) {
 
   return fetch(`${CHAT_ENDPOINT}&act=post`, {
     method: 'POST',
-    body: formdata
+    body: formdata,
+    credentials: 'same-origin'
   })
     .then(response => response.text());
+}
+
+export function control(method, messageId) {
+  return fetch(`https://tuzach.in/?app=admin&act=${method}&id=${messageId}`, {
+    credentials: 'same-origin'
+  })
+    .then(response => response.json())
+    .then(response => response.msg);
 }

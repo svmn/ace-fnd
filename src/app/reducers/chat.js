@@ -2,6 +2,7 @@
 
 import unionBy from 'lodash/unionBy';
 import uniq from 'lodash/uniq';
+import remove from 'lodash/remove';
 import { updateState } from '../utils';
 import {
   CHAT_UPDATE,
@@ -29,7 +30,17 @@ export default function (state = initialState, action) {
 
     case CHAT_UPDATE: {
       const lastMessage = data.slice(-1).pop();
-      const messages = data.filter(msg => !state.ignoreList.includes(msg.user_id));
+
+      data
+        .filter(msg => msg.type === 'dlt')
+        .forEach(msg => {
+          const targetId = msg.text;
+          // Mutate state intentionally. This message never existed
+          remove(state.messages, (mess) => mess.id === targetId); // eslint-disable-line
+          remove(data, (mess) => mess.id === targetId);
+        });
+
+      const messages = data.filter(msg => !state.ignoreList.includes(msg.user_id) && msg.type !== 'dlt');
 
       const replies = {};
       messages.forEach(msg => {

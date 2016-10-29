@@ -19,9 +19,10 @@ import { fixMimeType } from '../utils';
 class PostArea extends Component {
   constructor(props) {
     super(props);
+    const defaultPostingMode = isMobile() ? 'natural' : 'inverse';
     this.state = {
       showSettings: false,
-      mode: localStorage.postingMode || 'inverse',
+      mode: localStorage.postingMode || defaultPostingMode,
       message: '',
       preview: null
     };

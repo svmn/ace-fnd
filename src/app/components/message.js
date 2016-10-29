@@ -2,10 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
-import FontIcon from 'material-ui/FontIcon';
+import MessageMenu from './messageMenu';
 import {
   padTime,
   getExtWebmUrl
@@ -41,12 +38,6 @@ class Message extends Component {
     }
   }
 
-  toggleExpandText() {
-    this.setState({
-      expandedText: !this.state.expandedText
-    });
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     const { props } = this;
     return (
@@ -54,6 +45,12 @@ class Message extends Component {
       props.selected !== nextProps.selected ||
       (props.replies && props.replies.length) !== (nextProps.replies && nextProps.replies.length)
     );
+  }
+
+  toggleExpandText() {
+    this.setState({
+      expandedText: !this.state.expandedText
+    });
   }
 
   showPopover(e) {
@@ -73,7 +70,7 @@ class Message extends Component {
   render() {
     const { message, replies, selected, personal } = this.props;
     let { text } = message;
-    const { id, user_id: userId, picture } = message;
+    const { id, user_id: userId, picture, controls } = message;
     const time = new Date(message.time);
     const formattedTime = `${padTime(time.getHours())}:${padTime(time.getMinutes())}:${padTime(time.getSeconds())}`;
     this.isYoutube = ytUtils.isYoutube(text) && !picture;
@@ -107,54 +104,6 @@ class Message extends Component {
       </div>
     );
 
-    const popover = (
-      <Popover
-        open={this.state.showPopover}
-        anchorEl={this.state.popoverAnchorEl}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-        canAutoPostion
-        onRequestClose={this.hidePopover.bind(this)}
-      >
-        <Menu
-          onItemTouchTap={this.hidePopover.bind(this)}
-        >
-          <MenuItem
-            primaryText='Ответить'
-            leftIcon={<FontIcon className='fa fa-at' />}
-            onTouchTap={() => this.props.insertReply(`@${id}`)}
-          />
-          <MenuItem
-            primaryText='Игнор'
-            leftIcon={<FontIcon className='fa fa-minus-circle' />}
-            onTouchTap={() => this.props.ignoreAdd(id)}
-          />
-          <MenuItem
-            primaryText='Личное cообщение'
-            leftIcon={<FontIcon className='fa fa-envelope' />}
-            onTouchTap={() => this.props.insertReply(`!#${id}`)}
-          />
-          {/*
-          <MenuItem
-            primaryText='Delete'
-            leftIcon={<FontIcon className='fa fa-trash' />}
-          />
-          <MenuItem
-            primaryText='Force delete' leftIcon={<FontIcon className='fa fa-eraser' />}
-          />
-          <MenuItem
-            primaryText='Ban'
-            leftIcon={<FontIcon className='fa fa-ban' />}
-          />
-          <MenuItem
-            primaryText='IP'
-            leftIcon={<FontIcon className='fa fa-search' />}
-          />
-          */}
-        </Menu>
-      </Popover>
-    );
-
     text = parser.parseMarkup(text);
     text = parser.parseReplies(
       text,
@@ -178,7 +127,16 @@ class Message extends Component {
           }}
         >
           <Avatar userId={userId} />
-          {popover}
+          <MessageMenu
+            open={this.state.showPopover}
+            anchorEl={this.state.popoverAnchorEl}
+            hidePopover={this.hidePopover.bind(this)}
+            controls={controls}
+            messageId={id}
+            chatControl={this.props.chatControl}
+            insertReply={this.props.insertReply}
+            ignoreAdd={this.props.ignoreAdd}
+          />
         </div>
         <div className='time'>{formattedTime}</div>
         <div className='id-wrapper'>
@@ -221,6 +179,7 @@ Message.propTypes = {
   movePreview: PropTypes.func,
   hidePreview: PropTypes.func,
   ignoreAdd: PropTypes.func,
+  chatControl: PropTypes.func,
   selected: PropTypes.bool,
   personal: PropTypes.bool
 };
