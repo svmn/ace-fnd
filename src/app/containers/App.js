@@ -15,7 +15,6 @@ import Player from '../containers/player';
 import PostArea from '../containers/postArea';
 import Snackbar from '../containers/snackbar';
 import PreviewMessage from '../containers/previewMessage';
-import { setBackground } from '../utils';
 
 lightBaseTheme.appBar = {
   padding: '16px'
@@ -47,12 +46,10 @@ class App extends Component {
     if (navigator && navigator.splashscreen) {
       navigator.splashscreen.hide();
     }
-    setBackground(this.state.theme);
   }
 
   setTheme(theme) {
     this.setState({ theme });
-    setBackground(theme);
     localStorage.theme = theme;
   }
 

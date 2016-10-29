@@ -2,19 +2,25 @@
 
 import React, { Component, PropTypes } from 'react';
 import Avatar from 'material-ui/Avatar';
+import FontIcon from 'material-ui/FontIcon';
+import { getAvatarColor } from '../utils';
 
 class UserAvatar extends Component {
   render() {
     const { userId } = this.props;
+    const color = getAvatarColor(userId);
     return (
       <Avatar
-        src={`https://www.gravatar.com/avatar/${userId}?s=40&d=monsterid`}
+        backgroundColor={color}
+        size={20}
+        color='rgba(255,255,255,0.8)'
+        icon={<FontIcon className='fa fa-user' />}
         style={{
           cursor: 'pointer',
           // android < 4.4 fixes
-          lineHeight: '40px',
+          display: 'block',
           textAlign: 'center',
-          display: 'block'
+          lineHeight: '20px'
         }}
       />
     );

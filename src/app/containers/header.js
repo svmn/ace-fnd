@@ -11,7 +11,7 @@ import { ignoreClear } from '../actions/chat';
 
 class Header extends Component {
   render() {
-    const { topic, online, speed } = this.props;
+    const { topic, online } = this.props;
     return (
       <AppBar
         title={null}
@@ -32,8 +32,7 @@ class Header extends Component {
       >
         <div className='topic'>Tuzach development version 0.0.1</div>
         <div className='online'>
-          <span>Онлайн: {online}</span>
-          <span style={{ marginLeft: '15px' }}>Скорость постинга: {speed}</span>
+          Онлайн: {online}
         </div>
       </AppBar>
     );

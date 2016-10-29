@@ -1,7 +1,9 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
+import cx from 'classnames';
 import CircularProgress from 'material-ui/CircularProgress';
+import IconButton from 'material-ui/IconButton';
 import { fullWhite, lightBlack } from 'material-ui/styles/colors';
 import isMobile from 'is-mobile';
 import {
@@ -35,19 +37,14 @@ class Attachment extends Component {
     });
   }
 
-  toggleExpandText() {
-    this.setState({
-      expandedText: !this.state.expandedText
-    });
-  }
-
   toggleExpandYoutube() {
     this.setState({
       expandedYoutube: !this.state.expandedYoutube
     });
   }
 
-  toggleExpandWebm() {
+  toggleExpandWebm(e) {
+    e.preventDefault();
     this.setState({
       expandedWebm: !this.state.expandedWebm
     });
@@ -61,14 +58,14 @@ class Attachment extends Component {
     if (picture) {
       const progress = !this.state.loading ? null : (
         <CircularProgress
-          size={50}
+          size={48}
           thickness={3}
           color={fullWhite}
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%,-50%)',
+            margin: '-24px 0 0 -24px',
             pointerEvents: 'none',
             backgroundColor: lightBlack,
             borderRadius: '50%'
@@ -76,31 +73,41 @@ class Attachment extends Component {
         />
       );
       return (
-        <div className='attachment'>
-          <div
+        <div className={cx('attachment', { expanded: this.state.expandedImage && !this.state.loading })}>
+          <img
+            src={`https://tuzach.in${this.state.expandedImage ? picture.imgurl : picture.thumburl}`}
+            alt={message.id}
             style={{
-              position: 'relative',
-              display: 'inline-block'
+              height: this.state.expandedImage ? null : `${picture.thumbh}px`,
+              width: this.state.expandedImage ? null : `${picture.thumbw}px`
             }}
-          >
-            <img
-              src={`https://tuzach.in${this.state.expandedImage ? picture.imgurl : picture.thumburl}`}
-              alt={message.id}
-              style={{
-                height: this.state.expandedImage ? null : `${picture.thumbh}px`,
-                width: this.state.expandedImage ? null : `${picture.thumbw}px`
-              }}
-              onTouchTap={this.toggleExpandImage.bind(this)}
-              onLoad={this.hideSpinner.bind(this)}
-            />
-            {progress}
-          </div>
+            onTouchTap={this.toggleExpandImage.bind(this)}
+            onLoad={this.hideSpinner.bind(this)}
+          />
+          {progress}
         </div>
       );
     }
 
     if (!picture && youtubeVideoId && !this.state.expandedYoutube) {
       const thumbnailUrl = getYoutubeThumbnail(youtubeVideoId);
+      const icon = (
+        <IconButton
+          iconClassName='fa fa-youtube-play'
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            margin: '-24px 0 0 -24px',
+            borderRadius: '50%',
+            backgroundColor: lightBlack
+          }}
+          iconStyle={{
+            color: fullWhite
+          }}
+          onTouchTap={isMobile() ? () => console.log('unsupported') : this.toggleExpandYoutube.bind(this)}
+        />
+      );
 
       if (isMobile()) {
         const videoUrl = `https://www.youtube.com/watch?v=${youtubeVideoId}`;
@@ -114,6 +121,7 @@ class Attachment extends Component {
                   height: '150px'
                 }}
               />
+              {icon}
             </a>
           </div>
         );
@@ -129,6 +137,7 @@ class Attachment extends Component {
             }}
             onTouchTap={this.toggleExpandYoutube.bind(this)}
           />
+          {icon}
         </div>
       );
     }
@@ -163,6 +172,24 @@ class Attachment extends Component {
 
     if (!picture && !youtubeVideoId && extWebmUrl && !this.state.expandedWebm) {
       const thumbnailUrl = getExtWebmThumbnail(extWebmUrl);
+      const icon = (
+        <IconButton
+          iconClassName='fa fa-file-video-o'
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            margin: '-24px 0 0 -24px',
+            borderRadius: '50%',
+            backgroundColor: lightBlack
+          }}
+          iconStyle={{
+            color: fullWhite
+          }}
+          onTouchTap={this.toggleExpandWebm.bind(this)}
+        />
+      );
+
       return (
         <div className='attachment'>
           <img
@@ -173,20 +200,17 @@ class Attachment extends Component {
             }}
             onTouchTap={this.toggleExpandWebm.bind(this)}
           />
+          {icon}
         </div>
       );
     }
 
     if (this.state.expandedWebm) {
       return (
-        <div className='attachment'>
+        <div className={cx('attachment', { expanded: this.state.expandedWebm })}>
           <video
             controls
             autoPlay
-            style={{
-              display: 'block',
-              maxWidth: '560px'
-            }}
           >
             <source src={extWebmUrl} type='video/webm' />
           </video>
