@@ -22,6 +22,7 @@ class UserAvatar extends Component {
           textAlign: 'center',
           lineHeight: '20px'
         }}
+        title={userId}
       />
     );
   }

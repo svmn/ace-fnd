@@ -15,6 +15,8 @@ import Player from '../containers/player';
 import PostArea from '../containers/postArea';
 import Snackbar from '../containers/snackbar';
 import PreviewMessage from '../containers/previewMessage';
+import SidebarMenu from '../components/sidebarMenu';
+import MemeFeed from '../containers/MemeFeed';
 
 lightBaseTheme.appBar = {
   padding: '16px'
@@ -38,6 +40,7 @@ class App extends Component {
     super(props);
     this.state = {
       playlistMode: false,
+      sidebarContent: 0,
       theme: localStorage.theme || 'light'
     };
   }
@@ -51,6 +54,12 @@ class App extends Component {
   setTheme(theme) {
     this.setState({ theme });
     localStorage.theme = theme;
+  }
+
+  setSidebarContent(content) {
+    this.setState({
+      sidebarContent: content
+    });
   }
 
   togglePlaylistMode() {
@@ -67,13 +76,24 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(this.state.theme === 'light' ? lightBaseTheme : darkBaseTheme)}>
         <div className={classnames('container', { 'playlist-mode': this.state.playlistMode }, this.state.theme)}>
+
           <div className='sidebar'>
             <Logo togglePlaylistMode={() => this.togglePlaylistMode()} playlistMode={this.state.playlistMode} />
-            <Playlist />
-            <Player theme={this.state.theme} />
+
+            {this.state.sidebarContent === 0 ? <Playlist /> : null}
+            {this.state.sidebarContent === 1 ? <MemeFeed /> : null}
+            {this.state.sidebarContent === 2 ? <div className='middle border-right' /> : null}
+
+            <SidebarMenu selected={this.state.sidebarContent} select={this.setSidebarContent.bind(this)} />
+
           </div>
+
           <div className='main'>
-            <Header togglePlaylistMode={() => this.togglePlaylistMode()} setTheme={this.setTheme.bind(this)} theme={this.state.theme} />
+            <Header
+              togglePlaylistMode={() => this.togglePlaylistMode()}
+              setTheme={this.setTheme.bind(this)}
+              theme={this.state.theme}
+            />
             <Chat insertReply={this.insertReply.bind(this)} />
             <PostArea ref={ref => (this.postarea = ref)} theme={this.state.theme} />
             <PreviewMessage />

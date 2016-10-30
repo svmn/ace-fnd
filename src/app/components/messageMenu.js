@@ -70,7 +70,7 @@ MessageMenu.propTypes = {
   open: PropTypes.bool.isRequired,
   anchorEl: PropTypes.object,
   hidePopover: PropTypes.func.isRequired,
-  controls: PropTypes.bool.isRequired,
+  controls: PropTypes.bool,
   messageId: PropTypes.string.isRequired,
   chatControl: PropTypes.func,
   insertReply: PropTypes.func,

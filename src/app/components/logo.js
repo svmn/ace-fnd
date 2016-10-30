@@ -10,8 +10,19 @@ export default class Logo extends Component {
     return (
       <AppBar
         showMenuIconButton={false}
-        title={this.props.playlistMode ? 'Плейлист' : 'TUZACH.IN'}
-        iconElementRight={<IconButton className='chat-mode-switch' onTouchTap={this.props.togglePlaylistMode}><ChatIcon /></IconButton>}
+        title={
+          'TUZACH.IN'
+        }
+        iconElementRight={
+          <IconButton
+            className='chat-mode-switch'
+            onTouchTap={e => {
+              e.preventDefault();
+              this.props.togglePlaylistMode();
+            }}
+          >
+            <ChatIcon />
+          </IconButton>}
       />
     );
   }

@@ -10,6 +10,7 @@ import ClearIcon from 'material-ui/svg-icons/communication/clear-all';
 import Divider from 'material-ui/Divider';
 import Toggle from 'material-ui/Toggle';
 import { fullWhite } from 'material-ui/styles/colors';
+import isMobile from 'is-mobile';
 
 
 const Menu = (props) => (
@@ -28,6 +29,14 @@ const Menu = (props) => (
       target='_blank'
       primaryText='Логи чата'
     />
+    {
+      !isMobile() &&
+      <MenuItem
+        leftIcon={<FontIcon className='fa fa-archive' />}
+        href='https://tuzach.in/?app=index'
+        primaryText='Старая версия'
+      />
+    }
     <Divider />
     <MenuItem
       leftIcon={<FontIcon className='fa fa-bug' />}

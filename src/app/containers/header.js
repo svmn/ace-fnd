@@ -30,7 +30,7 @@ class Header extends Component {
         }}
         className='header'
       >
-        <div className='topic'>Tuzach development version 0.0.1</div>
+        <div className='topic'>Tuzach development version 0.1.0</div>
         <div className='online'>
           Онлайн: {online}
         </div>
