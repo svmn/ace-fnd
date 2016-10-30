@@ -11,6 +11,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './containers/App';
 import reducer from './reducers';
 import { chatStart, ignoreLoad } from './actions/chat';
+import { playlistStart } from './actions/playlist';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -25,6 +26,7 @@ const rootElement = document.getElementById('application');
 
 store.dispatch(ignoreLoad());
 store.dispatch(chatStart());
+store.dispatch(playlistStart());
 
 render(
   <Provider store={store}>
