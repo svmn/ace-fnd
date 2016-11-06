@@ -52,18 +52,15 @@ html, body, .application {
 }
 .middle {
   flex: 1;
-  border-bottom: @border;
   display: flex;
   flex-direction: column;
-  .dark & {
-    border-bottom: @border-dark;
-  }
 }
 .bottom {
+  border-top: @border;
+  .dark & {
+    border-top: @border-dark;
+  }
   min-height: @bottom-height;
-}
-.playlist {
-  padding-left: @edge-padding;
 }
 .border-right {
   border-right: @border;

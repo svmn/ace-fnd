@@ -1,28 +1,9 @@
 .player {
-  position: relative;
-  .controls {
-    padding-top: 8px;
-    text-align: center;
-  }
-  .player-slider {
-    position: absolute;
-    top: -9px;
-    left: 0;
-    width: 100%;
-    > div {
-      margin: 0!important;
-      > div {
-        height: 1px !important;
-        > div:nth-of-type(3) {
-          opacity: 0;
-          transition: all linear .2s !important;
-        }
-      }
-    }
-    &:hover {
-      > div > div > div:nth-of-type(3) {
-        opacity: 1;
-      }
-    }
+  display: flex;
+  border-top: @border;
+  background-color: white;
+  .dark & {
+    border-top: @border-dark;
+    background-color: @grey900;
   }
 }

@@ -3,16 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
-import PlayIcon from 'material-ui/svg-icons/av/play-arrow';
-import PauseIcon from 'material-ui/svg-icons/av/pause';
-import ForwardIcon from 'material-ui/svg-icons/av/fast-forward';
-import RewindIcon from 'material-ui/svg-icons/av/fast-rewind';
-import MuteIcon from 'material-ui/svg-icons/av/volume-off';
-import VolumeIcon from 'material-ui/svg-icons/av/volume-up';
-import RepeatIcon from 'material-ui/svg-icons/av/repeat';
-import ShuffleIcon from 'material-ui/svg-icons/av/shuffle';
 import Slider from 'material-ui/Slider';
-
 
 class Player extends Component {
   constructor(props) {
@@ -41,47 +32,50 @@ class Player extends Component {
   }
 
   render() {
-    const activeStyle = {
-      color: this.context.muiTheme.palette.primary1Color
-    };
+    const { track } = this.props;
+    if (!track) return null;
 
-    const Controls = () => (
-      <div className='controls'>
-        {
-          this.state.play ?
-            <IconButton onTouchTap={() => this.pause()} ><PauseIcon /></IconButton> :
-            <IconButton onTouchTap={() => this.play()} ><PlayIcon /></IconButton>
-        }
-        <IconButton><RewindIcon /></IconButton>
-        <IconButton><ForwardIcon /></IconButton>
-        <IconButton><VolumeIcon /></IconButton>
-        <IconButton
-          onTouchTap={() => this.toggleRepeat()}
-          iconStyle={this.state.repeat ? activeStyle : null}
-        >
-          <RepeatIcon />
-        </IconButton>
-        <IconButton
-          onTouchTap={() => this.toggleShuffle()}
-          iconStyle={this.state.shuffle ? activeStyle : null}
-        >
-          <ShuffleIcon />
-        </IconButton>
-      </div>
-    );
-
+    const url = `https://tuzach.in${track.url}`;
     return (
-      <div className='bottom player'>
-        <Controls />
+      <div className='player border-right'>
+        {
+          !this.state.play ?
+            <IconButton onTouchTap={() => this.pause()} iconClassName='material-icons'>play_arrow</IconButton> :
+              <IconButton onTouchTap={() => this.play()} iconClassName='material-icons'>pause</IconButton>
+        }
+        <Slider
+          style={{
+            flex: 1
+          }}
+          sliderStyle={{
+            margin: '15px 0px'
+          }}
+        />
+        <IconButton
+          iconClassName='material-icons'
+        >volume_down</IconButton>
+        <IconButton
+          href={url}
+          tooltip='Сохранить'
+          tooltipPosition='top-center'
+          iconClassName='material-icons'
+        >file_download</IconButton>
+        <IconButton
+          tooltip='Like'
+          tooltipPosition='top-center'
+          iconClassName='material-icons'
+        >favorite</IconButton>
       </div>
     );
   }
 
 }
 
-Player.contextTypes = {
-  muiTheme: PropTypes.object.isRequired
+Player.propTypes = {
+  track: PropTypes.object
 };
 
-const mapStatetoProps = (state) => ({ playlist: state.playlist });
-export default connect(mapStatetoProps)(Player);
+const mapStateToProps = (state) => ({
+  track: state.playlist.items.find(track => track.id === state.playlist.selected)
+});
+export default connect(mapStateToProps)(Player);

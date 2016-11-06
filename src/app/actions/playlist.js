@@ -4,7 +4,8 @@ import {
   load
 } from '../api/playlist';
 import {
-  PLAYLIST_UPDATE
+  PLAYLIST_UPDATE,
+  PLAYLIST_SELECT
 } from '../actionTypes';
 
 let timer;
@@ -29,4 +30,11 @@ export function playlistStart() {
 export function playlistStop() {
   clearInterval(timer);
   return { type: null };
+}
+
+export function playlistSelect(id) {
+  return {
+    type: PLAYLIST_SELECT,
+    data: id
+  };
 }
