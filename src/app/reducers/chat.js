@@ -31,6 +31,7 @@ export default function (state = initialState, action) {
     case CHAT_UPDATE: {
       const lastMessage = data.slice(-1).pop();
 
+      // Deleting messages
       data
         .filter(msg => msg.type === 'dlt')
         .forEach(msg => {
@@ -40,16 +41,20 @@ export default function (state = initialState, action) {
           remove(data, (mess) => mess.id === targetId);
         });
 
+      // Filter ignored and system messages
       const messages = data.filter(msg => !state.ignoreList.includes(msg.user_id) && msg.type !== 'dlt');
 
+      // Genetare "answers"
       const replies = {};
       messages.forEach(msg => {
+        const targetId = msg.id;
         const matches = msg.text.match(REPLY_REGEXP) || [];
         matches.slice(0, 6).forEach(match => {
           const sourceId = match.replace('@', '');
-          const targetId = msg.id;
           // merge existing replies, replies parsed in previous iteration and just parsed reply
-          replies[sourceId] = [...state.replies[sourceId] || [], ...replies[sourceId] || [], targetId];
+          const existing = state.replies[sourceId] || [];
+          const current = replies[sourceId] || [];
+          replies[sourceId] = [...existing, ...current, targetId];
           // remove duplicates
           replies[sourceId] = uniq(replies[sourceId]);
         });

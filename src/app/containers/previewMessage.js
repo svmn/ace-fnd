@@ -49,6 +49,7 @@ class PreviewMessage extends Component {
           position: 'fixed',
           top: this.state.positionY,
           left: this.state.positionX,
+          minWidth: '300px',
           maxWidth: '500px'
         }}
       >
