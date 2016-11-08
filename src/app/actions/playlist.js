@@ -5,7 +5,10 @@ import {
 } from '../api/playlist';
 import {
   PLAYLIST_UPDATE,
-  PLAYLIST_SELECT
+  PLAYLIST_SELECT,
+  PLAYLIST_DESELECT,
+  PLAYLIST_PREVIOUS,
+  PLAYLIST_NEXT
 } from '../actionTypes';
 
 let timer;
@@ -37,4 +40,16 @@ export function playlistSelect(id) {
     type: PLAYLIST_SELECT,
     data: id
   };
+}
+
+export function playlistDeselect() {
+  return { type: PLAYLIST_DESELECT };
+}
+
+export function playlistPrevious() {
+  return { type: PLAYLIST_PREVIOUS };
+}
+
+export function playlistNext() {
+  return { type: PLAYLIST_NEXT };
 }

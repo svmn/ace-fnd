@@ -1,9 +1,33 @@
 .player {
   display: flex;
-  border-top: @border;
+  position: relative;
+  z-index: 0;
+  padding: 8px 4px 0;
+  justify-content: center;
   background-color: white;
-  .dark & {
-    border-top: @border-dark;
-    background-color: @grey900;
+  &.overlay {
+    background-color: rgba(255, 255, 255, 0.7);
   }
+  .dark & {
+    background-color: @grey900;
+    &.overlay {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+  }
+}
+.player-enter {
+  position: relative;
+  top: 90px;
+  transition: top 200ms linear;
+}
+.player-enter.player-enter-active {
+  top: 0;
+}
+.player-leave {
+  position: relative;
+  top: 0;
+}
+.player-leave.player-leave-active {
+  top: 90px;
+  transition: top 200ms linear;
 }

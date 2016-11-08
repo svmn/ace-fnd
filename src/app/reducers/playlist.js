@@ -2,7 +2,10 @@
 
 import {
   PLAYLIST_UPDATE,
-  PLAYLIST_SELECT
+  PLAYLIST_SELECT,
+  PLAYLIST_DESELECT,
+  PLAYLIST_PREVIOUS,
+  PLAYLIST_NEXT
 } from '../actionTypes';
 import {
   updateState
@@ -25,6 +28,26 @@ export default function (state = initialState, action) {
       return updateState(state, {
         selected: data
       });
+    case PLAYLIST_DESELECT:
+      return updateState(state, {
+        selected: null
+      });
+    case PLAYLIST_PREVIOUS: {
+      const i = state.items.findIndex(item => item.id === state.selected);
+      if (i === 0) return state;
+      const selected = state.items[i - 1].id;
+      return updateState(state, {
+        selected
+      });
+    }
+    case PLAYLIST_NEXT: {
+      const i = state.items.findIndex(item => item.id === state.selected);
+      if (i === state.items.length - 1) return state;
+      const selected = state.items[i + 1].id;
+      return updateState(state, {
+        selected
+      });
+    }
     default:
       return state;
   }

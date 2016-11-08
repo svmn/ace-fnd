@@ -4,6 +4,7 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import {
   blueGrey500,
+  grey500,
   grey800,
   grey900,
   darkWhite,
@@ -17,6 +18,7 @@ lightBaseTheme.appBar = {
   padding: '16px'
 };
 lightBaseTheme.palette.primary1Color = blueGrey500;
+lightBaseTheme.palette.primary3Color = grey500;
 lightBaseTheme.palette.textColor = darkBlack;
 
 darkBaseTheme.appBar = {
