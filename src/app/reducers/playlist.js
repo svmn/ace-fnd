@@ -5,7 +5,8 @@ import {
   PLAYLIST_SELECT,
   PLAYLIST_DESELECT,
   PLAYLIST_PREVIOUS,
-  PLAYLIST_NEXT
+  PLAYLIST_NEXT,
+  PLAYLIST_UPLOAD_PROGRESS
 } from '../actionTypes';
 import {
   updateState
@@ -13,7 +14,8 @@ import {
 
 const initialState = {
   items: [],
-  selected: null
+  selected: null,
+  uploadProgress: null
 };
 
 export default function (state = initialState, action) {
@@ -48,6 +50,10 @@ export default function (state = initialState, action) {
         selected
       });
     }
+    case PLAYLIST_UPLOAD_PROGRESS:
+      return updateState(state, {
+        uploadProgress: data
+      });
     default:
       return state;
   }

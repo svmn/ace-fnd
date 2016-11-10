@@ -1,14 +1,17 @@
 'use strict';
 
 import {
-  load
+  load,
+  upload,
 } from '../api/playlist';
 import {
   PLAYLIST_UPDATE,
   PLAYLIST_SELECT,
   PLAYLIST_DESELECT,
   PLAYLIST_PREVIOUS,
-  PLAYLIST_NEXT
+  PLAYLIST_NEXT,
+  PLAYLIST_UPLOAD_PROGRESS,
+  SNACKBAR_OPEN
 } from '../actionTypes';
 
 let timer;
@@ -52,4 +55,27 @@ export function playlistPrevious() {
 
 export function playlistNext() {
   return { type: PLAYLIST_NEXT };
+}
+
+export function playlistUpload(file) {
+  return (dispatch) => {
+    const onProgress = e => {
+      const progress = (e.loaded / e.total) * 100;
+      dispatch({ type: PLAYLIST_UPLOAD_PROGRESS, data: progress });
+    };
+    upload(file, onProgress)
+      .then(response => {
+        let alert;
+        try {
+          const json = JSON.parse(response);
+          alert = json.msg;
+        } catch (e) {
+          alert = response;
+        }
+        dispatch({ type: PLAYLIST_UPLOAD_PROGRESS, data: null });
+        dispatch({ type: SNACKBAR_OPEN, data: alert });
+        dispatch(playlistUpdate());
+      })
+      .catch(err => console.log(err));
+  };
 }

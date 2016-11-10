@@ -13,6 +13,11 @@ class AceSnackbar extends Component {
         message={this.props.message}
         onRequestClose={this.props.snackbarClose}
         open={Boolean(this.props.message)}
+        bodyStyle={{
+          height: null,
+          lineHeight: null,
+          padding: '12px 24px'
+        }}
       />
     );
   }

@@ -4,14 +4,13 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Scrollbars from 'react-custom-scrollbars';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
 import PlaylistItem from '../components/playlistItem';
-import { playlistSelect } from '../actions/playlist';
+import PlaylistUploadButton from '../components/playlistUploadButton';
+import { playlistSelect, playlistUpload } from '../actions/playlist';
 
 class Playlist extends Component {
   render() {
-    const { playlist, selected } = this.props;
+    const { items, selected, uploadProgress } = this.props;
     const placeholder = (
       <div style={{ padding: '16px' }}>
         Плейлист пуст. Советуем посмотреть фид картинок и webm.
@@ -19,13 +18,13 @@ class Playlist extends Component {
     );
     return (
       <div className='middle border-right' style={{ position: 'relative' }}>
-        {playlist.length ? null : placeholder}
+        {items.length ? null : placeholder}
         <Scrollbars
           autoHide
           className='scrollbar-container'
         >
           {
-            playlist.map((item, i) => (
+            items.map((item, i) => (
               <PlaylistItem
                 item={item}
                 key={i}
@@ -35,30 +34,20 @@ class Playlist extends Component {
             ))
           }
         </Scrollbars>
-        <FloatingActionButton
-          style={{
-            position: 'absolute',
-            right: '16px',
-            bottom: '16px'
-          }}
-          mini
-        >
-          <FontIcon className='material-icons'>playlist_add</FontIcon>
-        </FloatingActionButton>
+        <PlaylistUploadButton uploadProgress={uploadProgress} upload={this.props.playlistUpload} />
       </div>
     );
   }
 }
 
 Playlist.propTypes = {
-  playlist: PropTypes.array.isRequired,
+  items: PropTypes.array.isRequired,
   selected: PropTypes.string,
-  playlistSelect: PropTypes.func.isRequired
+  uploadProgress: PropTypes.number,
+  playlistSelect: PropTypes.func.isRequired,
+  playlistUpload: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  playlist: state.playlist.items,
-  selected: state.playlist.selected
-});
-const mapDispatchToProps = (dispatch) => bindActionCreators({ playlistSelect }, dispatch);
+const mapStateToProps = (state) => state.playlist;
+const mapDispatchToProps = (dispatch) => bindActionCreators({ playlistSelect, playlistUpload }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
