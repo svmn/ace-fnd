@@ -26,5 +26,21 @@ export function upload(file, onProgress) {
     xhr.upload.onprogress = onProgress;
     xhr.send(body);
   });
+}
 
+export function vote(id, value) {
+  const body = new FormData();
+  body.set('id', id);
+  body.set('val', value);
+  return fetch(`${PLAYLIST_ENDPOINT}&act=vote`, {
+    method: 'post',
+    credentials: 'same-origin',
+    body
+  })
+    .then(response => {
+      if (response.status >= 400) {
+        throw new Error('Bad response from server');
+      }
+      return response.text();
+    });
 }

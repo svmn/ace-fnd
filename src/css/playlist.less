@@ -1,6 +1,8 @@
 .playlist-item {
   cursor: pointer;
   display: flex;
+  position: relative;
+  word-break: break-word;
   > div {
     padding: 8px 0;
   }
@@ -46,7 +48,7 @@
     }
   }
   &.selected {
-    background-color: @blueGrey200;
+    background-color: @blueGrey100;
     .dark & {
       background-color: rgba(255,87,34,0.8); // deepOrange500
     }

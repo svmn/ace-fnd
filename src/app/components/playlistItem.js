@@ -5,6 +5,7 @@ import cx from 'classnames';
 import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 import { grey300, grey500 } from 'material-ui/styles/colors';
+import { getAvatarColor } from '../utils';
 
 class PlaylistItem extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class PlaylistItem extends Component {
 
   render() {
     const { item, selected } = this.props;
-    const { str, length, cover, tags } = item;
+    const { str, length, cover, tags, likes, dislikes, userId } = item;
     const image = cover ? (
       <img src={cover} alt={str} />
     ) : (
@@ -31,25 +32,45 @@ class PlaylistItem extends Component {
       />
     );
 
+    const userIndicator = (
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          height: '100%',
+          width: '3px',
+          backgroundColor: getAvatarColor(userId),
+          padding: 0
+        }}
+      />
+    );
+
     return (
       <div className={cx('playlist-item', { selected })} onTouchTap={this.select}>
+        {userIndicator}
         <div className='playlist-item-left'>
           {image}
         </div>
         <div className='playlist-item-center'>
           <div className='title'>{str}</div>
           <div className='tags'>{tags}</div>
+          <div className='rating'>
+
+            <FontIcon
+              className='material-icons'
+              color={this.context.muiTheme.palette.secondaryTextColor}
+              style={{ fontSize: '12px', top: '1px' }}
+            >thumb_up</FontIcon> {likes}
+            <FontIcon
+              className='material-icons'
+              color={this.context.muiTheme.palette.secondaryTextColor}
+              style={{ fontSize: '12px', top: '1px', marginLeft: '5px' }}
+            >thumb_down</FontIcon> {dislikes}
+          </div>
         </div>
         <div className='playlist-item-right'>
           <div className='duration'>{length}</div>
-          <div className='rating'>
-            <FontIcon
-              className='fa fa-heart'
-              color={this.context.muiTheme.palette.secondaryTextColor}
-              style={{ fontSize: '12px', transition: 'none' }}
-            />
-            8
-          </div>
         </div>
       </div>
     );

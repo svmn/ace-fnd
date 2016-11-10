@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import Slider from 'material-ui/Slider';
+import { green900 as likeColor, red900 as dislikeColor } from 'material-ui/styles/colors';
 import get from 'lodash/get';
 import isMobile from 'is-mobile';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -12,7 +13,8 @@ import cx from 'classnames';
 import {
   playlistDeselect,
   playlistPrevious,
-  playlistNext
+  playlistNext,
+  playlistVote
 } from '../actions/playlist';
 
 class Player extends Component {
@@ -77,6 +79,14 @@ class Player extends Component {
     this.audio.currentTime = value * this.state.duration;
   }
 
+  like() {
+    this.props.playlistVote(this.props.track.id, 1);
+  }
+
+  dislike() {
+    this.props.playlistVote(this.props.track.id, -1);
+  }
+
   render() {
     const { track } = this.props;
     const { playing, position, duration, volume } = this.state;
@@ -131,20 +141,27 @@ class Player extends Component {
           }
           <IconButton
             iconClassName='material-icons'
-            onTouchTap={this.props.playlistPrevious}
-          >skip_previous</IconButton>
-          <IconButton
-            iconClassName='material-icons'
             onTouchTap={this.props.playlistNext}
           >skip_next</IconButton>
+          {volumeBar}
           <IconButton
             href={url}
             iconClassName='material-icons'
           >file_download</IconButton>
           <IconButton
             iconClassName='material-icons'
-          >favorite_border</IconButton>
-          {volumeBar}
+            iconStyle={track.voted !== '1' ? {} : {
+              color: likeColor
+            }}
+            onTouchTap={this.like.bind(this)}
+          >thumb_up</IconButton>
+          <IconButton
+            iconClassName='material-icons'
+            iconStyle={track.voted !== '-1' ? {} : {
+              color: dislikeColor
+            }}
+            onTouchTap={this.dislike.bind(this)}
+          >thumb_down</IconButton>
           <IconButton
             iconClassName='material-icons'
             onTouchTap={this.props.playlistDeselect}
@@ -173,7 +190,8 @@ Player.propTypes = {
   track: PropTypes.object,
   playlistDeselect: PropTypes.func.isRequired,
   playlistPrevious: PropTypes.func.isRequired,
-  playlistNext: PropTypes.func.isRequired
+  playlistNext: PropTypes.func.isRequired,
+  playlistVote: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -182,6 +200,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   playlistDeselect,
   playlistPrevious,
-  playlistNext
+  playlistNext,
+  playlistVote
 }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

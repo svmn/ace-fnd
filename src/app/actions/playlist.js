@@ -3,6 +3,7 @@
 import {
   load,
   upload,
+  vote
 } from '../api/playlist';
 import {
   PLAYLIST_UPDATE,
@@ -77,5 +78,24 @@ export function playlistUpload(file) {
         dispatch(playlistUpdate());
       })
       .catch(err => console.log(err));
+  };
+}
+
+export function playlistVote(id, value) {
+  return (dispatch) => {
+    vote(id, value)
+      .then(response => {
+        if (response) {
+          let alert;
+          try {
+            const json = JSON.parse(response);
+            alert = json.msg;
+          } catch (e) {
+            alert = response;
+          }
+          dispatch({ type: SNACKBAR_OPEN, data: alert });
+        }
+        dispatch(playlistUpdate());
+      });
   };
 }
