@@ -20,3 +20,4 @@ export const IGNORE_ADD = 'IGNORE_ADD';
 export const IGNORE_CLEAR = 'IGNORE_CLEAR';
 export const IGNORE_LOAD = 'IGNORE_LOAD';
 export const MEMEFEED_ADD = 'MEMEFEED_ADD';
+export const LOAD_TOPIC = 'LOAD_TOPIC';

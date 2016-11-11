@@ -8,6 +8,7 @@ import snackbarReducer from './snackbar';
 import previewReducer from './preview';
 import onlineCounterReducer from './onlineCounter';
 import memeFeedReducer from './memeFeed';
+import topicReducer from './topic';
 
 const rootReducer = combineReducers({
   chat: chatReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   snackbar: snackbarReducer,
   preview: previewReducer,
   onlineCounter: onlineCounterReducer,
-  memeFeed: memeFeedReducer
+  memeFeed: memeFeedReducer,
+  topic: topicReducer
 });
 
 export default rootReducer;

@@ -1,13 +1,13 @@
 'use strict';
 
 import {
-  SET_ONLINE_COUNTER
+  LOAD_TOPIC
 } from '../actionTypes';
 
-export default function (state = '0', action) {
+export default function (state = '', action) {
   const { type, data } = action;
   switch (type) {
-    case SET_ONLINE_COUNTER:
+    case LOAD_TOPIC:
       return data;
     default:
       return state;

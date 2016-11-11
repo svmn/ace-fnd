@@ -23,14 +23,9 @@ class Header extends Component {
         iconElementRight={
           <Menu setTheme={this.props.setTheme} theme={this.props.theme} ignoreClear={this.props.ignoreClear} />
         }
-        iconStyleRight={{
-          // android < 4.4 fix
-          position: 'absolute',
-          right: '16px'
-        }}
         className='header'
       >
-        <div className='topic'>Tuzach development version 0.1.0</div>
+        <div className='topic'>{topic}</div>
         <div className='online'>
           Онлайн: {online}
         </div>
@@ -40,7 +35,8 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  online: PropTypes.any,
+  topic: PropTypes.string.isRequired,
+  online: PropTypes.string.isRequired,
   speed: PropTypes.any,
   togglePlaylistMode: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
@@ -49,9 +45,8 @@ Header.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { topic, onlineCounter } = state;
-  const { online, speed } = onlineCounter;
-  return { topic, online, speed };
+  const { topic, onlineCounter: online } = state;
+  return { topic, online };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ ignoreClear }, dispatch);

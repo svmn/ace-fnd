@@ -12,6 +12,7 @@ import App from './containers/App';
 import reducer from './reducers';
 import { chatStart, ignoreLoad } from './actions/chat';
 import { playlistStart } from './actions/playlist';
+import { loadTopic } from './actions/topic';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -24,6 +25,7 @@ const store = createStore(
 );
 const rootElement = document.getElementById('application');
 
+store.dispatch(loadTopic());
 store.dispatch(ignoreLoad());
 store.dispatch(chatStart());
 store.dispatch(playlistStart());

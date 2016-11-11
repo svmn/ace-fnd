@@ -31,10 +31,7 @@ export function chatUpdate() {
         }
         dispatch({
           type: SET_ONLINE_COUNTER,
-          data: {
-            online: data.user_cnt,
-            speed: data.speed
-          }
+          data: data.user_cnt
         });
       });
   };
