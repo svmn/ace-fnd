@@ -15,19 +15,21 @@
     }
   }
 }
-.player-enter {
-  position: relative;
-  top: 90px;
-  transition: top 200ms linear;
-}
-.player-enter.player-enter-active {
-  top: 0;
-}
-.player-leave {
-  position: relative;
-  top: 0;
-}
-.player-leave.player-leave-active {
-  top: 90px;
-  transition: top 200ms linear;
+@media @desktop {
+  .player-enter {
+    position: relative;
+    top: 90px;
+    transition: top 200ms linear;
+  }
+  .player-enter.player-enter-active {
+    top: 0;
+  }
+  .player-leave {
+    position: relative;
+    top: 0;
+  }
+  .player-leave.player-leave-active {
+    top: 90px;
+    transition: top 200ms linear;
+  }
 }
