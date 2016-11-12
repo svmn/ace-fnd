@@ -25,14 +25,16 @@
     "style-loader": "latest",
     "url-loader": "latest",
     "webpack": "latest",
+    "webpack-bundle-size-analyzer": "^2.2.0",
     "webpack-dev-server": "latest"
   },
   "name": "ace-rx",
   "version": "0.0.1",
   "description": "Tuzach.in Frontend",
   "scripts": {
-    "build": "webpack --config webpack.config.js --define process.env.NODE_ENV='\"production\"' -p",
+    "build": "webpack --config webpack.config.js --define process.env.NODE_ENV='\"production\"' -p --optimize-dedupe",
     "start": "webpack-dev-server --open",
+    "analyze": "webpack --json | webpack-bundle-size-analyzer",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
