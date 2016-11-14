@@ -55,12 +55,13 @@ class PostArea extends Component {
 
   unsetFile() {
     this.file = null;
+    this.fileInput.value = '';
     this.setState({ preview: null });
   }
 
   showSettings() {
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.setState({ showSettings: true }), 500);
+    this.timer = setTimeout(() => this.setState({ showSettings: true }), 1000);
   }
 
   hideSettings() {
@@ -87,7 +88,7 @@ class PostArea extends Component {
     const { processing } = this.props;
     const fileInput = (
       <input
-        id='fileInput'
+        ref={ref => (this.fileInput = ref)}
         type='file'
         onChange={(e) => this.setFile(e.target.files[0])}
         style={{
