@@ -81,15 +81,14 @@
   }
   .id-wrapper,
   .text,
-  .attachment:not(.expanded),
+  .attachment,
   .read-more,
   .replies {
     margin-left: @avatar-size + @edge-padding;
   }
   .attachment {
     position: relative;
-    display: inline-block;
-    padding: 4px 0;
+    display: table; // fit content width for proper positioning icons
     img {
       display: block;
       border-radius: 4px;
@@ -100,9 +99,11 @@
       display: block;
       max-width: 100%;
     }
-    &.expanded {
-      @media @desktop {
-        margin-left: @avatar-size + @edge-padding;
+    .fileinfo {
+      font-size: 11px;
+      color: @lightBlack;
+      .dark & {
+        color: @lightWhite;
       }
     }
   }
@@ -123,7 +124,7 @@
     background-color: @blueGrey100;
     .dark & {
       background-color: rgba(255,87,34,0.8); // deepOrange500
-      &, .id, .time, a {
+      &, .id, .time, a, .fileinfo {
         color: white;
       }
     }

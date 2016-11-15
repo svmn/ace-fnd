@@ -65,13 +65,14 @@ class Attachment extends Component {
             position: 'absolute',
             top: '50%',
             left: '50%',
-            margin: '-24px 0 0 -24px',
+            margin: '-34px 0 0 -24px',
             pointerEvents: 'none',
             backgroundColor: lightBlack,
             borderRadius: '50%'
           }}
         />
       );
+      const fileExtenstion = picture.name.split('.').pop().toUpperCase();
       return (
         <div className={cx('attachment', { expanded: this.state.expandedImage && !this.state.loading })}>
           <img
@@ -84,6 +85,7 @@ class Attachment extends Component {
             onTouchTap={this.toggleExpandImage.bind(this)}
             onLoad={this.hideSpinner.bind(this)}
           />
+          <div className='fileinfo'>{fileExtenstion} {picture.filedata}</div>
           {progress}
         </div>
       );
