@@ -1,7 +1,7 @@
 'use strict';
 
 import 'isomorphic-fetch';
-import { CHAT_ENDPOINT } from '../config.js';
+import { CHAT_ENDPOINT, CONTROL_ENDPOINT } from '../config.js';
 
 export function load(lastMessageId) {
   return fetch(`${CHAT_ENDPOINT}&last=${lastMessageId}`, {
@@ -31,7 +31,7 @@ export function post(message, file) {
 }
 
 export function control(method, messageId) {
-  return fetch(`https://tuzach.in/?app=admin&act=${method}&id=${messageId}`, {
+  return fetch(`${CONTROL_ENDPOINT}&act=${method}&id=${messageId}`, {
     credentials: 'same-origin'
   })
     .then(response => response.json())

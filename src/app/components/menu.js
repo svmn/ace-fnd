@@ -25,7 +25,7 @@ const Menu = (props) => (
     <MenuItem leftIcon={<FontIcon className='fa fa-info-circle' />} primaryText='О проекте' />
     <MenuItem
       leftIcon={<FontIcon className='fa fa-history' />}
-      href='https://tuzach.in/?app=logs'
+      href='https://tuzach.in/api/?app=logs'
       target='_blank'
       primaryText='Логи чата'
     />
@@ -33,7 +33,7 @@ const Menu = (props) => (
       !isMobile() &&
       <MenuItem
         leftIcon={<FontIcon className='fa fa-archive' />}
-        href='https://tuzach.in/?app=index'
+        href='https://tuzach.in/api/?app=index'
         primaryText='Старая версия'
       />
     }
@@ -46,7 +46,7 @@ const Menu = (props) => (
     />
     <MenuItem
       leftIcon={<FontIcon className='fa fa-github' />}
-      href='https://github.com/svmn/ace-fnd'
+      href='https://github.com/svmn/ace-rx'
       target='_blank'
       primaryText='Исходники'
     />
