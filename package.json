@@ -6,6 +6,7 @@
     "babel-loader": "latest",
     "babel-preset-es2015": "latest",
     "babel-preset-react": "latest",
+    "clean-webpack-plugin": "^0.1.14",
     "css-loader": "latest",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
@@ -26,14 +27,15 @@
     "url-loader": "latest",
     "webpack": "latest",
     "webpack-bundle-size-analyzer": "^2.2.0",
-    "webpack-dev-server": "latest"
+    "webpack-dev-server": "latest",
+    "webpack-path-rewriter": "^1.1.4"
   },
   "name": "ace-rx",
   "version": "0.0.1",
   "description": "Tuzach.in Frontend",
   "scripts": {
-    "build": "webpack --config webpack.config.js --define process.env.NODE_ENV='\"production\"' -p --optimize-dedupe",
-    "start": "webpack-dev-server --open",
+    "build": "webpack --config webpack.config.prod.js",
+    "start": "webpack-dev-server --config webpack.config.dev.js --hot --open",
     "analyze": "webpack --json | webpack-bundle-size-analyzer",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
