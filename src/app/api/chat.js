@@ -17,7 +17,7 @@ export function load(lastMessageId) {
 
 export function post(message, file) {
   const formdata = new FormData();
-  formdata.append('text', message);
+  formdata.append('text', encodeURIComponent(message));
   if (file) {
     formdata.append('filedata', file);
   }
