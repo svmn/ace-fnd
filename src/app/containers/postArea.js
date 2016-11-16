@@ -14,7 +14,9 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import { fullWhite, minBlack } from 'material-ui/styles/colors';
 import isMobile from 'is-mobile';
 import { chatSend } from '../actions/chat';
+import { avatarUpload } from '../actions/avatar';
 import { fixMimeType } from '../utils';
+import SelfAvatar from '../components/selfAvatar';
 
 class PostArea extends Component {
   constructor(props) {
@@ -85,7 +87,7 @@ class PostArea extends Component {
   }
 
   render() {
-    const { processing } = this.props;
+    const { processing, avatar } = this.props;
     const fileInput = (
       <input
         ref={ref => (this.fileInput = ref)}
@@ -209,6 +211,7 @@ class PostArea extends Component {
 
     return (
       <div className='postarea bottom'>
+        <SelfAvatar image={avatar.image} uploading={avatar.uploading} upload={this.props.avatarUpload} />
         <TextArea
           rows={2}
           maxRows={8}
@@ -248,12 +251,14 @@ PostArea.propTypes = {
   message: PropTypes.string,
   preview: PropTypes.string,
   processing: PropTypes.bool,
-  chatSend: PropTypes.func.isRequired
+  chatSend: PropTypes.func.isRequired,
+  avatarUpload: PropTypes.func.isRequired
 };
 PostArea.contextTypes = {
   muiTheme: PropTypes.object.isRequired
 };
 
-const mapStatetoProps = (state) => state.postarea;
-const mapDispatchToProps = (dispatch) => bindActionCreators({ chatSend }, dispatch);
+const mapStatetoProps = (state) =>
+  Object.assign({}, state.postarea, { avatar: state.avatar });
+const mapDispatchToProps = (dispatch) => bindActionCreators({ chatSend, avatarUpload }, dispatch);
 export default connect(mapStatetoProps, mapDispatchToProps, null, { withRef: true })(PostArea);

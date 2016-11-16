@@ -21,3 +21,5 @@ export const IGNORE_CLEAR = 'IGNORE_CLEAR';
 export const IGNORE_LOAD = 'IGNORE_LOAD';
 export const MEMEFEED_ADD = 'MEMEFEED_ADD';
 export const LOAD_TOPIC = 'LOAD_TOPIC';
+export const AVATAR_LOAD = 'AVATAR_LOAD';
+export const AVATAR_SET_UPLOADING = 'AVATAR_SET_UPLOADING';

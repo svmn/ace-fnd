@@ -70,7 +70,7 @@ class Message extends Component {
   render() {
     const { message, replies, selected, personal } = this.props;
     let { text } = message;
-    const { id, user_id: userId, picture, controls } = message;
+    const { id, user_id: userId, picture, controls, avatar } = message;
     const time = new Date(message.time);
     const formattedTime = `${padTime(time.getHours())}:${padTime(time.getMinutes())}:${padTime(time.getSeconds())}`;
     this.isYoutube = ytUtils.isYoutube(text) && !picture;
@@ -126,7 +126,7 @@ class Message extends Component {
             this.showPopover(e);
           }}
         >
-          <Avatar userId={userId} />
+          <Avatar userId={userId} image={avatar} />
           <MessageMenu
             open={this.state.showPopover}
             anchorEl={this.state.popoverAnchorEl}
