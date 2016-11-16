@@ -10,6 +10,8 @@ import {
   MARKUP_STRIKE_REGEXP,
   MARKUP_SPOILER_REGEXP,
   MARKUP_QUOTE_REGEXP,
+  MARKUP_ADM_REGEXP,
+  MARKUP_MOD_REGEXP,
   YOUTUBE_REPLACE_REGEXP,
   PRIVATE_REGEXP
 } from '../constants';
@@ -29,6 +31,12 @@ export function parseMarkup(text) {
   ));
   replaced = replacer(replaced, MARKUP_STRIKE_REGEXP, (match, i) => (
     <span className='strike' key={`ss${i}`}>{match}</span>
+  ));
+  replaced = replacer(replaced, MARKUP_ADM_REGEXP, (match, i) => (
+    <span style={{ color: 'red' }} key={`a${i}`}>Admin</span>
+  ));
+  replaced = replacer(replaced, MARKUP_MOD_REGEXP, (match, i) => (
+    <span style={{ color: 'blue' }} key={`m${i}`}>Moderator</span>
   ));
   return replaced;
 }
