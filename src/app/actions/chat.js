@@ -5,7 +5,6 @@ import {
   CHAT_START,
   CHAT_STOP,
   SHOW_PREVIEW,
-  MOVE_PREVIEW,
   HIDE_PREVIEW,
   SET_ONLINE_COUNTER,
   POSTAREA_SET_PROCESSING,
@@ -65,13 +64,6 @@ export function showPreview(id) {
       type: SHOW_PREVIEW,
       data: message
     });
-  };
-}
-
-export function movePreview(event) {
-  return {
-    type: MOVE_PREVIEW,
-    data: event
   };
 }
 

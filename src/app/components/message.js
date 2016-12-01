@@ -43,7 +43,8 @@ class Message extends Component {
     return (
       this.state !== nextState ||
       props.selected !== nextProps.selected ||
-      (props.replies && props.replies.length) !== (nextProps.replies && nextProps.replies.length)
+      (props.replies && props.replies.length) !== (nextProps.replies && nextProps.replies.length) ||
+      props.message.id !== nextProps.message.id // for preview message
     );
   }
 
@@ -65,6 +66,12 @@ class Message extends Component {
       showPopover: false,
       popoverAnchorEl: null
     });
+  }
+
+  movePreview(e) {
+    const x = e.clientX;
+    const y = e.clientY;
+    requestAnimationFrame(() => this.props.movePreview(x, y));
   }
 
   render() {
@@ -94,7 +101,7 @@ class Message extends Component {
               onClick={e => e.preventDefault()}
               onTouchTap={() => this.props.gotoMessage(reply)}
               onMouseEnter={() => this.props.showPreview(reply)}
-              onMouseMove={e => this.props.movePreview(e)}
+              onMouseMove={this.movePreview.bind(this)}
               onMouseLeave={() => this.props.hidePreview()}
             >
               >>{reply}
@@ -109,7 +116,7 @@ class Message extends Component {
       text,
       this.props.gotoMessage,
       this.props.showPreview,
-      this.props.movePreview,
+      this.movePreview.bind(this),
       this.props.hidePreview
     );
     if (this.state.youtubeTitle) {

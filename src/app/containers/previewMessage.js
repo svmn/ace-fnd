@@ -2,40 +2,13 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Paper from 'material-ui/Paper';
 import isMobile from 'is-mobile';
 import Message from '../components/message';
 
 class PreviewMessage extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      positionX: 0,
-      positionY: 0
-    };
-    this.previewOffsetX = 20;
-    this.previewOffsetY = 20;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.ref) {
-      const previewHeight = this.ref.offsetHeight;
-      const previewWidth = this.ref.offsetWidth;
-      const rightEdgeDistance = window.innerWidth - nextProps.positionX - previewWidth - this.previewOffsetX;
-      const bottomEdgeDistance = window.innerHeight - nextProps.positionY - previewHeight - this.previewOffsetY;
-      this.setState({
-        positionX: (rightEdgeDistance <= 0) ?
-          nextProps.positionX - previewWidth - this.previewOffsetX :
-          nextProps.positionX + this.previewOffsetX,
-        positionY: (bottomEdgeDistance <= 0) ?
-          nextProps.positionY - previewHeight - this.previewOffsetY :
-          nextProps.positionY + this.previewOffsetY
-      });
-    }
-  }
-
-  render() {
+  content() {
     const { message } = this.props;
     const nullMessage = (
       <div style={{ padding: '8px' }}>Такого поста нет :3</div>
@@ -45,10 +18,11 @@ class PreviewMessage extends Component {
       <div
         className='preview'
         ref={ref => (this.ref = ref)}
+        key='preview'
         style={{
+          top: -9999,
+          left: -9999,
           position: 'fixed',
-          top: this.state.positionY,
-          left: this.state.positionX,
           minWidth: '300px',
           maxWidth: '500px'
         }}
@@ -64,13 +38,23 @@ class PreviewMessage extends Component {
       </div>
     );
   }
+
+  render() {
+    return (
+      <ReactCSSTransitionGroup
+        transitionName='preview'
+        transitionEnterTimeout={200}
+        transitionLeaveTimeout={50}
+      >
+        {this.content()}
+      </ReactCSSTransitionGroup>
+    );
+  }
 }
 
 PreviewMessage.propTypes = {
-  message: PropTypes.object,
-  positionX: PropTypes.number,
-  positionY: PropTypes.number
+  message: PropTypes.object
 };
 
 const mapStatetoProps = (state) => state.preview;
-export default connect(mapStatetoProps)(PreviewMessage);
+export default connect(mapStatetoProps, null, null, { withRef: true })(PreviewMessage);

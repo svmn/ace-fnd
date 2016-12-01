@@ -53,6 +53,23 @@ class App extends Component {
     this.postarea.getWrappedInstance().insertReply(reply);
   }
 
+  movePreview(x, y) {
+    const cursorOffset = 20;
+    const el = this.preview.getWrappedInstance().ref;
+    const previewHeight = el.offsetHeight;
+    const previewWidth = el.offsetWidth;
+    const rightEdgeDistance = window.innerWidth - x - previewWidth - cursorOffset;
+    const bottomEdgeDistance = window.innerHeight - y - previewHeight - cursorOffset;
+    const leftPos = (rightEdgeDistance <= 10) ?
+      x - previewWidth - cursorOffset :
+      x + cursorOffset;
+    const topPos = (bottomEdgeDistance <= 10) ?
+      y - previewHeight - cursorOffset :
+      y + cursorOffset;
+    el.style.top = `${topPos}px`;
+    el.style.left = `${leftPos}px`;
+  }
+
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(themes[this.state.theme])}>
@@ -76,9 +93,9 @@ class App extends Component {
               setTheme={this.setTheme.bind(this)}
               theme={this.state.theme}
             />
-            <Chat insertReply={this.insertReply.bind(this)} />
+            <Chat insertReply={this.insertReply.bind(this)} movePreview={this.movePreview.bind(this)} />
             <PostArea ref={ref => (this.postarea = ref)} theme={this.state.theme} />
-            <PreviewMessage />
+            <PreviewMessage ref={ref => (this.preview = ref)} />
           </div>
           <Snackbar />
         </div>
