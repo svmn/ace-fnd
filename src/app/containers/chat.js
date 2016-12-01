@@ -5,6 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Scrollbars } from 'react-custom-scrollbars';
+import debounce from 'lodash/debounce';
 import {
   showPreview,
   movePreview,
@@ -25,6 +26,7 @@ class Chat extends Component {
     this.inactive = false;
     this.defaultTitle = document.title;
     this.unreadPosts = 0;
+    this.debouncedOnScroll = debounce(this.onScroll.bind(this), 250);
   }
 
   componentDidMount() {
@@ -79,7 +81,7 @@ class Chat extends Component {
         <Scrollbars
           autoHide
           className='scrollbar-container'
-          onScroll={e => this.onScroll(e)}
+          onScroll={this.debouncedOnScroll}
           ref={ref => (this.scrollbars = ref)}
         >
           {
@@ -126,7 +128,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showPreview,
-    movePreview,
     hidePreview,
     ignoreAdd,
     chatControl
