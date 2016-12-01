@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import Slider from 'material-ui/Slider';
 import { green900 as likeColor, red900 as dislikeColor } from 'material-ui/styles/colors';
+import throttle from 'lodash/throttle';
 import get from 'lodash/get';
 import isMobile from 'is-mobile';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -26,6 +27,15 @@ class Player extends Component {
       duration: null,
       volume: typeof localStorage.volume !== 'undefined' ? Number(localStorage.volume) : 0.5
     };
+    this.onProgress = throttle(this.onProgress.bind(this), 500);
+    this.onEnd = this.onEnd.bind(this);
+    this.setDuration = this.setDuration.bind(this);
+    this.setVolume = throttle(this.setVolume.bind(this), 100);
+    this.like = this.like.bind(this);
+    this.dislike = this.dislike.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+    this.seek = this.seek.bind(this);
   }
 
   componentDidMount() {
@@ -40,9 +50,7 @@ class Player extends Component {
   }
 
   onProgress() {
-    this.setState({
-      position: this.audio.currentTime
-    });
+    this.setState({ position: this.audio.currentTime });
   }
 
   onEnd() {
@@ -105,7 +113,7 @@ class Player extends Component {
         }}
         disableFocusRipple
         value={position / duration}
-        onChange={this.seek.bind(this)}
+        onChange={this.seek}
       />
     );
 
@@ -119,7 +127,7 @@ class Player extends Component {
         }}
         disableFocusRipple
         value={volume}
-        onChange={this.setVolume.bind(this)}
+        onChange={this.setVolume}
       />
     );
 
@@ -136,8 +144,8 @@ class Player extends Component {
           {progressBar}
           {
             !playing ?
-              <IconButton onTouchTap={() => this.play()} iconClassName='material-icons'>play_arrow</IconButton> :
-                <IconButton onTouchTap={() => this.pause()} iconClassName='material-icons'>pause</IconButton>
+              <IconButton onTouchTap={this.play} iconClassName='material-icons'>play_arrow</IconButton> :
+                <IconButton onTouchTap={this.pause} iconClassName='material-icons'>pause</IconButton>
           }
           <IconButton
             iconClassName='material-icons'
@@ -153,14 +161,14 @@ class Player extends Component {
             iconStyle={track.voted !== '1' ? {} : {
               color: likeColor
             }}
-            onTouchTap={this.like.bind(this)}
+            onTouchTap={this.like}
           >thumb_up</IconButton>
           <IconButton
             iconClassName='material-icons'
             iconStyle={track.voted !== '-1' ? {} : {
               color: dislikeColor
             }}
-            onTouchTap={this.dislike.bind(this)}
+            onTouchTap={this.dislike}
           >thumb_down</IconButton>
           <IconButton
             iconClassName='material-icons'
@@ -175,9 +183,9 @@ class Player extends Component {
         <audio
           ref={ref => (this.audio = ref)}
           src={url}
-          onTimeUpdate={this.onProgress.bind(this)}
-          onDurationChange={this.setDuration.bind(this)}
-          onEnded={this.onEnd.bind(this)}
+          onTimeUpdate={this.onProgress}
+          onDurationChange={this.setDuration}
+          onEnded={this.onEnd}
         />
         {playerUI}
       </ReactCSSTransitionGroup>
