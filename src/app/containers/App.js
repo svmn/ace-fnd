@@ -56,6 +56,7 @@ class App extends Component {
   movePreview(x, y) {
     const cursorOffset = 20;
     const el = this.preview.getWrappedInstance().ref;
+    if (!el) return;
     const previewHeight = el.offsetHeight;
     const previewWidth = el.offsetWidth;
     const rightEdgeDistance = window.innerWidth - x - previewWidth - cursorOffset;
