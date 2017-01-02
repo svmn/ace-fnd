@@ -1,22 +1,18 @@
 'use strict';
 
 import padStart from 'lodash/padStart';
-import range from 'lodash/range';
 import { EXT_WEBM_REGEXP } from '../constants';
 
 export function padTime(time) {
   return padStart(time, 2, '0');
 }
 
-export function getAvatarIcon(userId) {
-  return userId.substr(0, 2).toUpperCase();
-  const charCodes = range(19968, 21007 + 1);
-  const num = parseInt(userId.slice(-4), 16) % charCodes.length;
-  const char = String.fromCharCode(charCodes[num]);
-  return char;
+export function getAvatarIcon(userId = '') {
+  const charCode = (parseInt(userId.slice(-2), 16) % 25) + 65;
+  return String.fromCharCode(charCode);
 }
 
-export function getAvatarColor(userId) {
+export function getAvatarColor(userId = '') {
   const colorCode = parseInt(userId.slice(-3), 16) % 360;
   const color = `hsl(${colorCode},50%,50%)`;
   return color;

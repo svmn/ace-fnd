@@ -2,7 +2,10 @@
 
 import React, { Component, PropTypes } from 'react';
 import Avatar from 'material-ui/Avatar';
-import anonymous from '../../image/anonymous.png';
+import {
+  getAvatarColor,
+  getAvatarIcon
+} from '../utils';
 
 class UserAvatar extends Component {
   render() {
@@ -10,11 +13,13 @@ class UserAvatar extends Component {
     return (
       <Avatar
         size={36}
-        src={image || anonymous}
+        backgroundColor={getAvatarColor(userId)}
+        src={image}
         style={{
           cursor: 'pointer'
         }}
         title={userId}
+        children={image ? null : getAvatarIcon(userId)}
       />
     );
   }

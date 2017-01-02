@@ -82,7 +82,7 @@ class Attachment extends Component {
               height: this.state.expandedImage ? null : `${picture.thumbh}px`,
               width: this.state.expandedImage ? null : `${picture.thumbw}px`
             }}
-            onTouchTap={this.toggleExpandImage.bind(this)}
+            onClick={this.toggleExpandImage.bind(this)}
             onLoad={this.hideSpinner.bind(this)}
           />
           <div className='fileinfo'>{fileExtenstion} {picture.filedata}</div>
@@ -218,8 +218,7 @@ class Attachment extends Component {
           </video>
           <a
             href=''
-            onClick={e => e.preventDefault()}
-            onTouchTap={this.toggleExpandWebm.bind(this)}
+            onClick={this.toggleExpandWebm.bind(this)}
           >
             Закрыть
           </a>

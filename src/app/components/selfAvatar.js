@@ -7,7 +7,7 @@ import Avatar from './avatar';
 export default function SelfAvatar(props) {
   return (
     <div className='avatar'>
-      <Avatar image={props.image} />
+      <Avatar image={props.image} userId={props.userId} />
       {
         !props.uploading ? null : (
           <CircularProgress
@@ -37,6 +37,7 @@ export default function SelfAvatar(props) {
 }
 
 SelfAvatar.propTypes = {
+  userId: PropTypes.string,
   image: PropTypes.string,
   uploading: PropTypes.bool,
   upload: PropTypes.func.isRequired

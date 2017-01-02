@@ -2,6 +2,7 @@
 
 import {
   load,
+  set,
   upload
 } from '../api/avatar';
 
@@ -15,9 +16,9 @@ export function avatarLoad() {
     load()
     .then(data => dispatch({
       type: AVATAR_LOAD,
-      data: data.avatar
+      data
     }))
-    .catch(err => console.log(err));
+    .catch(console.error);
   };
 }
 
@@ -26,9 +27,20 @@ export function avatarUpload(file) {
     dispatch({ type: AVATAR_SET_UPLOADING, data: true });
     upload(file)
       .then(data => {
-        dispatch({ type: AVATAR_LOAD, data: data.avatar });
+        dispatch({ type: AVATAR_LOAD, data });
         dispatch({ type: AVATAR_SET_UPLOADING, data: false });
+        localStorage.setItem('avatar', data.avatar);
       })
-      .catch(err => console.log(err));
+      .catch(console.error);
+  };
+}
+
+export function avatarSet(avatar) {
+  return (dispatch) => {
+    set(avatar)
+      .then(data => {
+        dispatch({ type: AVATAR_LOAD, data });
+      })
+      .catch(console.error);
   };
 }

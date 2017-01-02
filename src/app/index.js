@@ -13,7 +13,7 @@ import reducer from './reducers';
 import { chatStart, ignoreLoad } from './actions/chat';
 import { playlistStart } from './actions/playlist';
 import { loadTopic } from './actions/topic';
-import { avatarLoad } from './actions/avatar';
+import { avatarLoad, avatarSet } from './actions/avatar';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -30,7 +30,11 @@ store.dispatch(loadTopic());
 store.dispatch(ignoreLoad());
 store.dispatch(chatStart());
 store.dispatch(playlistStart());
-store.dispatch(avatarLoad());
+if (localStorage.avatar) {
+  store.dispatch(avatarSet(localStorage.avatar));
+} else {
+  store.dispatch(avatarLoad());
+}
 
 render(
   <Provider store={store}>

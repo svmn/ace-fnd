@@ -1,5 +1,8 @@
 {
   "extends": "airbnb",
+  "env": {
+    "browser": true
+  },
   "rules": {
     "react/jsx-filename-extension": 0,
     "strict": 0,
@@ -7,12 +10,7 @@
     "jsx-quotes": [2, "prefer-single"],
     "react/prefer-stateless-function": 0,
     "react/require-extension": "off",
-    "max-len": ["error", 120]
-  },
-  "globals": {
-    "window": false,
-    "document": false,
-    "fetch": false,
-    "navigator": false
+    "max-len": ["error", 120],
+    "no-console": ["error", { "allow": ["warn", "error"] }]
   }
 }

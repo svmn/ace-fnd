@@ -211,7 +211,7 @@ class PostArea extends Component {
 
     return (
       <div className='postarea bottom'>
-        <SelfAvatar image={avatar.image} uploading={avatar.uploading} upload={this.props.avatarUpload} />
+        <SelfAvatar image={avatar.image} userId={avatar.userId} uploading={avatar.uploading} upload={this.props.avatarUpload} />
         <TextArea
           rows={2}
           maxRows={8}
@@ -251,6 +251,7 @@ PostArea.propTypes = {
   message: PropTypes.string,
   preview: PropTypes.string,
   processing: PropTypes.bool,
+  avatar: PropTypes.object,
   chatSend: PropTypes.func.isRequired,
   avatarUpload: PropTypes.func.isRequired
 };
