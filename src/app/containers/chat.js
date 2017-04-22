@@ -77,7 +77,7 @@ class Chat extends Component {
   render() {
     const { messages, replies } = this.props;
     return (
-      <div className='middle chat'>
+      <div className='chat'>
         <Scrollbars
           autoHide
           className='scrollbar-container'

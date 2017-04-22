@@ -40,23 +40,12 @@ export default function PlaylistUploadButton(props) {
           >playlist_add</FontIcon>
         </div>
       </FloatingActionButton>
-      <div
-        style={{
-          position: 'absolute',
-          top: '0',
-          right: '0',
-          width: '40px',
-          height: '40px',
-          opacity: 0,
-          cursor: 'pointer',
-          overflow: 'hidden'
-        }}
-      >
+
         <input
           type='file'
           onChange={e => upload(e.target.files[0])}
         />
-      </div>
+
     </div>
   );
 }

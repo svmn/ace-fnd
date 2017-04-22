@@ -93,15 +93,7 @@ class PostArea extends Component {
         ref={ref => (this.fileInput = ref)}
         type='file'
         onChange={(e) => this.setFile(e.target.files[0])}
-        style={{
-          position: 'absolute',
-          top: '8px',
-          right: '0',
-          width: this.context.muiTheme.spacing.iconSize * 2,
-          height: this.context.muiTheme.spacing.iconSize * 2,
-          opacity: 0,
-          cursor: 'pointer'
-        }}
+        style={{ left: 48, width: 48 }}
       />
     );
     const progress = processing ? (
@@ -194,7 +186,7 @@ class PostArea extends Component {
     );
 
     // Wrap icons in func to update on theme switching
-    const IconContainer = () => (
+    const IconContainer = (
       <div className='icon-container'>
         <IconButton
           onTouchTap={() => this.send()}
@@ -206,11 +198,12 @@ class PostArea extends Component {
         <IconButton>
           <AddPhotoIcon />
         </IconButton>
+        {fileInput}
       </div>
     );
 
     return (
-      <div className='postarea bottom'>
+      <div className='postarea'>
         <SelfAvatar image={avatar.image} userId={avatar.userId} uploading={avatar.uploading} upload={this.props.avatarUpload} />
         <TextArea
           rows={2}
@@ -236,8 +229,7 @@ class PostArea extends Component {
           }}
           ref={ref => (this.textarea = ref)}
         />
-        <IconContainer />
-        {fileInput}
+        {IconContainer}
         {preview}
         {
           this.state.showSettings ? <Settings /> : null

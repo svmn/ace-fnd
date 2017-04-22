@@ -32,8 +32,7 @@ module.exports = {
       allChunks: true
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html'),
-      inject: 'head'
+      template: path.resolve(__dirname, 'src/index.html')
     }),
     new webpack.DefinePlugin({
       'process.traceDeprecation': true,

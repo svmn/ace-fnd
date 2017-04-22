@@ -22,14 +22,6 @@ export default function SelfAvatar(props) {
       }
       <input
         type='file'
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          height: '100%',
-          width: '100%',
-          opacity: 0
-        }}
         onChange={e => props.upload(e.target.files[0])}
       />
     </div>

@@ -4,6 +4,7 @@
     "browser": true
   },
   "rules": {
+    "linebreak-style": 0,
     "react/jsx-filename-extension": 0,
     "strict": 0,
     "comma-dangle": ["error", "never"],

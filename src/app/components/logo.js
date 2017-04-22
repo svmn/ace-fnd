@@ -9,6 +9,7 @@ export default class Logo extends Component {
   render() {
     return (
       <AppBar
+        className='logo'
         showMenuIconButton={false}
         title={
           'TUZACH.IN'

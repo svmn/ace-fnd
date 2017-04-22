@@ -75,20 +75,18 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(themes[this.state.theme])}>
         <div className={classnames('container', { 'playlist-mode': this.state.playlistMode }, this.state.theme)}>
-
-          <div className='sidebar'>
+          <div className='left'>
             <Logo togglePlaylistMode={() => this.togglePlaylistMode()} playlistMode={this.state.playlistMode} />
+
+            <Player theme={this.state.theme} />
 
             {this.state.sidebarContent === 0 ? <Playlist theme={this.state.theme} /> : null}
             {this.state.sidebarContent === 1 ? <MemeFeed /> : null}
-            {this.state.sidebarContent === 2 ? <div className='middle border-right' /> : null}
 
-            <Player theme={this.state.theme} />
             <SidebarMenu selected={this.state.sidebarContent} select={this.setSidebarContent.bind(this)} />
-
           </div>
 
-          <div className='main'>
+          <div className='right'>
             <Header
               togglePlaylistMode={() => this.togglePlaylistMode()}
               setTheme={this.setTheme.bind(this)}

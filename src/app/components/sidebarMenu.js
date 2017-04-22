@@ -9,8 +9,6 @@ export default function SidebarMenu(props) {
   return (
     <BottomNavigation
       selectedIndex={selected}
-      className='bottom border-right'
-      style={{ width: 'auto' }}
     >
       <BottomNavigationItem
         label='Плейлист'
@@ -18,14 +16,9 @@ export default function SidebarMenu(props) {
         onTouchTap={() => select(0)}
       />
       <BottomNavigationItem
-        label='Meme Feed'
+        label='Картинки'
         icon={<FontIcon className='fa fa-picture-o' />}
         onTouchTap={() => select(1)}
-      />
-      <BottomNavigationItem
-        label='Webm Feed'
-        icon={<FontIcon className='fa fa-film' />}
-        onTouchTap={() => select(2)}
       />
     </BottomNavigation>
   );

@@ -17,12 +17,9 @@ class Playlist extends Component {
       </div>
     );
     return (
-      <div className='middle border-right' style={{ position: 'relative' }}>
+      <div className='playlist'>
         {items.length ? null : placeholder}
-        <Scrollbars
-          autoHide
-          className='scrollbar-container'
-        >
+        <Scrollbars autoHide>
           {
             items.map((item, i) => (
               <PlaylistItem

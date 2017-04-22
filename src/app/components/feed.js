@@ -6,7 +6,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default function Feed(props) {
   return (
-    <div className='middle border-right'>
+    <div className='feed'>
       <Scrollbars
         autoHide
         className='scrollbar-container'

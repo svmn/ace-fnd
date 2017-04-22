@@ -104,9 +104,9 @@ class Player extends Component {
       <Slider
         style={{
           position: 'absolute',
-          top: '-10px',
-          left: 0,
-          width: '100%'
+          top: 16,
+          left: 16,
+          right: 16
         }}
         sliderStyle={{
           margin: '0'
@@ -136,7 +136,7 @@ class Player extends Component {
         key='player'
         style={{
           background: 'center center no-repeat',
-          backgroundImage: `url('${track.cover}')`,
+          backgroundImage: `url('${track.cover_big}')`,
           backgroundSize: 'cover'
         }}
       >
@@ -173,7 +173,7 @@ class Player extends Component {
           <IconButton
             iconClassName='material-icons'
             onTouchTap={this.props.playlistDeselect}
-          >keyboard_arrow_down</IconButton>
+          >keyboard_arrow_up</IconButton>
         </div>
       </div>
     );

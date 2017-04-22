@@ -16,63 +16,49 @@ html, body, .application {
   color: @darkBlack;
   height: 100%;
   display: flex;
-  &.playlist-mode {
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-    .main {
-      display: none;
-    }
-  }
   &.dark {
     background-color: #303030;
     color: @darkWhite;
   }
 }
 
-.sidebar {
+.left {
   display: none;
   @media @desktop {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     flex: 0 0 @sidebar-width;
   }
 }
-.main {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+.right {
   flex: 1;
+  position: relative;
 }
 
-.top {
-  height: @top-height;
+&.playlist-mode {
+  .left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .right {
+    display: none;
+  }
 }
-.middle {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.bottom {
+
+
+.border-top {
   border-top: @border;
   .dark & {
     border-top: @border-dark;
   }
-  min-height: @bottom-height;
 }
-.border-right {
-  border-right: @border;
+.border-left {
+  border-left: @border;
   .dark & {
-    border-right: @border-dark;
+    border-left: @border-dark;
   }
 }
-.scrollbar-container {
-  flex: 1; // fix height 100%
-}
-
 
 button,
 html [type="button"], /* 1 */
@@ -98,4 +84,16 @@ a {
   .dark & {
     background-color: @deepOrange500;
   }
+}
+
+input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  opacity: 0;
+  cursor: pointer;
 }
