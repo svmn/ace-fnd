@@ -36,7 +36,7 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html')
     }),
     new webpack.DefinePlugin({
-      VERSION: JSON.stringify(git.short())
+      VERSION: JSON.stringify(require('./package.json').version + '#' + git.short())
     }),
     new webpack.NoEmitOnErrorsPlugin()
   ],
