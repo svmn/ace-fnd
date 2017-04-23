@@ -1,3 +1,5 @@
+/* global VERSION */
+
 'use strict';
 
 import React, { PropTypes } from 'react';
@@ -10,8 +12,6 @@ import ClearIcon from 'material-ui/svg-icons/communication/clear-all';
 import Divider from 'material-ui/Divider';
 import Toggle from 'material-ui/Toggle';
 import { fullWhite } from 'material-ui/styles/colors';
-import isMobile from 'is-mobile';
-
 
 const Menu = (props) => (
   <IconMenu
@@ -29,14 +29,6 @@ const Menu = (props) => (
       target='_blank'
       primaryText='Логи чата'
     />
-    {
-      !isMobile() &&
-      <MenuItem
-        leftIcon={<FontIcon className='fa fa-archive' />}
-        href='https://tuzach.in/api/?app=index'
-        primaryText='Старая версия'
-      />
-    }
     <Divider />
     <MenuItem
       leftIcon={<FontIcon className='fa fa-bug' />}
@@ -71,6 +63,11 @@ const Menu = (props) => (
       leftIcon={<ClearIcon />}
       primaryText='Очистить игнор-лист'
       onTouchTap={props.ignoreClear}
+    />
+    <Divider />
+    <MenuItem
+      primaryText='Версия'
+      secondaryText={VERSION}
     />
   </IconMenu>
 );

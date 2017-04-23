@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const git = require('git-rev-sync');
 const dir_js = path.resolve(__dirname, 'src/app');
 const dir_css = path.resolve(__dirname, 'src/css');
 const dir_build = path.resolve(__dirname, 'dist');
@@ -35,10 +36,10 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html')
     }),
     new webpack.DefinePlugin({
-      'process.traceDeprecation': true,
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
-      }
+      },
+      VERSION: JSON.stringify(git.short())
     }),
     new webpack.optimize.UglifyJsPlugin()
   ],
