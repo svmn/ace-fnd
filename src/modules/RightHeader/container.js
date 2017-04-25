@@ -7,10 +7,7 @@ import {
 } from '../../actions/chat';
 
 function mapStateToProps(state) {
-  return {
-    topic: state.topic,
-    online: state.onlineCounter
-  };
+  return state.info;
 }
 
 const actions = {

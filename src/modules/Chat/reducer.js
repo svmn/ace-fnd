@@ -3,7 +3,7 @@
 import unionBy from 'lodash/unionBy';
 import uniq from 'lodash/uniq';
 import remove from 'lodash/remove';
-import { updateState } from '../utils';
+import { updateState } from '../../utils';
 import {
   CHAT_UPDATE,
   CHAT_START,
@@ -11,9 +11,9 @@ import {
   IGNORE_ADD,
   IGNORE_CLEAR,
   IGNORE_LOAD
-} from '../actionTypes';
+} from '../../actionTypes';
 
-import { REPLY_REGEXP } from '../constants';
+import { REPLY_REGEXP } from '../../constants';
 
 const initialState = {
   messages: [],

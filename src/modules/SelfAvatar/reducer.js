@@ -3,11 +3,11 @@
 import {
   AVATAR_LOAD,
   AVATAR_SET_UPLOADING
-} from '../actionTypes';
+} from '../../actionTypes';
 
 import {
   updateState
-} from '../utils';
+} from '../../utils';
 
 const initialState = {
   userId: '',

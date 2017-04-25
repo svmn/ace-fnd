@@ -6,7 +6,7 @@ import * as actions from '../../actions/memeFeed';
 
 function mapStateToProps(state) {
   return {
-    feed: state.memeFeed // TODO
+    feed: state.imageFeed
   };
 }
 

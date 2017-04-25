@@ -7,10 +7,10 @@ import {
   PLAYLIST_PREVIOUS,
   PLAYLIST_NEXT,
   PLAYLIST_UPLOAD_PROGRESS
-} from '../actionTypes';
+} from '../../actionTypes';
 import {
   updateState
-} from '../utils';
+} from '../../utils';
 
 const initialState = {
   items: [],

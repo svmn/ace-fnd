@@ -3,7 +3,7 @@
 import uniq from 'lodash/uniq';
 import {
   MEMEFEED_ADD
-} from '../actionTypes';
+} from '../../actionTypes';
 
 export default function (state = [], action) {
   const { type, data } = action;

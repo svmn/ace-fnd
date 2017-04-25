@@ -3,7 +3,7 @@
 import {
   SNACKBAR_OPEN,
   SNACKBAR_CLOSE
-} from '../actionTypes';
+} from '../../actionTypes';
 
 export default function (state = '', action) {
   const { type, data } = action;

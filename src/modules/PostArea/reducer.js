@@ -1,26 +1,22 @@
 'use strict';
 
 import {
-  SHOW_PREVIEW,
-  HIDE_PREVIEW
-} from '../actionTypes';
+  POSTAREA_SET_PROCESSING
+} from '../../actionTypes';
 
-import { updateState } from '../utils';
+import { updateState } from '../../utils';
 
 const initialState = {
-  message: null
+  processing: false
 };
 
 export default function (state = initialState, action) {
   const { type, data } = action;
-
   switch (type) {
-    case SHOW_PREVIEW:
+    case POSTAREA_SET_PROCESSING:
       return updateState(state, {
-        message: data
+        processing: data
       });
-    case HIDE_PREVIEW:
-      return initialState;
     default:
       return state;
   }
