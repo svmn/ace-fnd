@@ -13,7 +13,7 @@ import { fullWhite, minBlack } from 'material-ui/styles/colors';
 import isMobile from 'is-mobile';
 
 import { fixMimeType } from '../../utils';
-import { Component as SelfAvatar } from '../SelfAvatar';
+import { Container as SelfAvatar } from '../SelfAvatar';
 
 export default class PostArea extends Component {
   constructor(props) {
@@ -201,7 +201,7 @@ export default class PostArea extends Component {
 
     return (
       <div className='postarea'>
-        <SelfAvatar image={avatar.image} userId={avatar.userId} uploading={avatar.uploading} upload={this.props.avatarUpload} />
+        <SelfAvatar />
         <TextArea
           rows={2}
           maxRows={8}
@@ -240,9 +240,7 @@ PostArea.propTypes = {
   message: PropTypes.string,
   preview: PropTypes.string,
   processing: PropTypes.bool,
-  avatar: PropTypes.object,
   chatSend: PropTypes.func.isRequired,
-  avatarUpload: PropTypes.func.isRequired
 };
 PostArea.contextTypes = {
   muiTheme: PropTypes.object.isRequired

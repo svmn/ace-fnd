@@ -1,7 +1,7 @@
 'use strict';
 
 import fetch from 'isomorphic-fetch';
-import { PLAYLIST_ENDPOINT } from '../config';
+import { PLAYLIST_ENDPOINT } from '../../config';
 
 export function load() {
   return fetch(PLAYLIST_ENDPOINT, {

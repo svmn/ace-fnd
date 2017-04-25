@@ -23,12 +23,12 @@ export default class Playlist extends Component {
                 item={item}
                 key={i}
                 selected={item.id === selected}
-                select={this.props.playlistSelect}
+                select={this.props.select}
               />
             ))
           }
         </Scrollbars>
-        <PlaylistUploadButton uploadProgress={uploadProgress} upload={this.props.playlistUpload} />
+        <PlaylistUploadButton uploadProgress={uploadProgress} upload={this.props.upload} />
       </div>
     );
   }
@@ -38,6 +38,4 @@ Playlist.propTypes = {
   items: PropTypes.array.isRequired,
   selected: PropTypes.string,
   uploadProgress: PropTypes.number,
-  playlistSelect: PropTypes.func.isRequired,
-  playlistUpload: PropTypes.func.isRequired
 };

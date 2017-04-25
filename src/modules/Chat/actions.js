@@ -12,11 +12,11 @@ import {
   IGNORE_ADD,
   IGNORE_CLEAR,
   IGNORE_LOAD
-} from '../actionTypes';
+} from '../../actionTypes';
 
-import { load, post, control } from '../api/chat';
+import { load, post, control } from './api';
 
-export function chatUpdate() {
+export function update() {
   return (dispatch, getState) => {
     const lastMessageId = getState().chat.lastMessageId;
     return load(lastMessageId)
@@ -36,11 +36,11 @@ export function chatUpdate() {
   };
 }
 
-export function chatStart() {
+export function start() {
   return (dispatch) => {
-    dispatch(chatUpdate());
+    dispatch(update());
     const timer = setInterval(() => {
-      dispatch(chatUpdate());
+      dispatch(update());
     }, 7000);
     dispatch({
       type: CHAT_START,
@@ -49,7 +49,7 @@ export function chatStart() {
   };
 }
 
-export function chatStop() {
+export function stop() {
   return (dispatch, getState) => {
     const timer = getState().chat.timer;
     clearInterval(timer);
@@ -73,7 +73,7 @@ export function hidePreview() {
   };
 }
 
-export function chatSend(message, file) {
+export function send(message, file) {
   return (dispatch) => {
     if (!message && !file) return;
 
@@ -96,7 +96,7 @@ export function chatSend(message, file) {
             data: alert
           });
         }
-        dispatch(chatUpdate());
+        dispatch(update());
         if (file) {
           dispatch({ type: POSTAREA_SET_PROCESSING, data: false });
         }

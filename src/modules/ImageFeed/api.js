@@ -1,7 +1,7 @@
 'use strict';
 
 import io from 'socket.io-client';
-import { MEMEFEED_ENDPOINT } from '../config';
+import { MEMEFEED_ENDPOINT } from '../../config';
 
 let socket;
 

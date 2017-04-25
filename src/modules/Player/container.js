@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import Component from './component';
-import * as actions from '../../actions/playlist';
+import { actions } from '../Playlist';
 
 function mapStateToProps(state) {
   return {

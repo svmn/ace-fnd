@@ -6,7 +6,7 @@ import { Component as Feed } from '../Feed';
 
 export default class ImageFeed extends Component {
   componentDidMount() {
-    this.props.feedStart();
+    this.props.start();
   }
 
   render() {
@@ -34,6 +34,4 @@ export default class ImageFeed extends Component {
 
 ImageFeed.propTypes = {
   feed: PropTypes.array.isRequired,
-  feedStart: PropTypes.func.isRequired,
-  feedStop: PropTypes.func.isRequired
 };

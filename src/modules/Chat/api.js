@@ -1,7 +1,7 @@
 'use strict';
 
 import 'isomorphic-fetch';
-import { CHAT_ENDPOINT, CONTROL_ENDPOINT } from '../config.js';
+import { CHAT_ENDPOINT, CONTROL_ENDPOINT } from '../../config.js';
 
 export function load(lastMessageId) {
   return fetch(`${CHAT_ENDPOINT}&last=${lastMessageId}`, {

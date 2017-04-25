@@ -1,10 +1,6 @@
 'use strict';
 
-import {
-  load,
-  upload,
-  vote
-} from '../api/playlist';
+import * as api from './api';
 import {
   PLAYLIST_UPDATE,
   PLAYLIST_SELECT,
@@ -13,58 +9,58 @@ import {
   PLAYLIST_NEXT,
   PLAYLIST_UPLOAD_PROGRESS,
   SNACKBAR_OPEN
-} from '../actionTypes';
+} from '../../actionTypes';
 
 let timer;
 
-export function playlistUpdate() {
+export function update() {
   return (dispatch) => {
-    load()
+    api.load()
       .then(data => dispatch({ type: PLAYLIST_UPDATE, data: data.songs }))
       .catch(err => console.log(err));
   };
 }
 
-export function playlistStart() {
+export function start() {
   return (dispatch) => {
-    dispatch(playlistUpdate());
+    dispatch(update());
     timer = setInterval(() => {
-      dispatch(playlistUpdate());
+      dispatch(update());
     }, 20000);
   };
 }
 
-export function playlistStop() {
+export function stop() {
   clearInterval(timer);
   return { type: null };
 }
 
-export function playlistSelect(id) {
+export function select(id) {
   return {
     type: PLAYLIST_SELECT,
     data: id
   };
 }
 
-export function playlistDeselect() {
+export function deselect() {
   return { type: PLAYLIST_DESELECT };
 }
 
-export function playlistPrevious() {
+export function previous() {
   return { type: PLAYLIST_PREVIOUS };
 }
 
-export function playlistNext() {
+export function next() {
   return { type: PLAYLIST_NEXT };
 }
 
-export function playlistUpload(file) {
+export function upload(file) {
   return (dispatch) => {
     const onProgress = e => {
       const progress = (e.loaded / e.total) * 100;
       dispatch({ type: PLAYLIST_UPLOAD_PROGRESS, data: progress });
     };
-    upload(file, onProgress)
+    api.upload(file, onProgress)
       .then(response => {
         let alert;
         try {
@@ -75,15 +71,15 @@ export function playlistUpload(file) {
         }
         dispatch({ type: PLAYLIST_UPLOAD_PROGRESS, data: null });
         dispatch({ type: SNACKBAR_OPEN, data: alert });
-        dispatch(playlistUpdate());
+        dispatch(update());
       })
       .catch(err => console.log(err));
   };
 }
 
-export function playlistVote(id, value) {
+export function vote(id, value) {
   return (dispatch) => {
-    vote(id, value)
+    api.vote(id, value)
       .then(response => {
         if (response) {
           let alert;
@@ -95,7 +91,7 @@ export function playlistVote(id, value) {
           }
           dispatch({ type: SNACKBAR_OPEN, data: alert });
         }
-        dispatch(playlistUpdate());
+        dispatch(update());
       });
   };
 }

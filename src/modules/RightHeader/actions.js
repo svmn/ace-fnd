@@ -2,16 +2,14 @@
 
 import {
   LOAD_TOPIC
-} from '../actionTypes';
+} from '../../actionTypes';
 
-import {
-  get
-} from '../api/topic';
+import * as api from './api';
 
 //eslint-disable-next-line
 export function loadTopic() {
   return (dispatch) => {
-    get()
+    api.loadTopic()
       .then(data => dispatch({ type: LOAD_TOPIC, data: data.topic }))
       .catch(err => console.log(err));
   };

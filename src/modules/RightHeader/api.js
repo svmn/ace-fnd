@@ -1,10 +1,10 @@
 'use strict';
 
 import fetch from 'isomorphic-fetch';
-import { TOPIC_ENDPOINT } from '../config';
+import { TOPIC_ENDPOINT } from '../../config';
 
 // eslint-disable-next-line
-export function get() {
+export function loadTopic() {
   return fetch(TOPIC_ENDPOINT)
     .then(response => {
       if (response.status >= 400) {

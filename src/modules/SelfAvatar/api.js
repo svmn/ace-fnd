@@ -1,7 +1,7 @@
 'use strict';
 
 import fetch from 'isomorphic-fetch';
-import { AVATAR_ENDPOINT } from '../config';
+import { AVATAR_ENDPOINT } from '../../config';
 
 export function load() {
   return fetch(AVATAR_ENDPOINT, {

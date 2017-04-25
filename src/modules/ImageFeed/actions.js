@@ -3,13 +3,13 @@
 import {
   connect,
   disconnect
-} from '../api/memeFeed';
+} from './api';
 
 import {
   MEMEFEED_ADD
-} from '../actionTypes';
+} from '../../actionTypes';
 
-export function feedStart() {
+export function start() {
   return (dispatch) => {
     connect(posts => {
       dispatch({ type: MEMEFEED_ADD, data: posts });
@@ -17,6 +17,6 @@ export function feedStart() {
   };
 }
 
-export function feedStop() {
+export function stop() {
   disconnect();
 }

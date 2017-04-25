@@ -7,10 +7,10 @@ import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import store from './store';
 import { Component as Main } from './modules/Main';
-import { chatStart, ignoreLoad } from './actions/chat';
-import { playlistStart } from './actions/playlist';
-import { loadTopic } from './actions/topic';
-import { avatarLoad, avatarSet } from './actions/avatar';
+import { actions as chat } from './modules/Chat';
+import { actions as playlist } from './modules/Playlist';
+import { actions as info } from './modules/RightHeader';
+import { actions as avatar } from './modules/SelfAvatar';
 import './css/index.less'; // TODO
 
 // Needed for onTouchTap
@@ -19,14 +19,14 @@ injectTapEventPlugin();
 
 const rootElement = document.getElementById('application');
 
-store.dispatch(loadTopic());
-store.dispatch(ignoreLoad());
-store.dispatch(chatStart());
-store.dispatch(playlistStart());
+store.dispatch(info.loadTopic());
+store.dispatch(chat.ignoreLoad());
+store.dispatch(chat.start());
+store.dispatch(playlist.start());
 if (localStorage.avatar) {
-  store.dispatch(avatarSet(localStorage.avatar));
+  store.dispatch(avatar.set(localStorage.avatar));
 } else {
-  store.dispatch(avatarLoad());
+  store.dispatch(avatar.load());
 }
 
 render(

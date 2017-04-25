@@ -50,7 +50,7 @@ export default class Player extends Component {
       playing: false,
       position: 0
     });
-    this.props.playlistNext();
+    this.props.next();
   }
 
   setDuration() {
@@ -80,11 +80,11 @@ export default class Player extends Component {
   }
 
   like() {
-    this.props.playlistVote(this.props.track.id, 1);
+    this.props.vote(this.props.track.id, 1);
   }
 
   dislike() {
-    this.props.playlistVote(this.props.track.id, -1);
+    this.props.vote(this.props.track.id, -1);
   }
 
   render() {
@@ -141,7 +141,7 @@ export default class Player extends Component {
           }
           <IconButton
             iconClassName='material-icons'
-            onTouchTap={this.props.playlistNext}
+            onTouchTap={this.props.next}
           >skip_next</IconButton>
           {volumeBar}
           <IconButton
@@ -164,7 +164,7 @@ export default class Player extends Component {
           >thumb_down</IconButton>
           <IconButton
             iconClassName='material-icons'
-            onTouchTap={this.props.playlistDeselect}
+            onTouchTap={this.props.deselect}
           >keyboard_arrow_up</IconButton>
         </div>
       </div>
@@ -188,8 +188,4 @@ export default class Player extends Component {
 
 Player.propTypes = {
   track: PropTypes.object,
-  playlistDeselect: PropTypes.func.isRequired,
-  playlistPrevious: PropTypes.func.isRequired,
-  playlistNext: PropTypes.func.isRequired,
-  playlistVote: PropTypes.func.isRequired
 };

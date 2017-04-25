@@ -3,7 +3,7 @@
 import {
   SNACKBAR_OPEN,
   SNACKBAR_CLOSE
-} from '../actionTypes';
+} from '../../actionTypes';
 
 export function snackbarOpen(text) {
   return {

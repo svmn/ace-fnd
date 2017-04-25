@@ -2,19 +2,14 @@
 
 import { connect } from 'react-redux';
 import Component from './component';
-import { chatSend } from '../../actions/chat';
-import { avatarUpload } from '../../actions/avatar';
+import { actions as chat } from '../Chat';
 
 function mapStateToProps(state) {
-  return {
-    processing: state.postarea.processing,
-    avatar: state.avatar
-  };
+  return state.processing;
 }
 
 const actions = {
-  chatSend,
-  avatarUpload
+  chatSend: chat.send
 };
 
 export default connect(mapStateToProps, actions, null, { withRef: true })(Component);

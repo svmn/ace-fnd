@@ -1,19 +1,15 @@
 'use strict';
 
-import {
-  load,
-  set,
-  upload
-} from '../api/avatar';
+import * as api from './api';
 
 import {
   AVATAR_LOAD,
   AVATAR_SET_UPLOADING
-} from '../actionTypes';
+} from '../../actionTypes';
 
-export function avatarLoad() {
+export function load() {
   return (dispatch) => {
-    load()
+    api.load()
     .then(data => dispatch({
       type: AVATAR_LOAD,
       data
@@ -22,10 +18,10 @@ export function avatarLoad() {
   };
 }
 
-export function avatarUpload(file) {
+export function upload(file) {
   return (dispatch) => {
     dispatch({ type: AVATAR_SET_UPLOADING, data: true });
-    upload(file)
+    api.upload(file)
       .then(data => {
         dispatch({ type: AVATAR_LOAD, data });
         dispatch({ type: AVATAR_SET_UPLOADING, data: false });
@@ -35,9 +31,9 @@ export function avatarUpload(file) {
   };
 }
 
-export function avatarSet(avatar) {
+export function set(avatar) {
   return (dispatch) => {
-    set(avatar)
+    api.set(avatar)
       .then(data => {
         dispatch({ type: AVATAR_LOAD, data });
       })
