@@ -1,0 +1,38 @@
+@import '../../style/variables';
+@import '../../style/colors';
+
+.container {
+  background-color: @grey100;
+  font: 13px/20px Roboto, sans-serif;
+  color: @darkBlack;
+  height: 100%;
+  display: flex;
+  &.dark {
+    background-color: #303030;
+    color: @darkWhite;
+  }
+}
+
+.left {
+  display: none;
+  @media @desktop {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 @sidebar-width;
+  }
+}
+.right {
+  flex: 1;
+  position: relative;
+}
+
+&.playlist-mode {
+  .left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .right {
+    display: none;
+  }
+}

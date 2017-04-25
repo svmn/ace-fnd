@@ -11,6 +11,7 @@ export default class RightHeader extends Component {
     const { topic, online } = this.props;
     return (
       <AppBar
+        className='right-header'
         title={null}
         iconElementLeft={
           <IconButton className='playlist-mode-switch' onTouchTap={this.props.togglePlaylistMode}>
@@ -20,7 +21,6 @@ export default class RightHeader extends Component {
         iconElementRight={
           <HeaderMenu setTheme={this.props.setTheme} theme={this.props.theme} ignoreClear={this.props.ignoreClear} />
         }
-        className='header'
       >
         <div className='topic'>{topic}</div>
         <div className='online'>

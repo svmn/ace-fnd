@@ -9,7 +9,7 @@ export default class LeftHeader extends Component {
   render() {
     return (
       <AppBar
-        className='logo'
+        className='left-header'
         showMenuIconButton={false}
         title={
           'TUZACH.IN'

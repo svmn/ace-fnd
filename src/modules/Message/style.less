@@ -1,12 +1,6 @@
-.chat {
-  position: absolute;
-  top: @top-height;
-  left: 0;
-  right: 0;
-  bottom: @bottom-height;
-
-  .border-left();
-}
+@import '../../style/mixins';
+@import '../../style/variables';
+@import '../../style/colors';
 
 .message {
   .clearfix();
@@ -94,27 +88,6 @@
   .replies {
     margin-left: @avatar-size + @edge-padding;
   }
-  .attachment {
-    position: relative;
-    display: table; // fit content width for proper positioning icons
-    img {
-      display: block;
-      border-radius: 4px;
-      cursor: pointer;
-      max-width: 100%;
-    }
-    video {
-      display: block;
-      max-width: 100%;
-    }
-    .fileinfo {
-      font-size: 11px;
-      color: @lightBlack;
-      .dark & {
-        color: @lightWhite;
-      }
-    }
-  }
   .read-more {
     display: block;
   }
@@ -146,19 +119,4 @@
       }
     }
   }
-}
-
-.preview-enter {
-  opacity: 0;
-}
-.preview-enter.preview-enter-active {
-  opacity: 1;
-  transition: opacity 200ms linear;
-}
-.preview-leave {
-  opacity: 1;
-}
-.preview-leave.preview-leave-active {
-  opacity: 0;
-  transition: opacity 50ms linear;
 }

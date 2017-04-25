@@ -1,5 +1,6 @@
 'use strict';
 
+import './style/index.less';
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
@@ -9,9 +10,8 @@ import store from './store';
 import { Component as Main } from './modules/Main';
 import { actions as chat } from './modules/Chat';
 import { actions as playlist } from './modules/Playlist';
-import { actions as info } from './modules/RightHeader';
+import { actions as header } from './modules/RightHeader';
 import { actions as avatar } from './modules/SelfAvatar';
-import './css/index.less'; // TODO
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -19,7 +19,7 @@ injectTapEventPlugin();
 
 const rootElement = document.getElementById('application');
 
-store.dispatch(info.loadTopic());
+store.dispatch(header.loadTopic());
 store.dispatch(chat.ignoreLoad());
 store.dispatch(chat.start());
 store.dispatch(playlist.start());
