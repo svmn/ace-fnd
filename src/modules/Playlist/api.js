@@ -5,7 +5,7 @@ import { PLAYLIST_ENDPOINT } from '../../config';
 
 export function load() {
   return fetch(PLAYLIST_ENDPOINT, {
-    credentials: 'same-origin'
+    credentials: 'include'
   })
     .then(response => {
       if (response.status >= 400) {
@@ -34,7 +34,7 @@ export function vote(id, value) {
   body.set('val', value);
   return fetch(`${PLAYLIST_ENDPOINT}&act=vote`, {
     method: 'post',
-    credentials: 'same-origin',
+    credentials: 'include',
     body
   })
     .then(response => {

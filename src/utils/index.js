@@ -1,6 +1,8 @@
 'use strict';
 
 import padStart from 'lodash/padStart';
+import once from 'lodash/once';
+import _isMobile from 'is-mobile';
 import { EXT_WEBM_REGEXP } from '../constants';
 
 export function padTime(time) {
@@ -50,3 +52,6 @@ export function getExtWebmUrl(text) {
 export function getExtWebmThumbnail(url) {
   return url.replace('src', 'thumb').replace('.webm', 's.jpg');
 }
+
+export const isMobile = once(_isMobile);
+
