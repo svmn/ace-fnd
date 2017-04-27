@@ -1,7 +1,7 @@
 'use strict';
 
+import union from 'lodash/union';
 import unionBy from 'lodash/unionBy';
-import uniq from 'lodash/uniq';
 import remove from 'lodash/remove';
 import { updateState } from '../../utils';
 import {
@@ -45,20 +45,18 @@ export default function (state = initialState, action) {
       const messages = data.filter(msg => !state.ignoreList.includes(msg.user_id) && msg.type !== 'dlt');
 
       // Genetare "answers"
-      const replies = {};
-      messages.forEach(msg => {
-        const targetId = msg.id;
-        const matches = msg.text.match(REPLY_REGEXP) || [];
+      const replies = messages.reduce((acc, message) => {
+        const targetId = message.id;
+        const matches = message.text.match(REPLY_REGEXP) || [];
+
         matches.slice(0, 6).forEach(match => {
           const sourceId = match.replace('@', '');
           // merge existing replies, replies parsed in previous iteration and just parsed reply
-          const existing = state.replies[sourceId] || [];
-          const current = replies[sourceId] || [];
-          replies[sourceId] = [...existing, ...current, targetId];
-          // remove duplicates
-          replies[sourceId] = uniq(replies[sourceId]);
+          acc[sourceId] = union(state.replies[sourceId], acc[sourceId], [targetId]);
         });
-      });
+
+        return acc;
+      }, {});
 
       return updateState(state, {
         lastMessageId: lastMessage ? Number(lastMessage.id) : state.lastMessageId,

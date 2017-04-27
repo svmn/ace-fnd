@@ -90,7 +90,7 @@ export default class Chat extends Component {
       <div className='chat'>
         <Scrollbars
           autoHide
-          onScrollStop={this.onScroll.bind(this)}
+          onScrollFrame={this.onScroll.bind(this)}
           ref={ref => (this.scrollbars = ref)}
         >
           {
