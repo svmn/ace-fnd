@@ -68,6 +68,7 @@
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
     "roboto-fontface": "^0.7.0",
-    "socket.io-client": "^1.7.3"
+    "socket.io-client": "^1.7.3",
+    "whatwg-fetch": "^2.0.3"
   }
 }

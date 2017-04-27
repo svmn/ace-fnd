@@ -4,44 +4,48 @@ import {
   CHAT_UPDATE,
   CHAT_START,
   CHAT_STOP,
-  SHOW_PREVIEW,
-  HIDE_PREVIEW,
   SET_ONLINE_COUNTER,
-  POSTAREA_SET_PROCESSING,
+  POSTAREA_SET_UPLOADING,
   SNACKBAR_OPEN,
   IGNORE_ADD,
   IGNORE_CLEAR,
   IGNORE_LOAD
 } from '../../actionTypes';
 
-import { load, post, control } from './api';
+import * as api from './api';
 
 export function update() {
   return (dispatch, getState) => {
     const lastMessageId = getState().chat.lastMessageId;
-    return load(lastMessageId)
+
+    return api.load(lastMessageId)
       .then(data => {
         const { data: messages } = data;
+
         if (messages && messages.length) {
           dispatch({
             type: CHAT_UPDATE,
             data: messages
           });
         }
+
         dispatch({
           type: SET_ONLINE_COUNTER,
           data: data.user_cnt
         });
-      });
+      })
+      .catch(console.error);
   };
 }
 
 export function start() {
   return (dispatch) => {
     dispatch(update());
+
     const timer = setInterval(() => {
       dispatch(update());
     }, 7000);
+
     dispatch({
       type: CHAT_START,
       data: timer
@@ -57,31 +61,15 @@ export function stop() {
   };
 }
 
-export function showPreview(id) {
-  return (dispatch, getState) => {
-    const message = getState().chat.messages.find(msg => msg.id === id);
-    dispatch({
-      type: SHOW_PREVIEW,
-      data: message
-    });
-  };
-}
-
-export function hidePreview() {
-  return {
-    type: HIDE_PREVIEW
-  };
-}
-
 export function send(message, file) {
   return (dispatch) => {
     if (!message && !file) return;
 
     if (file) {
-      dispatch({ type: POSTAREA_SET_PROCESSING, data: true });
+      dispatch({ type: POSTAREA_SET_UPLOADING, data: true });
     }
 
-    post(message, file)
+    api.post(message, file)
       .then(response => {
         if (response) {
           let alert;
@@ -91,18 +79,21 @@ export function send(message, file) {
           } catch (e) {
             alert = response;
           }
+
           dispatch({
             type: SNACKBAR_OPEN,
             data: alert
           });
         }
+
         dispatch(update());
+
         if (file) {
-          dispatch({ type: POSTAREA_SET_PROCESSING, data: false });
+          dispatch({ type: POSTAREA_SET_UPLOADING, data: false });
         }
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
         dispatch({
           type: SNACKBAR_OPEN,
           data: 'Проблемы с соединением'
@@ -114,7 +105,9 @@ export function send(message, file) {
 export function ignoreAdd(messageId) {
   return (dispatch, getState) => {
     const targetUserId = getState().chat.messages.find(msg => msg.id === messageId).user_id;
+
     dispatch({ type: IGNORE_ADD, data: targetUserId });
+
     const { ignoreList } = getState().chat;
     localStorage.setItem('ignoreList', JSON.stringify(ignoreList));
     dispatch({
@@ -140,15 +133,15 @@ export function ignoreLoad() {
   return { type: IGNORE_LOAD, data: ignoreList };
 }
 
-export function chatControl(method, messageId) {
+export function control(method, messageId) {
   return (dispatch) => {
-    control(method, messageId)
+    api.control(method, messageId)
       .then(response => {
         dispatch({
           type: SNACKBAR_OPEN,
           data: response
         });
       })
-      .catch(err => console.log(err));
+      .catch(console.log);
   };
 }

@@ -1,11 +1,12 @@
 'use strict';
 
-import './style/index.less';
 import 'babel-polyfill';
+import 'whatwg-fetch';
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import './style/index.less';
 import store from './store';
 import { Component as Main } from './modules/Main';
 import { actions as chat } from './modules/Chat';

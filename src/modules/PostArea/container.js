@@ -5,7 +5,7 @@ import Component from './component';
 import { actions as chat } from '../Chat';
 
 function mapStateToProps(state) {
-  return state.processing;
+  return state.postarea;
 }
 
 const actions = {
