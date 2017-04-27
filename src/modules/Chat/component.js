@@ -4,7 +4,8 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
-import debounce from 'lodash/debounce';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FontIcon from 'material-ui/FontIcon';
 import { Component as Message } from '../Message';
 
 export default class Chat extends Component {
@@ -12,13 +13,13 @@ export default class Chat extends Component {
     super(props);
     this.messageRefs = {};
     this.state = {
-      selectedMessageId: null
+      selectedMessageId: null,
+      showScrollDownButton: false
     };
     this.autoscroll = true;
     this.inactive = false;
     this.defaultTitle = document.title;
     this.unreadPosts = 0;
-    this.debouncedOnScroll = debounce(this.onScroll.bind(this), 250);
   }
 
   componentDidMount() {
@@ -31,10 +32,10 @@ export default class Chat extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    setTimeout(() => this.scrollDown(), 0);
+    setTimeout(() => this.scrollDown(), 100);
     if (this.inactive) {
       if (this.props.messages.length > prevProps.messages.length) {
-        this.unreadPosts += 1;
+        this.unreadPosts += this.props.messages.length - prevProps.messages.length;
         document.title = `[${this.unreadPosts}] ${this.defaultTitle}`;
       }
     }
@@ -44,6 +45,7 @@ export default class Chat extends Component {
     const height = this.scrollbars.getScrollHeight() - this.scrollbars.getClientHeight();
     const diff = height - this.scrollbars.getScrollTop();
     this.autoscroll = (diff < 100);
+    this.setState({ showScrollDownButton: diff > 500 });
   }
 
   gotoMessage(id) {
@@ -68,12 +70,26 @@ export default class Chat extends Component {
 
   render() {
     const { messages, replies } = this.props;
+
+    const scrollDownButton = !this.state.showScrollDownButton ? null : (
+      <FloatingActionButton
+        mini
+        onTouchTap={() => this.scrollbars.scrollToBottom()}
+        style={{
+          position: 'absolute',
+          bottom: 16,
+          right: 16
+        }}
+      >
+        <FontIcon className='material-icons'>keyboard_arrow_down</FontIcon>
+      </FloatingActionButton>
+    );
+
     return (
       <div className='chat'>
         <Scrollbars
           autoHide
-          className='scrollbar-container'
-          onScroll={this.debouncedOnScroll}
+          onScrollStop={this.onScroll.bind(this)}
           ref={ref => (this.scrollbars = ref)}
         >
           {
@@ -91,11 +107,12 @@ export default class Chat extends Component {
                 movePreview={this.props.movePreview}
                 hidePreview={this.props.hidePreview}
                 ignoreAdd={this.props.ignoreAdd}
-                chatControl={this.props.chatControl}
+                chatControl={this.props.control}
               />
             )
           }
         </Scrollbars>
+        {scrollDownButton}
       </div>
     );
   }
@@ -109,5 +126,5 @@ Chat.propTypes = {
   movePreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired,
   ignoreAdd: PropTypes.func.isRequired,
-  chatControl: PropTypes.func.isRequired
+  control: PropTypes.func.isRequired
 };

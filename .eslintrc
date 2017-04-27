@@ -4,14 +4,18 @@
     "browser": true
   },
   "rules": {
+    "import/prefer-default-export": 0,
     "linebreak-style": 0,
     "react/jsx-filename-extension": 0,
+    "react/require-default-props": 0,
+    "react/jsx-no-bind": 0,
+    "react/forbid-prop-types": 0,
     "strict": 0,
     "comma-dangle": ["error", "never"],
     "jsx-quotes": [2, "prefer-single"],
     "react/prefer-stateless-function": 0,
     "react/require-extension": "off",
     "max-len": ["error", 120],
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": 1
   }
 }

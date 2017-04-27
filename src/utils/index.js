@@ -16,15 +16,7 @@ export function getAvatarIcon(userId = '') {
 
 export function getAvatarColor(userId = '') {
   const colorCode = parseInt(userId.slice(-3), 16) % 360;
-  const color = `hsl(${colorCode},50%,50%)`;
-  return color;
-}
-
-export function getAvatar(userId) {
-  return {
-    color: getAvatarColor(userId),
-    icon: getAvatarIcon(userId)
-  };
+  return `hsl(${colorCode},50%,50%)`;
 }
 
 export function updateState(prevState, nextState) {
@@ -38,10 +30,6 @@ export function fixMimeType(filename, data) {
     return data.replace('data:base64', `data:image/${ext};base64`);
   }
   return data;
-}
-
-export function setBackground(theme) {
-  document.body.style.backgroundImage = `url(assets/background-${theme}.png)`;
 }
 
 export function getExtWebmUrl(text) {
