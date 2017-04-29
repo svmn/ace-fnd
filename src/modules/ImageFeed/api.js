@@ -8,7 +8,7 @@ let socket;
 export function connect(receiveHandler) {
   socket = io(MEMEFEED_ENDPOINT);
   socket.on('post', receiveHandler);
-  socket.on('error', (err) => console.log(err));
+  socket.on('error', console.error);
 }
 
 export function disconnect() {

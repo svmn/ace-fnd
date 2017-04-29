@@ -2,13 +2,12 @@
 
 'use strict';
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton/IconButton';
+import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import ClearIcon from 'material-ui/svg-icons/communication/clear-all';
 import Divider from 'material-ui/Divider';
 import Toggle from 'material-ui/Toggle';
 import { fullWhite } from 'material-ui/styles/colors';
@@ -16,7 +15,9 @@ import { fullWhite } from 'material-ui/styles/colors';
 export default function HeaderMenu(props) {
   return (
     <IconMenu
-      iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+      iconButtonElement={
+        <IconButton iconClassName='material-icons'>more_vert</IconButton>
+      }
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       targetOrigin={{ horizontal: 'right', vertical: 'top' }}
       style={{ zIndex: 1 }}
@@ -61,7 +62,7 @@ export default function HeaderMenu(props) {
         }
       />
       <MenuItem
-        leftIcon={<ClearIcon />}
+        leftIcon={<FontIcon className='material-icons'>clear_all</FontIcon>}
         primaryText='Очистить игнор-лист'
         onTouchTap={props.ignoreClear}
       />

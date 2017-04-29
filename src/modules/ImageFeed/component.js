@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import { Component as Feed } from '../Feed';
 
@@ -14,16 +15,9 @@ export default class ImageFeed extends Component {
     return (
       <Feed>
         {
-          feed.map((post, i) => (
-            <Paper style={{ margin: '10px' }} key={post + (feed.length - i)} >
-              <img
-                src={post}
-                alt={post}
-                style={{
-                  display: 'block',
-                  maxWidth: '100%'
-                }}
-              />
+          feed.map(post => (
+            <Paper key={post} style={{ margin: '10px' }} >
+              <img src={post} alt={post} />
             </Paper>
           ))
         }
@@ -34,4 +28,5 @@ export default class ImageFeed extends Component {
 
 ImageFeed.propTypes = {
   feed: PropTypes.array.isRequired,
+  start: PropTypes.func.isRequired
 };

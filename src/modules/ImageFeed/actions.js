@@ -6,13 +6,13 @@ import {
 } from './api';
 
 import {
-  MEMEFEED_ADD
+  IMAGEFEED_ADD
 } from '../../actionTypes';
 
 export function start() {
   return (dispatch) => {
     connect(posts => {
-      dispatch({ type: MEMEFEED_ADD, data: posts });
+      dispatch({ type: IMAGEFEED_ADD, data: posts });
     });
   };
 }

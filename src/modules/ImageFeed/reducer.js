@@ -2,13 +2,13 @@
 
 import uniq from 'lodash/uniq';
 import {
-  MEMEFEED_ADD
+  IMAGEFEED_ADD
 } from '../../actionTypes';
 
 export default function (state = [], action) {
   const { type, data } = action;
   switch (type) {
-    case MEMEFEED_ADD:
+    case IMAGEFEED_ADD:
       return uniq([...data, ...state]);
     default:
       return state;

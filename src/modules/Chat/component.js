@@ -33,11 +33,13 @@ export default class Chat extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    setTimeout(() => this.scrollDown(), 100);
-    if (this.inactive) {
-      if (this.props.messages.length > prevProps.messages.length) {
+    if (this.props.messages.length > prevProps.messages.length) {
+      if (this.inactive) {
         this.unreadPosts += this.props.messages.length - prevProps.messages.length;
         document.title = `[${this.unreadPosts}] ${this.defaultTitle}`;
+      }
+      if (this.autoscroll) {
+        this.scrollbars.scrollToBottom();
       }
     }
   }
@@ -63,12 +65,6 @@ export default class Chat extends Component {
     this.setState({ selectedMessageId: id });
   }
 
-  scrollDown() {
-    if (this.autoscroll) {
-      this.scrollbars.scrollToBottom();
-    }
-  }
-
   render() {
     const { messages, replies } = this.props;
 
@@ -90,7 +86,7 @@ export default class Chat extends Component {
       <div className='chat'>
         <Scrollbars
           autoHide
-          onScrollFrame={this.onScroll.bind(this)}
+          onScrollStop={this.onScroll.bind(this)}
           ref={ref => (this.scrollbars = ref)}
         >
           {

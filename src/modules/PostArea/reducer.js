@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-  POSTAREA_SET_PROCESSING
+  POSTAREA_SET_UPLOADING
 } from '../../actionTypes';
 
 import { updateState } from '../../utils';
@@ -13,7 +13,7 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, data } = action;
   switch (type) {
-    case POSTAREA_SET_PROCESSING:
+    case POSTAREA_SET_UPLOADING:
       return updateState(state, {
         processing: data
       });
