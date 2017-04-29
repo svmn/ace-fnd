@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import LazyLoad from 'react-lazy-load';
 import Paper from 'material-ui/Paper';
 import { Component as Feed } from '../Feed';
 
@@ -16,8 +17,8 @@ export default class ImageFeed extends Component {
       <Feed>
         {
           feed.map(post => (
-            <Paper key={post} style={{ margin: '10px' }} >
-              <img src={post} alt={post} />
+            <Paper key={post} style={{ margin: '10px', minHeight: '150px' }} >
+              <LazyLoad><img src={post} alt={post} /></LazyLoad>
             </Paper>
           ))
         }

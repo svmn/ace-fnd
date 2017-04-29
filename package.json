@@ -60,6 +60,7 @@
     "react-addons-css-transition-group": "^15.5.2",
     "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^15.5.4",
+    "react-lazy-load": "^3.0.12",
     "react-redux": "^5.0.4",
     "react-string-replace": "^0.4.0",
     "react-tap-event-plugin": "^2.0.1",
