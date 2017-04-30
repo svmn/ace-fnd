@@ -7,5 +7,5 @@ function mapStateToProps(state) {
   return state.preview;
 }
 
-export default connect(mapStateToProps, null, null, { withRef: true })(Component);
+export default connect(mapStateToProps)(Component);
 

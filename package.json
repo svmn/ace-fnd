@@ -48,6 +48,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "classnames": "^2.2.5",
+    "eventemitter3": "^2.0.3",
     "font-awesome": "^4.7.0",
     "is-mobile": "^0.2.2",
     "isomorphic-fetch": "^2.2.1",

@@ -12,7 +12,6 @@ import { Container as Chat } from '../Chat';
 import { Container as Player } from '../Player';
 import { Container as PostArea } from '../PostArea';
 import { Container as Snackbar } from '../Snackbar';
-import { Container as MessagePreview } from '../MessagePreview';
 import { Component as SidebarMenu } from '../SidebarMenu';
 import { Container as ImageFeed } from '../ImageFeed';
 
@@ -53,24 +52,6 @@ export default class Main extends Component {
     this.postarea.getWrappedInstance().insertReply(reply);
   }
 
-  movePreview(x, y) {
-    const cursorOffset = 20;
-    const el = this.preview.getWrappedInstance().ref;
-    if (!el) return;
-    const previewHeight = el.offsetHeight;
-    const previewWidth = el.offsetWidth;
-    const rightEdgeDistance = window.innerWidth - x - previewWidth - cursorOffset;
-    const bottomEdgeDistance = window.innerHeight - y - previewHeight - cursorOffset;
-    const leftPos = (rightEdgeDistance <= 10) ?
-      x - previewWidth - cursorOffset :
-      x + cursorOffset;
-    const topPos = (bottomEdgeDistance <= 10) ?
-      y - previewHeight - cursorOffset :
-      y + cursorOffset;
-    el.style.top = `${topPos}px`;
-    el.style.left = `${leftPos}px`;
-  }
-
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(themes[this.state.theme])}>
@@ -92,9 +73,8 @@ export default class Main extends Component {
               setTheme={this.setTheme.bind(this)}
               theme={this.state.theme}
             />
-            <Chat insertReply={this.insertReply.bind(this)} movePreview={this.movePreview.bind(this)} />
+            <Chat insertReply={this.insertReply.bind(this)} />
             <PostArea ref={ref => (this.postarea = ref)} theme={this.state.theme} />
-            <MessagePreview ref={ref => (this.preview = ref)} />
           </div>
           <Snackbar />
         </div>

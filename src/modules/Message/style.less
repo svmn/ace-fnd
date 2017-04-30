@@ -5,13 +5,13 @@
 .message {
   .clearfix();
   padding: 4px @edge-padding;
-
-  .preview & {
-    padding: 8px @edge-padding;
-  }
   border-bottom: 1px solid @grey200;
+
   .dark & {
     border-color: transparent;
+  }
+  .preview & {
+    padding: 8px @edge-padding;
   }
   &:nth-child(even) {
     background-color: @grey50;
@@ -30,6 +30,7 @@
       opacity: 0.9;
     }
   }
+
   .id {
     color: @blueGrey500;
     cursor: pointer;
@@ -38,12 +39,14 @@
       color: @deepOrange500;
     }
   }
+
   .personal-flag {
     color: @lightBlack;
     .dark & {
       color: @lightWhite;
     }
   }
+ 
   .time {
     float: right;
     color: @lightBlack;
@@ -51,6 +54,7 @@
       color: @lightWhite;
     }
   }
+
   .text {
     overflow-wrap: break-word;
     white-space: pre-line;
@@ -81,6 +85,7 @@
       color: #789922;
     }
   }
+
   .id-wrapper,
   .text,
   .attachment,
@@ -88,19 +93,18 @@
   .replies {
     margin-left: @avatar-size + @edge-padding;
   }
+
   .read-more {
     display: block;
   }
+
   .replies {
-    display: none;
-    @media @desktop {
-      display: block;
-      font-size: 11px;
-      a {
-        margin-left: 5px;
-      }
+    font-size: 11px;
+    a {
+      margin-left: 5px;
     }
   }
+
   &.selected:not(.personal) {
     background-color: @blueGrey100;
     .dark & {
@@ -110,10 +114,11 @@
       }
     }
   }
+
   &.personal {
-    background-color: @red100;
+    background-color: @red50;
     .dark & {
-      background-color: rgba(183, 28, 28, 0.5); //red900
+      background-color: rgba(183, 28, 28, 0.2); //red900
       .id, a {
         color: white;
       }

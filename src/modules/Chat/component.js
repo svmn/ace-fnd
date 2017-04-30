@@ -8,6 +8,8 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Component as Message } from '../Message';
+import { Container as MessagePreview } from '../MessagePreview';
+import { isMobile } from '../../utils';
 
 export default class Chat extends Component {
   constructor(props) {
@@ -101,15 +103,15 @@ export default class Chat extends Component {
                 gotoMessage={this.gotoMessage.bind(this)}
                 ref={ref => (this.messageRefs[msg.id] = ref)}
                 showPreview={this.props.showPreview}
-                movePreview={this.props.movePreview}
                 hidePreview={this.props.hidePreview}
                 ignoreAdd={this.props.ignoreAdd}
-                chatControl={this.props.control}
+                control={this.props.control}
               />
             )
           }
         </Scrollbars>
         {scrollDownButton}
+        {!isMobile() && <MessagePreview />}
       </div>
     );
   }
@@ -120,7 +122,6 @@ Chat.propTypes = {
   replies: PropTypes.object.isRequired,
   insertReply: PropTypes.func.isRequired,
   showPreview: PropTypes.func.isRequired,
-  movePreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired,
   ignoreAdd: PropTypes.func.isRequired,
   control: PropTypes.func.isRequired

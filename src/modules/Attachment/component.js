@@ -5,11 +5,24 @@ import PropTypes from 'prop-types';
 import { Component as AttachmentImage } from '../AttachmentImage';
 import { Component as AttachmentYoutube } from '../AttachmentYoutube';
 import { Component as AttachmentWebm } from '../AttachmentWebm';
+import {
+  getExtWebmUrl
+} from '../../utils';
+import {
+  getYoutubeId,
+  getYoutubeTimestamp
+} from '../../utils/youtube';
 
 export default class Attachment extends Component {
   render() {
-    const { message, youtubeVideoId, youtubeTimestamp, extWebmUrl } = this.props;
-    const { picture } = message;
+    const { message } = this.props;
+    const { text, picture } = message;
+
+    const youtubeVideoId = getYoutubeId(text);
+    const youtubeTimestamp = getYoutubeTimestamp(text);
+
+    const extWebmUrl = getExtWebmUrl(message.text);
+
 
     let content = null;
 
@@ -30,8 +43,5 @@ export default class Attachment extends Component {
 }
 
 Attachment.propTypes = {
-  message: PropTypes.object.isRequired,
-  youtubeVideoId: PropTypes.string,
-  youtubeTimestamp: PropTypes.string,
-  extWebmUrl: PropTypes.string
+  message: PropTypes.object.isRequired
 };

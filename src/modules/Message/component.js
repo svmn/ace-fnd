@@ -1,15 +1,19 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Component as MessageMenu } from '../MessageMenu';
+import emitter from '../../emitter';
 import {
-  padTime,
-  getExtWebmUrl
+  padTime
 } from '../../utils';
 import * as parser from '../../utils/messageParser';
-import * as ytUtils from '../../utils/youtube';
-import { Component as Avatar } from '../Avatar';
+import {
+  isYoutube,
+  getYoutubeId,
+  getYoutubeTitle
+} from '../../utils/youtube';
+import { Component as MessageAvatar } from '../MessageAvatar';
 import { Component as Attachment } from '../Attachment';
 
 export default class Message extends Component {
@@ -18,9 +22,7 @@ export default class Message extends Component {
     this.state = {
       expandedText: false,
       showReadMore: false,
-      youtubeTitle: null,
-      showPopover: false,
-      popoverAnchorEl: null
+      youtubeTitle: null
     };
     this.isYoutube = false;
   }
@@ -33,7 +35,7 @@ export default class Message extends Component {
     }
 
     if (this.isYoutube) {
-      ytUtils.getYoutubeTitle(this.youtubeVideoId)
+      getYoutubeTitle(this.youtubeVideoId)
         .then(title => this.setState({ youtubeTitle: title }));
     }
   }
@@ -54,36 +56,23 @@ export default class Message extends Component {
     });
   }
 
-  showPopover(e) {
-    this.setState({
-      showPopover: true,
-      popoverAnchorEl: e.currentTarget
+  movePreview(event) {
+    const { clientX, clientY } = event;
+    requestAnimationFrame(() => {
+      emitter.emit('movePreview', clientX, clientY);
     });
-  }
-
-  hidePopover() {
-    this.setState({
-      showPopover: false,
-      popoverAnchorEl: null
-    });
-  }
-
-  movePreview(e) {
-    const x = e.clientX;
-    const y = e.clientY;
-    requestAnimationFrame(() => this.props.movePreview(x, y));
   }
 
   render() {
     const { message, replies, selected, personal } = this.props;
     let { text } = message;
-    const { id, user_id: userId, picture, controls, avatar } = message;
+    const { id, picture } = message;
+
     const time = new Date(message.time);
     const formattedTime = `${padTime(time.getHours())}:${padTime(time.getMinutes())}:${padTime(time.getSeconds())}`;
-    this.isYoutube = ytUtils.isYoutube(text) && !picture;
-    this.youtubeVideoId = ytUtils.getYoutubeId(text);
-    const youtubeTimestamp = ytUtils.getYoutubeTimestamp(text);
-    const extWebmUrl = getExtWebmUrl(text);
+
+    this.isYoutube = isYoutube(text) && !picture;
+    this.youtubeVideoId = getYoutubeId(text);
 
     const readMoreBlock = !this.state.showReadMore ? null : (
       <a href='' className='read-more' onClick={e => e.preventDefault()} onTouchTap={this.toggleExpandText.bind(this)} >
@@ -94,14 +83,14 @@ export default class Message extends Component {
     const repliesBlock = !replies ? null : (
       <div className='replies'>
         Ответы:{
-          replies.map((reply, i) =>
+          replies.map(reply =>
             <a
               href=''
-              key={i}
+              key={reply}
               onClick={e => e.preventDefault()}
               onTouchTap={() => this.props.gotoMessage(reply)}
               onMouseEnter={() => this.props.showPreview(reply)}
-              onMouseMove={this.movePreview.bind(this)}
+              onMouseMove={this.movePreview}
               onMouseLeave={() => this.props.hidePreview()}
             >
               >>{reply}
@@ -116,7 +105,7 @@ export default class Message extends Component {
       text,
       this.props.gotoMessage,
       this.props.showPreview,
-      this.movePreview.bind(this),
+      this.movePreview,
       this.props.hidePreview
     );
     if (this.state.youtubeTitle) {
@@ -126,26 +115,15 @@ export default class Message extends Component {
 
     return (
       <div className={classnames('message', { selected, personal })} ref={ref => (this.ref = ref)}>
-        <div
-          className='avatar'
-          onTouchTap={e => {
-            e.preventDefault();
-            this.showPopover(e);
-          }}
-        >
-          <Avatar userId={userId} image={avatar} />
-          <MessageMenu
-            open={this.state.showPopover}
-            anchorEl={this.state.popoverAnchorEl}
-            hidePopover={this.hidePopover.bind(this)}
-            controls={controls}
-            messageId={id}
-            chatControl={this.props.chatControl}
-            insertReply={this.props.insertReply}
-            ignoreAdd={this.props.ignoreAdd}
-          />
-        </div>
+        <MessageAvatar
+          message={message}
+          control={this.props.control}
+          insertReply={this.props.insertReply}
+          ignoreAdd={this.props.ignoreAdd}
+        />
+
         <div className='time'>{formattedTime}</div>
+
         <div className='id-wrapper'>
           <span
             className='id'
@@ -155,6 +133,7 @@ export default class Message extends Component {
           </span>
           {personal ? <span className='personal-flag'> [Личное сообщение]</span> : null}
         </div>
+
         <div
           className='text'
           ref={ref => (this.messageTextRef = ref)}
@@ -164,13 +143,11 @@ export default class Message extends Component {
         >
           {text}
         </div>
+
         {readMoreBlock}
-        <Attachment
-          message={message}
-          youtubeVideoId={this.youtubeVideoId}
-          youtubeTimestamp={youtubeTimestamp}
-          extWebmUrl={extWebmUrl}
-        />
+
+        <Attachment message={message} />
+
         {repliesBlock}
       </div>
     );
@@ -183,10 +160,9 @@ Message.propTypes = {
   insertReply: PropTypes.func,
   gotoMessage: PropTypes.func,
   showPreview: PropTypes.func,
-  movePreview: PropTypes.func,
   hidePreview: PropTypes.func,
   ignoreAdd: PropTypes.func,
-  chatControl: PropTypes.func,
+  control: PropTypes.func,
   selected: PropTypes.bool,
   personal: PropTypes.bool
 };
