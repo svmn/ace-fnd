@@ -14,6 +14,7 @@ import { Container as PostArea } from '../PostArea';
 import { Container as Snackbar } from '../Snackbar';
 import { Component as SidebarMenu } from '../SidebarMenu';
 import { Container as ImageFeed } from '../ImageFeed';
+import { Container as Lightbox } from '../Lightbox';
 
 export default class Main extends Component {
   constructor(props) {
@@ -77,6 +78,7 @@ export default class Main extends Component {
             <PostArea ref={ref => (this.postarea = ref)} theme={this.state.theme} />
           </div>
           <Snackbar />
+          <Lightbox />
         </div>
       </MuiThemeProvider>
     );

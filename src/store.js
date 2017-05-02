@@ -11,6 +11,7 @@ import { reducer as preview } from './modules/MessagePreview';
 import { reducer as info } from './modules/RightHeader';
 import { reducer as imageFeed } from './modules/ImageFeed';
 import { reducer as avatar } from './modules/SelfAvatar';
+import { reducer as lightbox } from './modules/Lightbox';
 
 const rootReducer = combineReducers({
   chat,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   preview,
   info,
   imageFeed,
-  avatar
+  avatar,
+  lightbox
 });
 
 const logger = createLogger();
