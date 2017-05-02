@@ -17,7 +17,7 @@ export function update() {
   return (dispatch) => {
     api.load()
       .then(data => dispatch({ type: PLAYLIST_UPDATE, data: data.songs }))
-      .catch(err => console.log(err));
+      .catch(console.error);
   };
 }
 
@@ -73,7 +73,7 @@ export function upload(file) {
         dispatch({ type: SNACKBAR_OPEN, data: alert });
         dispatch(update());
       })
-      .catch(err => console.log(err));
+      .catch(console.error);
   };
 }
 
@@ -92,6 +92,7 @@ export function vote(id, value) {
           dispatch({ type: SNACKBAR_OPEN, data: alert });
         }
         dispatch(update());
-      });
+      })
+      .catch(console.error);
   };
 }

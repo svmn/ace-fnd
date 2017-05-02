@@ -8,6 +8,7 @@ import {
   PLAYLIST_NEXT,
   PLAYLIST_UPLOAD_PROGRESS
 } from '../../actionTypes';
+
 import {
   updateState
 } from '../../utils';

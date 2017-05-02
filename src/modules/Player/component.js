@@ -1,14 +1,16 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import IconButton from 'material-ui/IconButton';
 import Slider from 'material-ui/Slider';
 import { green900 as likeColor, red900 as dislikeColor } from 'material-ui/styles/colors';
-import throttle from 'lodash/throttle';
-import get from 'lodash/get';
-import isMobile from 'is-mobile';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import cx from 'classnames';
+import get from 'lodash/get';
+import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
+import { isMobile } from '../../utils';
 
 export default class Player extends Component {
   constructor(props) {
@@ -20,14 +22,7 @@ export default class Player extends Component {
       volume: typeof localStorage.volume !== 'undefined' ? Number(localStorage.volume) : 0.5
     };
     this.onProgress = throttle(this.onProgress.bind(this), 500);
-    this.onEnd = this.onEnd.bind(this);
-    this.setDuration = this.setDuration.bind(this);
-    this.setVolume = throttle(this.setVolume.bind(this), 100);
-    this.like = this.like.bind(this);
-    this.dislike = this.dislike.bind(this);
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-    this.seek = this.seek.bind(this);
+    this.setVolume = debounce(this.setVolume.bind(this), 100);
   }
 
   componentDidMount() {
@@ -105,7 +100,7 @@ export default class Player extends Component {
         }}
         disableFocusRipple
         value={position / duration}
-        onChange={this.seek}
+        onChange={this.seek.bind(this)}
       />
     );
 
@@ -126,42 +121,48 @@ export default class Player extends Component {
     const playerUI = !track ? null : (
       <div
         key='player'
+        className='player'
         style={{
-          background: 'center center no-repeat',
-          backgroundImage: `url('${track.cover_big}')`,
-          backgroundSize: 'cover'
+          backgroundImage: `url('${track.cover_big}')`
         }}
       >
-        <div className={cx('player', 'border-right', { overlay: !!track.cover })}>
+        <div className='inner'>
           {progressBar}
+
           {
-            !playing ?
-              <IconButton onTouchTap={this.play} iconClassName='material-icons'>play_arrow</IconButton> :
-                <IconButton onTouchTap={this.pause} iconClassName='material-icons'>pause</IconButton>
+            !playing
+              ? <IconButton onTouchTap={this.play.bind(this)} iconClassName='material-icons'>play_arrow</IconButton>
+              : <IconButton onTouchTap={this.pause.bind(this)} iconClassName='material-icons'>pause</IconButton>
           }
+
           <IconButton
             iconClassName='material-icons'
             onTouchTap={this.props.next}
           >skip_next</IconButton>
+
           {volumeBar}
+
           <IconButton
             href={url}
             iconClassName='material-icons'
           >file_download</IconButton>
+
           <IconButton
             iconClassName='material-icons'
             iconStyle={track.voted !== '1' ? {} : {
               color: likeColor
             }}
-            onTouchTap={this.like}
+            onTouchTap={this.like.bind(this)}
           >thumb_up</IconButton>
+
           <IconButton
             iconClassName='material-icons'
             iconStyle={track.voted !== '-1' ? {} : {
               color: dislikeColor
             }}
-            onTouchTap={this.dislike}
+            onTouchTap={this.dislike.bind(this)}
           >thumb_down</IconButton>
+
           <IconButton
             iconClassName='material-icons'
             onTouchTap={this.props.deselect}
@@ -176,8 +177,8 @@ export default class Player extends Component {
           ref={ref => (this.audio = ref)}
           src={url}
           onTimeUpdate={this.onProgress}
-          onDurationChange={this.setDuration}
-          onEnded={this.onEnd}
+          onDurationChange={this.setDuration.bind(this)}
+          onEnded={this.onEnd.bind(this)}
         />
         {playerUI}
       </ReactCSSTransitionGroup>
@@ -188,4 +189,7 @@ export default class Player extends Component {
 
 Player.propTypes = {
   track: PropTypes.object,
+  next: PropTypes.func.isRequired,
+  vote: PropTypes.func.isRequired,
+  deselect: PropTypes.func.isRequired
 };

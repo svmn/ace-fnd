@@ -6,5 +6,5 @@ import './style.less';
 
 export {
   Component,
-  Container,
+  Container
 };

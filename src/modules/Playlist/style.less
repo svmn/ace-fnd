@@ -1,4 +1,15 @@
+@import '../../style/colors';
+
 .playlist {
   flex: 1;
   position: relative;
+  
+  .placeholder {
+    font-size: 16px;
+    padding: 16px;
+    color: @lightBlack;
+    .dark & {
+      color: @lightWhite;
+    }
+  }
 }

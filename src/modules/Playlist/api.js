@@ -1,6 +1,5 @@
 'use strict';
 
-import fetch from 'isomorphic-fetch';
 import { PLAYLIST_ENDPOINT } from '../../config';
 
 export function load() {
@@ -18,6 +17,7 @@ export function load() {
 export function upload(file, onProgress) {
   const body = new FormData();
   body.set('added', file, file.name);
+
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('post', `${PLAYLIST_ENDPOINT}&act=add`);
