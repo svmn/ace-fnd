@@ -63,6 +63,11 @@ export default class Message extends Component {
     });
   }
 
+  reply(id, isPrivate) {
+    const replyStr = isPrivate ? `!#${id}` : `@${id}`;
+    emitter.emit('reply', replyStr);
+  }
+
   render() {
     const { message, replies, selected, personal } = this.props;
     let { text } = message;
@@ -118,7 +123,6 @@ export default class Message extends Component {
         <MessageAvatar
           message={message}
           control={this.props.control}
-          insertReply={this.props.insertReply}
           ignoreAdd={this.props.ignoreAdd}
         />
 
@@ -127,7 +131,7 @@ export default class Message extends Component {
         <div className='id-wrapper'>
           <span
             className='id'
-            onTouchTap={() => this.props.insertReply((personal ? '!#' : '@') + id)}
+            onTouchTap={() => this.reply(id, personal)}
           >
             #{id}
           </span>
@@ -157,7 +161,6 @@ export default class Message extends Component {
 Message.propTypes = {
   message: PropTypes.object.isRequired,
   replies: PropTypes.array,
-  insertReply: PropTypes.func,
   gotoMessage: PropTypes.func,
   showPreview: PropTypes.func,
   hidePreview: PropTypes.func,

@@ -49,10 +49,6 @@ export default class Main extends Component {
     });
   }
 
-  insertReply(reply) {
-    this.postarea.getWrappedInstance().insertReply(reply);
-  }
-
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(themes[this.state.theme])}>
@@ -74,8 +70,8 @@ export default class Main extends Component {
               setTheme={this.setTheme.bind(this)}
               theme={this.state.theme}
             />
-            <Chat insertReply={this.insertReply.bind(this)} />
-            <PostArea ref={ref => (this.postarea = ref)} theme={this.state.theme} />
+            <Chat />
+            <PostArea theme={this.state.theme} />
           </div>
           <Snackbar />
           <Lightbox />

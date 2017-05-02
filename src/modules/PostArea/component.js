@@ -1,31 +1,28 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TextArea from 'react-textarea-autosize';
 import IconButton from 'material-ui/IconButton';
-import SendIcon from 'material-ui/svg-icons/content/send';
-import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
-import Paper from 'material-ui/Paper';
-import CloseIcon from 'material-ui/svg-icons/navigation/close';
-import CircularProgress from 'material-ui/CircularProgress';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import { fullWhite, minBlack } from 'material-ui/styles/colors';
-import isMobile from 'is-mobile';
-
-import { fixMimeType } from '../../utils';
 import { Container as SelfAvatar } from '../SelfAvatar';
+import { Component as ImagePreview } from '../ImagePreview';
+import emitter from '../../emitter';
+import { isMobile } from '../../utils';
 
 export default class PostArea extends Component {
   constructor(props) {
     super(props);
+
     const defaultPostingMode = isMobile() ? 'natural' : 'inverse';
     this.state = {
-      showSettings: false,
       mode: localStorage.postingMode || defaultPostingMode,
       message: '',
-      preview: null
+      file: null
     };
-    this.file = null;
+  }
+
+  componentDidMount() {
+    emitter.on('reply', this.insertReply.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,42 +31,38 @@ export default class PostArea extends Component {
     }
   }
 
+  onKeydown(e) {
+    if (e.key === 'Enter') {
+      if (this.state.mode === 'natural') {
+        if (e.ctrlKey || e.metaKey) {
+          this.send();
+        }
+      }
+      if (this.state.mode === 'inverse') {
+        if (!e.shiftKey) {
+          e.preventDefault();
+          this.send();
+        }
+      }
+    }
+  }
+
   setMessage(message) {
     this.setState({ message });
   }
 
   setFile(file) {
-    console.log(file);
-    this.file = file;
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      if (isMobile()) {
-        this.setState({ preview: fixMimeType(file, e.target.result) });
-      } else {
-        this.setState({ preview: e.target.result });
-      }
-    };
+    console.info(file);
+    this.setState({ file });
   }
 
   unsetFile() {
-    this.file = null;
     this.fileInput.value = '';
-    this.setState({ preview: null });
-  }
-
-  showSettings() {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.setState({ showSettings: true }), 1000);
-  }
-
-  hideSettings() {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.setState({ showSettings: false }), 500);
+    this.setState({ file: null });
   }
 
   send() {
-    this.props.chatSend(this.state.message, this.file);
+    this.props.send(this.state.message, this.state.file);
     this.setState({ message: '' });
   }
 
@@ -84,120 +77,7 @@ export default class PostArea extends Component {
   }
 
   render() {
-    const { processing, avatar } = this.props;
-    const fileInput = (
-      <input
-        ref={ref => (this.fileInput = ref)}
-        type='file'
-        onChange={(e) => this.setFile(e.target.files[0])}
-        style={{ left: 48, width: 48 }}
-      />
-    );
-    const progress = processing ? (
-      <CircularProgress
-        size={42}
-        thickness={3}
-        color='white'
-        style={{
-          position: 'absolute',
-          top: '29px',
-          left: '29px',
-          pointerEvents: 'none'
-        }}
-      />
-    ) : null;
-
-    const preview = !this.state.preview ? null : (
-      <Paper
-        style={{
-          height: '100px',
-          width: '100px',
-          position: 'absolute',
-          top: '-108px',
-          right: '12px',
-          backgroundSize: 'cover',
-          backgroundImage: `url('${this.state.preview}')`,
-          textAlign: 'center'
-        }}
-
-      >
-        <IconButton
-          style={{
-            marginTop: '26px',
-            backgroundColor: minBlack,
-            borderRadius: '50%'
-          }}
-          iconStyle={{
-            color: fullWhite
-          }}
-          onTouchTap={this.unsetFile.bind(this)}
-        >
-          <CloseIcon />
-        </IconButton>
-        {progress}
-      </Paper>
-    );
-
-    const Settings = () => (
-      <Paper
-        style={{
-          height: '125px',
-          width: '310px',
-          position: 'absolute',
-          top: '-133px',
-          right: '12px',
-          padding: '16px'
-        }}
-        zDepth={2}
-        onMouseEnter={this.showSettings.bind(this)}
-        onMouseLeave={this.hideSettings.bind(this)}
-      >
-        <RadioButtonGroup
-          name='mode'
-          valueSelected={this.state.mode}
-          onChange={(e, value) => {
-            this.setState({ mode: value });
-            localStorage.postingMode = value;
-          }}
-        >
-          <RadioButton
-            value='natural'
-            label={
-              <div>
-                <div><b>Ctrl + Enter</b> - Отправка сообщения</div>
-                <div><b>Enter</b> - Перенос строки</div>
-              </div>
-            }
-          />
-          <RadioButton
-            value='inverse'
-            label={
-              <div>
-                <div><b>Enter</b> - Отправка сообщения</div>
-                <div><b>Shift + Enter</b> - Перенос строки</div>
-              </div>
-            }
-          />
-        </RadioButtonGroup>
-      </Paper>
-    );
-
-    // Wrap icons in func to update on theme switching
-    const IconContainer = (
-      <div className='icon-container'>
-        <IconButton
-          onTouchTap={() => this.send()}
-          onMouseEnter={isMobile() ? null : this.showSettings.bind(this)}
-          onMouseLeave={isMobile() ? null : this.hideSettings.bind(this)}
-        >
-          <SendIcon />
-        </IconButton>
-        <IconButton>
-          <AddPhotoIcon />
-        </IconButton>
-        {fileInput}
-      </div>
-    );
+    const { processing } = this.props;
 
     return (
       <div className='postarea'>
@@ -209,39 +89,28 @@ export default class PostArea extends Component {
           maxLength={2048}
           value={this.state.message}
           onChange={e => this.setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              if (this.state.mode === 'natural') {
-                if (e.ctrlKey || e.metaKey) {
-                  this.send();
-                }
-              }
-              if (this.state.mode === 'inverse') {
-                if (!e.shiftKey) {
-                  e.preventDefault();
-                  this.send();
-                }
-              }
-            }
-          }}
+          onKeyDown={this.onKeydown.bind(this)}
           ref={ref => (this.textarea = ref)}
         />
-        {IconContainer}
-        {preview}
-        {
-          this.state.showSettings ? <Settings /> : null
-        }
+
+        <div className='icon-container'>
+          <IconButton iconClassName='material-icons' onTouchTap={this.send.bind(this)}>send</IconButton>
+          <IconButton iconClassName='material-icons'>add_a_photo</IconButton>
+
+          <input
+            ref={ref => (this.fileInput = ref)}
+            type='file'
+            onChange={e => this.setFile(e.target.files[0])}
+          />
+        </div>
+
+        <ImagePreview file={this.state.file} processing={processing} unset={this.unsetFile.bind(this)} />
       </div>
     );
   }
 }
 
 PostArea.propTypes = {
-  message: PropTypes.string,
-  preview: PropTypes.string,
   processing: PropTypes.bool,
-  chatSend: PropTypes.func.isRequired,
-};
-PostArea.contextTypes = {
-  muiTheme: PropTypes.object.isRequired
+  send: PropTypes.func.isRequired
 };

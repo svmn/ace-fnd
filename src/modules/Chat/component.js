@@ -98,7 +98,6 @@ export default class Chat extends Component {
                 selected={this.state.selectedMessageId === msg.id}
                 personal={msg.type === 'pvt'}
                 key={msg.id}
-                insertReply={this.props.insertReply}
                 replies={replies[msg.id]}
                 gotoMessage={this.gotoMessage.bind(this)}
                 ref={ref => (this.messageRefs[msg.id] = ref)}
@@ -120,7 +119,6 @@ export default class Chat extends Component {
 Chat.propTypes = {
   messages: PropTypes.array.isRequired,
   replies: PropTypes.object.isRequired,
-  insertReply: PropTypes.func.isRequired,
   showPreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired,
   ignoreAdd: PropTypes.func.isRequired,

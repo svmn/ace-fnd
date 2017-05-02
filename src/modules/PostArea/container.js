@@ -9,7 +9,7 @@ function mapStateToProps(state) {
 }
 
 const actions = {
-  chatSend: chat.send
+  send: chat.send
 };
 
-export default connect(mapStateToProps, actions, null, { withRef: true })(Component);
+export default connect(mapStateToProps, actions)(Component);

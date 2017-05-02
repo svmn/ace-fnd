@@ -7,6 +7,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
+import emitter from '../../emitter';
 
 export default function MessageMenu(props) {
   const controls = !props.controls ? null : (
@@ -53,7 +54,7 @@ export default function MessageMenu(props) {
         <MenuItem
           primaryText='Ответ'
           leftIcon={<FontIcon className='fa fa-at' />}
-          onTouchTap={() => props.insertReply(`@${props.messageId}`)}
+          onTouchTap={() => emitter.emit('reply', `@${props.messageId}`)}
         />
         <MenuItem
           primaryText='Игнор'
@@ -63,7 +64,7 @@ export default function MessageMenu(props) {
         <MenuItem
           primaryText='Сообщение'
           leftIcon={<FontIcon className='fa fa-envelope' />}
-          onTouchTap={() => props.insertReply(`!#${props.messageId}`)}
+          onTouchTap={() => emitter.emit('reply', `!#${props.messageId}`)}
         />
       </Menu>
       {controls}
@@ -78,6 +79,5 @@ MessageMenu.propTypes = {
   controls: PropTypes.bool,
   messageId: PropTypes.string.isRequired,
   control: PropTypes.func,
-  insertReply: PropTypes.func,
   ignoreAdd: PropTypes.func
 };

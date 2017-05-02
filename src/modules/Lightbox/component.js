@@ -16,7 +16,7 @@ export default class Lightbox extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', e => {
+    window.addEventListener('keydown', event => {
       if (event.key === 'Escape') {
         this.props.close();
       }

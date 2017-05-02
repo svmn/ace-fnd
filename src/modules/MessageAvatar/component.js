@@ -45,7 +45,6 @@ export default class MessageAvatar extends Component {
           controls={controls}
           messageId={id}
           control={this.props.control}
-          insertReply={this.props.insertReply}
           ignoreAdd={this.props.ignoreAdd}
         />
       </div>
@@ -56,6 +55,5 @@ export default class MessageAvatar extends Component {
 MessageAvatar.propTypes = {
   message: PropTypes.object.isRequired,
   control: PropTypes.func,
-  insertReply: PropTypes.func,
   ignoreAdd: PropTypes.func
 };
