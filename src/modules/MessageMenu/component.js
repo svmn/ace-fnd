@@ -64,6 +64,9 @@ export default function MessageMenu(props) {
         <MenuItem
           primaryText='Сообщение'
           leftIcon={<FontIcon className='fa fa-envelope' />}
+          iconStyle={{
+            fontSize: 20
+          }}
           onTouchTap={() => emitter.emit('reply', `!#${props.messageId}`)}
         />
       </Menu>

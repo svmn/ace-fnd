@@ -12,6 +12,7 @@ import { reducer as info } from './modules/RightHeader';
 import { reducer as imageFeed } from './modules/ImageFeed';
 import { reducer as avatar } from './modules/SelfAvatar';
 import { reducer as lightbox } from './modules/Lightbox';
+import { reducer as settings } from './modules/Settings';
 
 const rootReducer = combineReducers({
   chat,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   info,
   imageFeed,
   avatar,
-  lightbox
+  lightbox,
+  settings
 });
 
 const logger = createLogger();

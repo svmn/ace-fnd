@@ -8,7 +8,8 @@ import { actions as previewActions } from '../MessagePreview';
 function mapStateToProps(state) {
   return {
     messages: state.chat.messages,
-    replies: state.chat.replies
+    replies: state.chat.replies,
+    settings: state.settings
   };
 }
 

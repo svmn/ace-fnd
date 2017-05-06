@@ -15,6 +15,7 @@ import { Container as Snackbar } from '../Snackbar';
 import { Component as SidebarMenu } from '../SidebarMenu';
 import { Container as ImageFeed } from '../ImageFeed';
 import { Container as Lightbox } from '../Lightbox';
+import { Container as Settings } from '../Settings';
 
 export default class Main extends Component {
   constructor(props) {
@@ -65,16 +66,13 @@ export default class Main extends Component {
           </div>
 
           <div className='right'>
-            <RightHeader
-              togglePlaylistMode={() => this.togglePlaylistMode()}
-              setTheme={this.setTheme.bind(this)}
-              theme={this.state.theme}
-            />
+            <RightHeader togglePlaylistMode={() => this.togglePlaylistMode()} />
             <Chat />
             <PostArea theme={this.state.theme} />
           </div>
           <Snackbar />
           <Lightbox />
+          <Settings theme={this.state.theme} setTheme={this.setTheme.bind(this)} />
         </div>
       </MuiThemeProvider>
     );

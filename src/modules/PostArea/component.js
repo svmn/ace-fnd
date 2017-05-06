@@ -7,15 +7,12 @@ import IconButton from 'material-ui/IconButton';
 import { Container as SelfAvatar } from '../SelfAvatar';
 import { Component as ImagePreview } from '../ImagePreview';
 import emitter from '../../emitter';
-import { isMobile } from '../../utils';
 
 export default class PostArea extends Component {
   constructor(props) {
     super(props);
 
-    const defaultPostingMode = isMobile() ? 'natural' : 'inverse';
     this.state = {
-      mode: localStorage.postingMode || defaultPostingMode,
       message: '',
       file: null
     };
@@ -32,13 +29,15 @@ export default class PostArea extends Component {
   }
 
   onKeydown(e) {
+    const mode = this.props.settings.postingMode;
+
     if (e.key === 'Enter') {
-      if (this.state.mode === 'natural') {
+      if (mode === 'natural') {
         if (e.ctrlKey || e.metaKey) {
           this.send();
         }
       }
-      if (this.state.mode === 'inverse') {
+      if (mode === 'inverse') {
         if (!e.shiftKey) {
           e.preventDefault();
           this.send();
@@ -112,5 +111,6 @@ export default class PostArea extends Component {
 
 PostArea.propTypes = {
   processing: PropTypes.bool,
-  send: PropTypes.func.isRequired
+  send: PropTypes.func.isRequired,
+  settings: PropTypes.object.isRequired
 };

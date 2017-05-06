@@ -13,6 +13,7 @@ import { actions as chat } from './modules/Chat';
 import { actions as playlist } from './modules/Playlist';
 import { actions as header } from './modules/RightHeader';
 import { actions as avatar } from './modules/SelfAvatar';
+import { actions as settings } from './modules/Settings';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -29,6 +30,7 @@ if (localStorage.avatar) {
 } else {
   store.dispatch(avatar.load());
 }
+store.dispatch(settings.load());
 
 render(
   <Provider store={store}>

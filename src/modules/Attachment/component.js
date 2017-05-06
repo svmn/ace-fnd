@@ -15,7 +15,7 @@ import {
 
 export default class Attachment extends Component {
   render() {
-    const { message } = this.props;
+    const { message, settings } = this.props;
     const { text, picture } = message;
 
     const youtubeVideoId = getYoutubeId(text);
@@ -26,11 +26,11 @@ export default class Attachment extends Component {
 
     let content = null;
 
-    if (picture) {
+    if (picture && settings.showImages) {
       content = <AttachmentImage picture={picture} />;
-    } else if (youtubeVideoId) {
+    } else if (youtubeVideoId && settings.showYoutube) {
       content = <AttachmentYoutube youtubeVideoId={youtubeVideoId} youtubeTimestamp={youtubeTimestamp} />;
-    } else if (extWebmUrl) {
+    } else if (extWebmUrl && settings.showWebm) {
       content = <AttachmentWebm extWebmUrl={extWebmUrl} />;
     }
 
@@ -43,5 +43,6 @@ export default class Attachment extends Component {
 }
 
 Attachment.propTypes = {
-  message: PropTypes.object.isRequired
+  message: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
 };

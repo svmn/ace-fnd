@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import { fullWhite } from 'material-ui/styles/colors';
 import { Component as HeaderMenu } from '../HeaderMenu';
 
 export default class RightHeader extends Component {
@@ -21,7 +22,14 @@ export default class RightHeader extends Component {
           >queue_music</IconButton>
         }
         iconElementRight={
-          <HeaderMenu setTheme={this.props.setTheme} theme={this.props.theme} ignoreClear={this.props.ignoreClear} />
+          <div>
+            <IconButton
+              iconClassName='material-icons'
+              iconStyle={{ color: fullWhite }}
+              onTouchTap={this.props.openSettings}
+            >settings</IconButton>
+            <HeaderMenu ignoreClear={this.props.ignoreClear} />
+          </div>
         }
       >
         <div className='topic'>{topic}</div>
@@ -37,7 +45,6 @@ RightHeader.propTypes = {
   topic: PropTypes.string.isRequired,
   online: PropTypes.string.isRequired,
   togglePlaylistMode: PropTypes.func.isRequired,
-  theme: PropTypes.string.isRequired,
-  setTheme: PropTypes.func.isRequired,
-  ignoreClear: PropTypes.func.isRequired
+  ignoreClear: PropTypes.func.isRequired,
+  openSettings: PropTypes.func.isRequired
 };

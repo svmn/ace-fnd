@@ -45,6 +45,7 @@ export default class Message extends Component {
     return (
       this.state !== nextState ||
       props.selected !== nextProps.selected ||
+      props.settings !== nextProps.settings ||
       (props.replies && props.replies.length) !== (nextProps.replies && nextProps.replies.length) ||
       props.message.id !== nextProps.message.id // for preview message
     );
@@ -150,7 +151,7 @@ export default class Message extends Component {
 
         {readMoreBlock}
 
-        <Attachment message={message} />
+        <Attachment message={message} settings={this.props.settings} />
 
         {repliesBlock}
       </div>
@@ -167,5 +168,6 @@ Message.propTypes = {
   ignoreAdd: PropTypes.func,
   control: PropTypes.func,
   selected: PropTypes.bool,
-  personal: PropTypes.bool
+  personal: PropTypes.bool,
+  settings: PropTypes.object.isRequired
 };

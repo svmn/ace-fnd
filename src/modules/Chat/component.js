@@ -105,6 +105,7 @@ export default class Chat extends Component {
                 hidePreview={this.props.hidePreview}
                 ignoreAdd={this.props.ignoreAdd}
                 control={this.props.control}
+                settings={this.props.settings}
               />
             )
           }
@@ -122,5 +123,6 @@ Chat.propTypes = {
   showPreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired,
   ignoreAdd: PropTypes.func.isRequired,
-  control: PropTypes.func.isRequired
+  control: PropTypes.func.isRequired,
+  settings: PropTypes.object.isRequired
 };

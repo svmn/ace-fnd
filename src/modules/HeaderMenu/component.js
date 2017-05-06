@@ -9,7 +9,6 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import Divider from 'material-ui/Divider';
-import Toggle from 'material-ui/Toggle';
 import { fullWhite } from 'material-ui/styles/colors';
 
 export default function HeaderMenu(props) {
@@ -52,16 +51,6 @@ export default function HeaderMenu(props) {
       />
       <Divider />
       <MenuItem
-        leftIcon={<FontIcon className='fa fa-moon-o' />}
-        primaryText='Ночная тема'
-        rightToggle={
-          <Toggle
-            toggled={props.theme === 'dark'}
-            onToggle={(e, v) => props.setTheme(v ? 'dark' : 'light')}
-          />
-        }
-      />
-      <MenuItem
         leftIcon={<FontIcon className='material-icons'>clear_all</FontIcon>}
         primaryText='Очистить игнор-лист'
         onTouchTap={props.ignoreClear}
@@ -76,7 +65,5 @@ export default function HeaderMenu(props) {
 }
 
 HeaderMenu.propTypes = {
-  theme: PropTypes.string.isRequired,
-  setTheme: PropTypes.func.isRequired,
   ignoreClear: PropTypes.func.isRequired
 };

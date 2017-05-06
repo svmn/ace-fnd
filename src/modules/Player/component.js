@@ -6,7 +6,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import IconButton from 'material-ui/IconButton';
 import Slider from 'material-ui/Slider';
 import { green900 as likeColor, red900 as dislikeColor } from 'material-ui/styles/colors';
-import cx from 'classnames';
 import get from 'lodash/get';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
