@@ -1,7 +1,9 @@
 'use strict';
 
-import React, { PropTypes } from 'react';
-import CircularProgress from 'material-ui/CircularProgress';
+import React from 'react';
+import PropTypes from 'prop-types';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+import { fullWhite, lightBlack } from 'material-ui/styles/colors';
 import { Component as Avatar } from '../Avatar';
 
 export default function SelfAvatar(props) {
@@ -9,16 +11,16 @@ export default function SelfAvatar(props) {
     <div className='avatar'>
       <Avatar image={props.image} userId={props.userId} />
       {
-        !props.uploading ? null : (
-          <CircularProgress
-            style={{
-              position: 'absolute',
-              left: 0
-            }}
-            size={36}
-            color='rgba(255,255,255,0.5)'
-          />
-        )
+        <RefreshIndicator
+          top={0}
+          left={0}
+          size={36}
+          loadingColor={fullWhite}
+          status={props.uploading ? 'loading' : 'hide'}
+          style={{
+            backgroundColor: lightBlack
+          }}
+        />
       }
       <input
         type='file'

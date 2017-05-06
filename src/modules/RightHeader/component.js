@@ -1,9 +1,9 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import PlaylistIcon from 'material-ui/svg-icons/av/queue-music';
 import { Component as HeaderMenu } from '../HeaderMenu';
 
 export default class RightHeader extends Component {
@@ -14,9 +14,11 @@ export default class RightHeader extends Component {
         className='right-header'
         title={null}
         iconElementLeft={
-          <IconButton className='playlist-mode-switch' onTouchTap={this.props.togglePlaylistMode}>
-            <PlaylistIcon />
-          </IconButton>
+          <IconButton
+            className='playlist-mode-switch'
+            iconClassName='material-icons'
+            onTouchTap={this.props.togglePlaylistMode}
+          >queue_music</IconButton>
         }
         iconElementRight={
           <HeaderMenu setTheme={this.props.setTheme} theme={this.props.theme} ignoreClear={this.props.ignoreClear} />
@@ -34,7 +36,6 @@ export default class RightHeader extends Component {
 RightHeader.propTypes = {
   topic: PropTypes.string.isRequired,
   online: PropTypes.string.isRequired,
-  speed: PropTypes.any,
   togglePlaylistMode: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
   setTheme: PropTypes.func.isRequired,

@@ -1,27 +1,26 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
-import Snackbar from 'material-ui/Snackbar';
+import React from 'react';
+import PropTypes from 'prop-types';
+import MaterialSnackbar from 'material-ui/Snackbar';
 
-export default class AceSnackbar extends Component {
-  render() {
-    return (
-      <Snackbar
-        autoHideDuration={10000}
-        message={this.props.message}
-        onRequestClose={this.props.snackbarClose}
-        open={Boolean(this.props.message)}
-        bodyStyle={{
-          height: null,
-          lineHeight: null,
-          padding: '12px 24px'
-        }}
-      />
-    );
-  }
+export default function Snackbar(props) {
+  return (
+    <MaterialSnackbar
+      autoHideDuration={10000}
+      message={props.message}
+      onRequestClose={props.snackbarClose}
+      open={Boolean(props.message)}
+      bodyStyle={{
+        height: null,
+        lineHeight: null,
+        padding: '12px 24px'
+      }}
+    />
+  );
 }
 
-AceSnackbar.propTypes = {
+Snackbar.propTypes = {
   message: PropTypes.string,
   snackbarClose: PropTypes.func.isRequired
 };
