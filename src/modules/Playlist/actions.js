@@ -96,3 +96,14 @@ export function vote(id, value) {
       .catch(console.error);
   };
 }
+
+export function edit(id, artist, title) {
+  return (dispatch) => {
+    api.edit(id, artist, title)
+      .then(response =>{
+        console.info(response);
+        dispatch(update());
+      })
+      .catch(console.error);
+  };
+}

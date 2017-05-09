@@ -44,3 +44,22 @@ export function vote(id, value) {
       return response.text();
     });
 }
+
+export function edit(id, artist, title) {
+  const body = new FormData();
+  body.set('id', id);
+  body.set('artist', artist);
+  body.set('title', title);
+
+  return fetch(`${PLAYLIST_ENDPOINT}&act=edit`, {
+    method: 'post',
+    credentials: 'include',
+    body
+  })
+    .then(response => {
+      if (response.status >= 400) {
+        throw new Error('Bad response from server');
+      }
+      return response.text();
+    });
+}

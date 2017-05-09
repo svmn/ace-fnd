@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
+import IconButtom from 'material-ui/IconButton';
 import { grey300, grey500 } from 'material-ui/styles/colors';
 import { getAvatarColor } from '../../utils';
 
@@ -53,10 +54,22 @@ export default function PlaylistItem(props, context) {
             color={context.muiTheme.palette.secondaryTextColor}
             style={{ fontSize: '12px', top: '1px', marginLeft: '5px' }}
           >thumb_down</FontIcon> {item.dislikes}
+          <FontIcon />
         </div>
       </div>
       <div className='playlist-item-right'>
         <div className='duration'>{item.length}</div>
+        {
+          item.canedit &&
+          <IconButtom
+            iconClassName='material-icons'
+            style={{ left: 12 }}
+            onTouchTap={e => {
+              e.stopPropagation();
+              props.edit(item.id);
+            }}
+          >edit_mode</IconButtom>
+        }
       </div>
     </div>
   );
@@ -66,7 +79,8 @@ PlaylistItem.propTypes = {
   item: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   select: PropTypes.func.isRequired,
-  openImage: PropTypes.func.isRequired
+  openImage: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired
 };
 
 PlaylistItem.contextTypes = {
