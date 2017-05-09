@@ -29,7 +29,7 @@ export default class MessagePreview extends Component {
   }
 
   renderContent() {
-    const { message } = this.props;
+    const { message, settings } = this.props;
 
     if (message === null) return null;
 
@@ -43,7 +43,7 @@ export default class MessagePreview extends Component {
         key='preview' // needed for animation
         ref={ref => (this.ref = ref)}
       >
-        <Paper>{message === undefined ? placeholder : <Message message={message} />}</Paper>
+        <Paper>{message === undefined ? placeholder : <Message message={message} settings={settings} />}</Paper>
       </div>
     );
   }
@@ -62,6 +62,7 @@ export default class MessagePreview extends Component {
 }
 
 MessagePreview.propTypes = {
-  message: PropTypes.object
+  message: PropTypes.object,
+  settings: PropTypes.object.isRequired
 };
 

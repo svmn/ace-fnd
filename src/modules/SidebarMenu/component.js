@@ -15,12 +15,12 @@ export default function SidebarMenu(props) {
       <BottomNavigationItem
         label='Плейлист'
         icon={<FontIcon className='fa fa-music' />}
-        onTouchTap={() => select('playlist')}
+        onTouchTap={() => select(0)}
       />
       <BottomNavigationItem
         label='Картинки'
         icon={<FontIcon className='fa fa-picture-o' />}
-        onTouchTap={() => select('imageFeed')}
+        onTouchTap={() => select(1)}
       />
     </BottomNavigation>
   );

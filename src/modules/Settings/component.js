@@ -29,8 +29,6 @@ export default function Settings(props, context) {
     marginRight: 16
   };
 
-  console.log(context);
-
   return (
     <Dialog
       open={props.isOpen}
