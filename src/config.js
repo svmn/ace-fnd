@@ -7,3 +7,4 @@ export const PLAYLIST_ENDPOINT = 'https://tuzach.in/api/?app=playlist';
 export const TOPIC_ENDPOINT = 'https://tuzach.in/api/?app=topic';
 export const CONTROL_ENDPOINT = 'https://tuzach.in/api/?app=admin';
 export const AVATAR_ENDPOINT = 'https://tuzach.in/api/?app=avatar';
+export const LOG_ENDPOINT = 'https://tuzach.in/api/?app=logs';

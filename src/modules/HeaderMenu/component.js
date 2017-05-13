@@ -10,6 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 import Divider from 'material-ui/Divider';
 import { fullWhite } from 'material-ui/styles/colors';
+import emitter from '../../emitter';
 
 export default function HeaderMenu(props) {
   return (
@@ -26,8 +27,7 @@ export default function HeaderMenu(props) {
       <MenuItem leftIcon={<FontIcon className='fa fa-info-circle' />} primaryText='О проекте' />
       <MenuItem
         leftIcon={<FontIcon className='fa fa-history' />}
-        href='https://tuzach.in/api/?app=logs'
-        target='_blank'
+        onTouchTap={() => emitter.emit('openLogPicker')}
         primaryText='Логи чата'
       />
       <Divider />

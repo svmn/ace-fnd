@@ -6,7 +6,7 @@ import { actions as chat } from '../Chat';
 import { actions as settings } from '../Settings';
 
 function mapStateToProps(state) {
-  return state.info;
+  return Object.assign({}, state.info, { logDate: state.chat.logDate });
 }
 
 const actions = {

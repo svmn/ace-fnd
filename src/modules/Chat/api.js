@@ -1,6 +1,6 @@
 'use strict';
 
-import { CHAT_ENDPOINT, CONTROL_ENDPOINT } from '../../config';
+import { CHAT_ENDPOINT, CONTROL_ENDPOINT, LOG_ENDPOINT } from '../../config';
 
 export function load(lastMessageId) {
   return fetch(`${CHAT_ENDPOINT}&last=${lastMessageId}`, {
@@ -35,4 +35,12 @@ export function control(method, messageId) {
   })
     .then(response => response.json())
     .then(response => response.msg);
+}
+
+export function loadLog(date) {
+  const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  return fetch(`${LOG_ENDPOINT}&log=${formattedDate}`, {
+    credentials: 'include'
+  })
+    .then(response => response.json());
 }

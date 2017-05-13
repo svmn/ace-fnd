@@ -65,6 +65,7 @@ export default class Message extends Component {
   }
 
   reply(id, isPrivate) {
+    if (this.props.logMode) return;
     const replyStr = isPrivate ? `!#${id}` : `@${id}`;
     emitter.emit('reply', replyStr);
   }
@@ -122,6 +123,7 @@ export default class Message extends Component {
     return (
       <div className={classnames('message', { selected, personal })} ref={ref => (this.ref = ref)}>
         <MessageAvatar
+          logMode={this.props.logMode}
           message={message}
           control={this.props.control}
           ignoreAdd={this.props.ignoreAdd}
@@ -169,5 +171,6 @@ Message.propTypes = {
   control: PropTypes.func,
   selected: PropTypes.bool,
   personal: PropTypes.bool,
-  settings: PropTypes.object.isRequired
+  settings: PropTypes.object.isRequired,
+  logMode: PropTypes.bool
 };

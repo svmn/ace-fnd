@@ -16,6 +16,7 @@ import { Component as SidebarMenu } from '../SidebarMenu';
 import { Container as ImageFeed } from '../ImageFeed';
 import { Container as Lightbox } from '../Lightbox';
 import { Container as Settings } from '../Settings';
+import { Container as LogPicker } from '../LogPicker';
 
 export default class Main extends Component {
   constructor(props) {
@@ -73,6 +74,7 @@ export default class Main extends Component {
           <Snackbar />
           <Lightbox />
           <Settings theme={this.state.theme} setTheme={this.setTheme.bind(this)} />
+          <LogPicker />
         </div>
       </MuiThemeProvider>
     );

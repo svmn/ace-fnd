@@ -4,6 +4,9 @@ import {
   CHAT_UPDATE,
   CHAT_START,
   CHAT_STOP,
+  CHAT_EMPTY,
+  CHAT_SPINNER,
+  CHAT_LOG,
   SET_ONLINE_COUNTER,
   POSTAREA_SET_UPLOADING,
   SNACKBAR_OPEN,
@@ -143,5 +146,27 @@ export function control(method, messageId) {
         });
       })
       .catch(console.log);
+  };
+}
+
+export function loadLog(date) {
+  return (dispatch) => {
+    dispatch(stop());
+    dispatch({ type: CHAT_EMPTY });
+    dispatch({ type: CHAT_LOG, data: date });
+
+    api.loadLog(date)
+      .then(data => {
+        dispatch({ type: CHAT_UPDATE, data });
+      })
+      .catch(console.error);
+  };
+}
+
+export function exitLog() {
+  return (dispatch) => {
+    dispatch({ type: CHAT_EMPTY });
+    dispatch(start());
+    dispatch({ type: CHAT_LOG, data: null });
   };
 }

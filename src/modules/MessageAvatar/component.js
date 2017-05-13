@@ -34,6 +34,7 @@ export default class MessageAvatar extends Component {
         ref={ref => (this.avatarRef = ref)}
         onTouchTap={e => {
           e.preventDefault(); // ghost click on mobile closes menu
+          if (this.props.logMode) return;
           this.showMessageMenu();
         }}
       >
@@ -54,6 +55,7 @@ export default class MessageAvatar extends Component {
 
 MessageAvatar.propTypes = {
   message: PropTypes.object.isRequired,
+  logMode: PropTypes.bool,
   control: PropTypes.func,
   ignoreAdd: PropTypes.func
 };

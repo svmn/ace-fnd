@@ -6,11 +6,10 @@ import * as chatActions from './actions';
 import { actions as previewActions } from '../MessagePreview';
 
 function mapStateToProps(state) {
-  return {
-    messages: state.chat.messages,
-    replies: state.chat.replies,
+  return Object.assign({}, state.chat, {
+    logMode: Boolean(state.chat.logDate),
     settings: state.settings
-  };
+  });
 }
 
 const actions = Object.assign({}, chatActions, previewActions);

@@ -43,3 +43,13 @@ export function getExtWebmThumbnail(url) {
 
 export const isMobile = once(_isMobile);
 
+export function formatDate(date) {
+  const formatter = new Intl.DateTimeFormat('ru-Ru', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  return formatter.format(date);
+}
+

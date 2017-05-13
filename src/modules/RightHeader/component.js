@@ -6,10 +6,12 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import { fullWhite } from 'material-ui/styles/colors';
 import { Component as HeaderMenu } from '../HeaderMenu';
+import { formatDate } from '../../utils';
 
 export default class RightHeader extends Component {
   render() {
-    const { topic, online } = this.props;
+    const { topic, online, logDate } = this.props;
+
     return (
       <AppBar
         className='right-header'
@@ -32,10 +34,14 @@ export default class RightHeader extends Component {
           </div>
         }
       >
-        <div className='topic'>{topic}</div>
-        <div className='online'>
-          Онлайн: {online}
-        </div>
+        <div className='topic'>{logDate ? formatDate(logDate) : topic}</div>
+        {
+          !logDate && (
+            <div className='online'>
+              Онлайн: {online}
+            </div>
+          )
+        }
       </AppBar>
     );
   }
@@ -46,5 +52,6 @@ RightHeader.propTypes = {
   online: PropTypes.string.isRequired,
   togglePlaylistMode: PropTypes.func.isRequired,
   ignoreClear: PropTypes.func.isRequired,
-  openSettings: PropTypes.func.isRequired
+  openSettings: PropTypes.func.isRequired,
+  logDate: PropTypes.instanceOf(Date)
 };

@@ -8,6 +8,8 @@ import {
   CHAT_UPDATE,
   CHAT_START,
   CHAT_STOP,
+  CHAT_EMPTY,
+  CHAT_LOG,
   IGNORE_ADD,
   IGNORE_CLEAR,
   IGNORE_LOAD
@@ -20,7 +22,8 @@ const initialState = {
   lastMessageId: 0,
   timer: null,
   replies: {},
-  ignoreList: []
+  ignoreList: [],
+  logDate: null
 };
 
 export default function (state = initialState, action) {
@@ -75,6 +78,12 @@ export default function (state = initialState, action) {
         timer: null
       });
 
+    case CHAT_EMPTY:
+      return updateState(state, {
+        messages: [],
+        lastMessageId: 0
+      });
+
     case IGNORE_ADD: {
       const targetUserId = data;
       return updateState(state, {
@@ -91,6 +100,11 @@ export default function (state = initialState, action) {
     case IGNORE_LOAD:
       return updateState(state, {
         ignoreList: data || []
+      });
+
+    case CHAT_LOG:
+      return updateState(state, {
+        logDate: data
       });
 
     default:

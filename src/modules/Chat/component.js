@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
+import RefreshIncicator from 'material-ui/RefreshIndicator';
 import { Component as Message } from '../Message';
 import { Container as MessagePreview } from '../MessagePreview';
 import { isMobile } from '../../utils';
@@ -35,7 +36,7 @@ export default class Chat extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.messages.length > prevProps.messages.length) {
+    if (this.props.messages.length > prevProps.messages.length && !this.props.logMode) {
       if (this.inactive) {
         this.unreadPosts += this.props.messages.length - prevProps.messages.length;
         document.title = `[${this.unreadPosts}] ${this.defaultTitle}`;
@@ -47,6 +48,7 @@ export default class Chat extends Component {
   }
 
   onScroll() {
+    if (this.props.logMode) return;
     const height = this.scrollbars.getScrollHeight() - this.scrollbars.getClientHeight();
     const diff = height - this.scrollbars.getScrollTop();
     this.autoscroll = (diff < 100);
@@ -68,7 +70,21 @@ export default class Chat extends Component {
   }
 
   render() {
-    const { messages, replies } = this.props;
+    const { messages, replies, logMode } = this.props;
+
+    if (!messages.length) {
+      return (
+        <div className='chat'>
+          <div className='spinner'>
+            <RefreshIncicator
+              top={0}
+              left={0}
+              status='loading'
+            />
+          </div>
+        </div>
+      );
+    }
 
     const scrollDownButton = !this.state.showScrollDownButton ? null : (
       <FloatingActionButton
@@ -106,6 +122,7 @@ export default class Chat extends Component {
                 ignoreAdd={this.props.ignoreAdd}
                 control={this.props.control}
                 settings={this.props.settings}
+                logMode={logMode}
               />
             )
           }
@@ -120,6 +137,7 @@ export default class Chat extends Component {
 Chat.propTypes = {
   messages: PropTypes.array.isRequired,
   replies: PropTypes.object.isRequired,
+  logMode: PropTypes.bool.isRequired,
   showPreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired,
   ignoreAdd: PropTypes.func.isRequired,

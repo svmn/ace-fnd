@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TextArea from 'react-textarea-autosize';
 import IconButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Container as SelfAvatar } from '../SelfAvatar';
 import { Component as ImagePreview } from '../ImagePreview';
 import emitter from '../../emitter';
@@ -76,7 +77,15 @@ export default class PostArea extends Component {
   }
 
   render() {
-    const { processing } = this.props;
+    const { processing, logMode } = this.props;
+
+    if (logMode) {
+      return (
+        <div className='postarea center'>
+          <RaisedButton className='back-button' label='Назад' primary onTouchTap={this.props.exitLog} />
+        </div>
+      );
+    }
 
     return (
       <div className='postarea'>
@@ -112,5 +121,7 @@ export default class PostArea extends Component {
 PostArea.propTypes = {
   processing: PropTypes.bool,
   send: PropTypes.func.isRequired,
+  logMode: PropTypes.bool.isRequired,
+  exitLog: PropTypes.func.isRequired,
   settings: PropTypes.object.isRequired
 };

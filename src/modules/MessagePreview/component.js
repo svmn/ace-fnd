@@ -12,6 +12,10 @@ export default class MessagePreview extends Component {
     emitter.on('movePreview', this.move.bind(this));
   }
 
+  componentWillUnmount() {
+    emitter.removeAllListeners('movePreview');
+  }
+
   move(x, y) {
     const cursorOffset = 20;
     const previewHeight = this.ref.offsetHeight;
