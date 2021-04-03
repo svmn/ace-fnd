@@ -30,3 +30,4 @@ export const LIGHTBOX_CLOSE = 'LIGHTBOX_CLOSE';
 export const SETTINGS_OPEN = 'SETTINGS_OPEN';
 export const SETTINGS_CLOSE = 'SETTINGS_CLOSE';
 export const SETTINGS_SET = 'SETTINGS_SET';
+export const CHOOSE_CHAT = 'CHOOSE_CHAT';

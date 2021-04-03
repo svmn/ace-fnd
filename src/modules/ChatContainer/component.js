@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { CHAT_TABS } from './const';
 import { Component as Chat } from '../Chat';
+import { Container as ChatTabs } from '../ChatTabs';
 
 
 const ChatContainer = ({ messages, replies, logMode, showPreview, hidePreview, ignoreAdd, control, settings }) => {
   return (
     <div>
+      <ChatTabs tabs={CHAT_TABS} />
       <Chat
         messages={messages}
         replies={replies}

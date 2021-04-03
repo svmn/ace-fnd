@@ -12,12 +12,15 @@ import {
   CHAT_LOG,
   IGNORE_ADD,
   IGNORE_CLEAR,
-  IGNORE_LOAD
+  IGNORE_LOAD,
+  CHOOSE_CHAT
 } from '../../actionTypes';
+import { COMMON_CHAT } from './const';
 
 import { REPLY_REGEXP } from '../../constants';
 
 const initialState = {
+  currentChat: COMMON_CHAT,
   messages: [],
   lastMessageId: 0,
   timer: null,
@@ -105,6 +108,11 @@ export default function (state = initialState, action) {
     case CHAT_LOG:
       return updateState(state, {
         logDate: data
+      });
+
+    case CHOOSE_CHAT:
+      return updateState(state, {
+        currentChat: data
       });
 
     default:
