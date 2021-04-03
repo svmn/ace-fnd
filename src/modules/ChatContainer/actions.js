@@ -19,7 +19,7 @@ import * as api from './api';
 
 export function update() {
   return (dispatch, getState) => {
-    const lastMessageId = getState().chat.lastMessageId;
+    const lastMessageId = getState().chatContainer.lastMessageId;
 
     return api.load(lastMessageId)
       .then(data => {
@@ -58,7 +58,7 @@ export function start() {
 
 export function stop() {
   return (dispatch, getState) => {
-    const timer = getState().chat.timer;
+    const timer = getState().chatContainer.timer;
     clearInterval(timer);
     dispatch({ type: CHAT_STOP });
   };
@@ -107,11 +107,11 @@ export function send(message, file) {
 
 export function ignoreAdd(messageId) {
   return (dispatch, getState) => {
-    const targetUserId = getState().chat.messages.find(msg => msg.id === messageId).user_id;
+    const targetUserId = getState().chatContainer.messages.find(msg => msg.id === messageId).user_id;
 
     dispatch({ type: IGNORE_ADD, data: targetUserId });
 
-    const { ignoreList } = getState().chat;
+    const { ignoreList } = getState().chatContainer;
     localStorage.setItem('ignoreList', JSON.stringify(ignoreList));
     dispatch({
       type: SNACKBAR_OPEN,
