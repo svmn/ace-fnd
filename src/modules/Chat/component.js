@@ -101,7 +101,7 @@ export default class Chat extends Component {
     );
 
     return (
-      <div className='chat'>
+      <div className='chat' hidden={!this.props.isVisible}>
         <Scrollbars
           autoHide
           onScrollStop={this.onScroll.bind(this)}
@@ -135,6 +135,7 @@ export default class Chat extends Component {
 }
 
 Chat.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
   messages: PropTypes.array.isRequired,
   replies: PropTypes.object.isRequired,
   logMode: PropTypes.bool.isRequired,
