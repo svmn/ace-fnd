@@ -15,7 +15,8 @@ import {
   IGNORE_LOAD,
   WHITELIST_ADD,
   WHITELIST_REMOVE,
-  WHITELIST_LOAD
+  WHITELIST_LOAD,
+  WHITELIST_CLEAR
 } from '../../actionTypes';
 
 import * as api from './api';
@@ -172,6 +173,17 @@ export function whitelistRemove(messageId) {
 export function whitelistLoad() {
   const whitelist = JSON.parse(localStorage.getItem('whitelist'));
   return { type: WHITELIST_LOAD, data: whitelist };
+}
+
+export function whitelistClear() {
+  localStorage.removeItem('whitelist');
+  return (dispatch) => {
+    dispatch({ type: WHITELIST_CLEAR });
+    dispatch({
+      type: SNACKBAR_OPEN,
+      data: 'Ваш чат очищен ✨ 🍰 ✨'
+    });
+  };
 }
 
 export function control(method, messageId) {

@@ -16,7 +16,8 @@ import {
   CHOOSE_CHAT,
   WHITELIST_ADD,
   WHITELIST_REMOVE,
-  WHITELIST_LOAD
+  WHITELIST_LOAD,
+  WHITELIST_CLEAR
 } from '../../actionTypes';
 import { COMMON_CHAT } from './const';
 
@@ -132,6 +133,11 @@ export default function (state = initialState, action) {
     case WHITELIST_LOAD:
       return updateState(state, {
         whitelist: data || []
+      });
+
+    case WHITELIST_CLEAR:
+      return updateState(state, {
+        whitelist: []
       });
 
     default:
