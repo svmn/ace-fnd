@@ -121,14 +121,16 @@ export default class Message extends Component {
     }
     text = parser.parseLinks(text);
 
-    let whitelistAdd = null;
-    if (this.props.myUserId !== userId && !this.props.whitelist.includes(userId)) {
-      whitelistAdd = this.props.whitelistAdd;
-    }
+    let whitelistAdd;
+    let whitelistRemove;
+    if (this.props.settings.personalChatEnabled) {
+      if (this.props.myUserId !== userId && !this.props.whitelist.includes(userId)) {
+        whitelistAdd = this.props.whitelistAdd;
+      }
 
-    let whitelistRemove = null;
-    if (this.props.whitelist.includes(userId)) {
-      whitelistRemove = this.props.whitelistRemove;
+      if (this.props.whitelist.includes(userId)) {
+        whitelistRemove = this.props.whitelistRemove;
+      }
     }
 
     return (

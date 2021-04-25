@@ -47,11 +47,13 @@ const ChatContainer = ({
 
   return (
     <div>
-      <ChatTabs tabs={CHAT_TABS} />
+      <div hidden={!settings.personalChatEnabled}>
+        <ChatTabs tabs={CHAT_TABS} currentChat={currentChat} />
+      </div>
       <Chat
         myUserId={myUserId}
         whitelist={whitelist}
-        isVisible={currentChat === COMMON_CHAT}
+        isVisible={!settings.personalChatEnabled || currentChat === COMMON_CHAT}
         messages={messages}
         replies={replies}
         logMode={logMode}
@@ -66,7 +68,7 @@ const ChatContainer = ({
       <Chat
         myUserId={myUserId}
         whitelist={whitelist}
-        isVisible={currentChat === PERSONAL_CHAT && personalChatMessages.length > 0}
+        isVisible={settings.personalChatEnabled && currentChat === PERSONAL_CHAT && personalChatMessages.length > 0}
         messages={personalChatMessages}
         replies={personalChatReplies}
         logMode={logMode}
@@ -78,12 +80,14 @@ const ChatContainer = ({
         control={control}
         settings={settings}
       />
-      {currentChat === PERSONAL_CHAT && personalChatMessages.length === 0 &&
+      <div
+        hidden={!(settings.personalChatEnabled && currentChat === PERSONAL_CHAT && personalChatMessages.length === 0)}
+      >
         <Card className='empty-chat-card'>
           <CardHeader title='Здесь пока никого нет' />
           <CardText>Но можно добавить людей из общего чата, кликнув на их аватарку</CardText>
         </Card>
-      }
+      </div>
     </div>
   );
 };

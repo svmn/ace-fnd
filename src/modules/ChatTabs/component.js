@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-function ChatTabs({ tabs, chooseChat }) {
+function ChatTabs({ tabs, chooseChat, currentChat }) {
   return (
-    <Tabs className='chat-tabs' onChange={chooseChat}>
+    <Tabs className='chat-tabs' onChange={chooseChat} value={currentChat}>
       {
         tabs.map(({ code, label }, index) =>
           <Tab key={index} value={code} label={label} />
@@ -17,7 +17,8 @@ function ChatTabs({ tabs, chooseChat }) {
 
 ChatTabs.propTypes = {
   tabs: PropTypes.array.isRequired,
-  chooseChat: PropTypes.func.isRequired
+  chooseChat: PropTypes.func.isRequired,
+  currentChat: PropTypes.string.isRequired
 };
 
 export default ChatTabs;
