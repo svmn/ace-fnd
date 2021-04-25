@@ -46,7 +46,7 @@ const ChatContainer = ({
   );
 
   return (
-    <div>
+    <div className='chat-container'>
       <div hidden={!settings.personalChatEnabled}>
         <ChatTabs tabs={CHAT_TABS} currentChat={currentChat} />
       </div>
