@@ -47,7 +47,8 @@ export default class Message extends Component {
       props.selected !== nextProps.selected ||
       props.settings !== nextProps.settings ||
       (props.replies && props.replies.length) !== (nextProps.replies && nextProps.replies.length) ||
-      props.message.id !== nextProps.message.id // for preview message
+      props.message.id !== nextProps.message.id ||  // for preview message
+      props.whitelist !== nextProps.whitelist
     );
   }
 
@@ -73,7 +74,7 @@ export default class Message extends Component {
   render() {
     const { message, replies, selected, personal } = this.props;
     let { text } = message;
-    const { id, picture } = message;
+    const { id, user_id: userId, picture } = message;
 
     const time = new Date(message.time);
     const formattedTime = `${padTime(time.getHours())}:${padTime(time.getMinutes())}:${padTime(time.getSeconds())}`;
@@ -120,6 +121,16 @@ export default class Message extends Component {
     }
     text = parser.parseLinks(text);
 
+    let whitelistAdd = null;
+    if (this.props.myUserId !== userId && !this.props.whitelist.includes(userId)) {
+      whitelistAdd = this.props.whitelistAdd;
+    }
+
+    let whitelistRemove = null;
+    if (this.props.whitelist.includes(userId)) {
+      whitelistRemove = this.props.whitelistRemove;
+    }
+
     return (
       <div className={classnames('message', { selected, personal })} ref={ref => (this.ref = ref)}>
         <MessageAvatar
@@ -127,6 +138,8 @@ export default class Message extends Component {
           message={message}
           control={this.props.control}
           ignoreAdd={this.props.ignoreAdd}
+          whitelistAdd={whitelistAdd}
+          whitelistRemove={whitelistRemove}
         />
 
         <div className='time'>{formattedTime}</div>
@@ -162,12 +175,16 @@ export default class Message extends Component {
 }
 
 Message.propTypes = {
+  myUserId: PropTypes.string.isRequired,
+  whitelist: PropTypes.array.isRequired,
   message: PropTypes.object.isRequired,
   replies: PropTypes.array,
   gotoMessage: PropTypes.func,
   showPreview: PropTypes.func,
   hidePreview: PropTypes.func,
   ignoreAdd: PropTypes.func,
+  whitelistAdd: PropTypes.func,
+  whitelistRemove: PropTypes.func,
   control: PropTypes.func,
   selected: PropTypes.bool,
   personal: PropTypes.bool,

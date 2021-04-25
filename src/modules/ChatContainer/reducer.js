@@ -13,7 +13,10 @@ import {
   IGNORE_ADD,
   IGNORE_CLEAR,
   IGNORE_LOAD,
-  CHOOSE_CHAT
+  CHOOSE_CHAT,
+  WHITELIST_ADD,
+  WHITELIST_REMOVE,
+  WHITELIST_LOAD
 } from '../../actionTypes';
 import { COMMON_CHAT } from './const';
 
@@ -21,6 +24,7 @@ import { REPLY_REGEXP } from '../../constants';
 
 const initialState = {
   currentChat: COMMON_CHAT,
+  whitelist: [],
   messages: [],
   lastMessageId: 0,
   timer: null,
@@ -113,6 +117,21 @@ export default function (state = initialState, action) {
     case CHOOSE_CHAT:
       return updateState(state, {
         currentChat: data
+      });
+
+    case WHITELIST_ADD:
+      return updateState(state, {
+        whitelist: [...state.whitelist, data]
+      });
+
+    case WHITELIST_REMOVE:
+      return updateState(state, {
+        whitelist: state.whitelist.filter(item => item !== data)
+      });
+
+    case WHITELIST_LOAD:
+      return updateState(state, {
+        whitelist: data || []
       });
 
     default:

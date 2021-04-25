@@ -74,7 +74,7 @@ export default class Chat extends Component {
 
     if (!messages.length) {
       return (
-        <div className='chat'>
+        <div className='chat' hidden={!this.props.isVisible}>
           <div className='spinner'>
             <RefreshIncicator
               top={0}
@@ -110,6 +110,8 @@ export default class Chat extends Component {
           {
             messages.map(msg =>
               <Message
+                myUserId={this.props.myUserId}
+                whitelist={this.props.whitelist}
                 message={msg}
                 selected={this.state.selectedMessageId === msg.id}
                 personal={msg.type === 'pvt'}
@@ -120,6 +122,8 @@ export default class Chat extends Component {
                 showPreview={this.props.showPreview}
                 hidePreview={this.props.hidePreview}
                 ignoreAdd={this.props.ignoreAdd}
+                whitelistAdd={this.props.whitelistAdd}
+                whitelistRemove={this.props.whitelistRemove}
                 control={this.props.control}
                 settings={this.props.settings}
                 logMode={logMode}
@@ -135,6 +139,8 @@ export default class Chat extends Component {
 }
 
 Chat.propTypes = {
+  myUserId: PropTypes.string.isRequired,
+  whitelist: PropTypes.array.isRequired,
   isVisible: PropTypes.bool.isRequired,
   messages: PropTypes.array.isRequired,
   replies: PropTypes.object.isRequired,
@@ -142,6 +148,8 @@ Chat.propTypes = {
   showPreview: PropTypes.func.isRequired,
   hidePreview: PropTypes.func.isRequired,
   ignoreAdd: PropTypes.func.isRequired,
+  whitelistAdd: PropTypes.func,
+  whitelistRemove: PropTypes.func,
   control: PropTypes.func.isRequired,
   settings: PropTypes.object.isRequired
 };

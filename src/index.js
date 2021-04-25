@@ -23,6 +23,7 @@ const rootElement = document.getElementById('application');
 
 store.dispatch(header.loadTopic());
 store.dispatch(chatContainer.ignoreLoad());
+store.dispatch(chatContainer.whitelistLoad());
 store.dispatch(chatContainer.start());
 store.dispatch(playlist.start());
 if (localStorage.avatar) {
