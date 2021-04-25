@@ -56,7 +56,12 @@ export default class Chat extends Component {
   }
 
   gotoMessage(id) {
-    const element = this.messageRefs[id].ref;
+    const messageRef = this.messageRefs[id];
+    if (!messageRef) {
+      return;
+    }
+
+    const element = messageRef.ref;
 
     const docViewTop = this.scrollbars.getScrollTop();
     const docViewBottom = docViewTop + this.scrollbars.getClientHeight();

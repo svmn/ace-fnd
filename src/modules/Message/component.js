@@ -123,7 +123,7 @@ export default class Message extends Component {
 
     let whitelistAdd;
     let whitelistRemove;
-    if (this.props.settings.personalChatEnabled) {
+    if (this.props.settings.personalChatEnabled && this.props.myUserId && this.props.whitelist) {
       if (this.props.myUserId !== userId && !this.props.whitelist.includes(userId)) {
         whitelistAdd = this.props.whitelistAdd;
       }
@@ -177,8 +177,8 @@ export default class Message extends Component {
 }
 
 Message.propTypes = {
-  myUserId: PropTypes.string.isRequired,
-  whitelist: PropTypes.array.isRequired,
+  myUserId: PropTypes.string,
+  whitelist: PropTypes.array,
   message: PropTypes.object.isRequired,
   replies: PropTypes.array,
   gotoMessage: PropTypes.func,
