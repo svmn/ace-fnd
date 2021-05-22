@@ -27,7 +27,7 @@
     "webpack-path-rewriter": "1.1.4"
   },
   "name": "ace-rx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tuzach.in Frontend",
   "scripts": {
     "build": "webpack --config webpack.config.prod.js --progress",
